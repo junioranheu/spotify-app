@@ -5,6 +5,7 @@ import Navbar from '../components/outros/navbar';
 import Playlists from '../components/playlists/playlists';
 import Styles from '../css/app';
 import StylesPlaylist from '../css/playlists';
+import CONSTANTS_PLAYLISTS from '../utils/data/constPlaylists';
 import EmojiAleatorio from '../utils/outros/emojiAleatorio';
 import HorarioBrasilia from '../utils/outros/horarioBrasilia';
 
@@ -13,7 +14,7 @@ export default function App() {
     const [playlists, setPlaylists] = useState(null);
     useEffect(() => {
         async function getPlaylists() {
-            const res = await fetch('https://spotifyapi.azurewebsites.net/api/Playlists/todos')
+            const res = await fetch(CONSTANTS_PLAYLISTS.API_URL_GET_TODOS)
             const playlists = await res.json();
             // console.log(playlists);
             setPlaylists(playlists);

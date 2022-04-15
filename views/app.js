@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Fragment, useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import Navbar from '../components/outros/navbar';
 import Playlists from '../components/playlists/playlists';
 import Styles from '../css/app';
@@ -51,12 +51,16 @@ export default function App() {
 
                     {playlists && (
                         <View style={StylesPlaylist.divPlaylists}>
-                            {playlists.filter(x => x.isAtivo === 1).map((p) => (
-                                <Playlists playlist={p} key={p.playlistId} />
-                            ))}
+                            <ScrollView horizontal={true} >
+                                {playlists.filter(x => x.isAtivo === 1).map((p) => (
+                                    <Playlists playlist={p} key={p.playlistId} />
+                                ))}
+                            </ScrollView>
                         </View>
                     )}
                 </View>
+
+                <Text style={Styles.titulo}>Playlists disponíveis no momento {EmojiAleatorio()}</Text>
 
                 <StatusBar style='auto' />
             </View>

@@ -8,7 +8,7 @@ export default function Playlists({ playlist }) {
         <View style={Styles.playlist} id={playlist.playlistId}>
             <View style={Styles.divThumbnail}>
                 <Image
-                    style={{ width: '200px', height: '200px' }}
+                    style={{ width: 200, height: 200 }}
                     source={{ uri: `https://spotifyapi.azurewebsites.net/Upload/playlists/${playlist.playlistId}.webp` }}
                 />
             </View>

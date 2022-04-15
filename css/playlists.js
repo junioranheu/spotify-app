@@ -2,22 +2,19 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     divPlaylists: {
-        backgroundColor: 'pink',
+        // backgroundColor: 'pink',
         display: 'flex',
-        flexWrap: 'wrap',
-
-        width: '100%',
-        marginTop: 25
+        width: '100%'
     },
 
     playlist: {
         backgroundColor: 'rgb(24, 24, 24)',
         padding: 18,
         maxWidth: 250,
-        borderRadius: 5,
+        // borderRadius: 5,
 
-        display: 'flex',
-        flexDirection: 'column'
+        // display: 'flex',
+        // flexDirection: 'column'
     },
 
     divThumbnail: {
@@ -34,7 +31,7 @@ export default StyleSheet.create({
         marginTop: 10
     },
 
-    descricaoPlaylist:{
+    descricaoPlaylist: {
         fontSize: 8,
         lineHeight: 10,
         fontWeight: '400',

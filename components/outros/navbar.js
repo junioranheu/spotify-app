@@ -5,7 +5,7 @@ import Styles from '../../css/navbar';
 export default function App() {
     return (
         <View style={Styles.container}>
-            <Text></Text>
+            <Text style={Styles.texto}>Navbar aqui</Text>
         </View>
     );
 }

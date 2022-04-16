@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { Fragment, useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import Navbar from '../components/outros/navbar';
 import Playlists from '../components/playlists/playlists';
 import Styles from '../css/app';
@@ -40,10 +40,10 @@ export default function App() {
     }
 
     return (
-        <Fragment>
+        <SafeAreaView>
             <Navbar />
 
-            <View style={[Styles.container, { backgroundColor: 'white' }]}>
+            <View style={Styles.container}>
                 <Text style={Styles.bomDia}>{gerarOla()}</Text>
 
                 <View style={Styles.div}>
@@ -64,7 +64,7 @@ export default function App() {
 
                 <StatusBar style='auto' />
             </View>
-        </Fragment >
+        </SafeAreaView>
     );
 }
 

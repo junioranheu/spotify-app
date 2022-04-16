@@ -2,21 +2,20 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     container: {
-        flex: 8,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center'
+        backgroundColor: '#121212',
+        height: '100%',
+        width: '100%'
     },
 
     bomDia: {
         fontSize: 25,
         fontWeight: '700',
-        color: 'black'
+        color: '#fff'
     },
 
     titulo: {
         fontSize: 15,
         fontWeight: '700',
-        color: 'black'
+        color: '#fff'
     }
 });

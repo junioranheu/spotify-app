@@ -8,34 +8,25 @@ export default StyleSheet.create({
     },
 
     playlist: {
-        backgroundColor: 'rgb(24, 24, 24)',
+        // backgroundColor: 'pink',
         padding: 18,
         maxWidth: 250,
-        // borderRadius: 5,
-
-        // display: 'flex',
-        // flexDirection: 'column'
-    },
-
-    divThumbnail: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
     },
 
     tituloPlaylist: {
-        fontSize: 10,
-        lineHeight: 10,
-        fontWeight: '500',
-
-        marginTop: 10
+        fontSize: 13,
+        lineHeight: 13,
+        fontWeight: '700',
+        color: '#fff',
+        marginTop: 13
     },
 
     descricaoPlaylist: {
-        fontSize: 8,
-        lineHeight: 10,
-        fontWeight: '400',
-
+        fontSize: 11,
+        lineHeight: 12,
+        fontWeight: '500',
+        color: '#fff',
+        opacity: 0.5,
         marginTop: 3
     }
 });

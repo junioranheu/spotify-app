@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import Navbar from '../components/outros/navbar';
@@ -40,7 +39,7 @@ export default function App() {
     }
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={Styles.safeAreaView} barStyle='default'>
             <Navbar />
 
             <View style={Styles.container}>
@@ -60,9 +59,7 @@ export default function App() {
                     )}
                 </View>
 
-                <Text style={Styles.titulo}>Playlists disponíveis no momento {EmojiAleatorio()}</Text>
-
-                <StatusBar style='auto' />
+                <Text style={Styles.titulo}>Chaleco CTM {EmojiAleatorio()}</Text>
             </View>
         </SafeAreaView>
     );

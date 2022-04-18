@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
-import Navbar from '../components/outros/navbar';
 import Playlists from '../components/playlists/playlists';
 import Styles from '../css/app';
 import StylesPlaylist from '../css/playlists';
@@ -40,8 +39,6 @@ export default function App({ navigation }) {
 
     return (
         <SafeAreaView style={Styles.safeAreaView}>
-            <Navbar />
-
             <View style={Styles.container}>
                 <Text style={Styles.titulo}>{gerarOla()}</Text>
 

@@ -43,14 +43,14 @@ export default function App() {
             <Navbar />
 
             <View style={Styles.container}>
-                <Text style={Styles.bomDia}>{gerarOla()}</Text>
+                <Text style={Styles.titulo}>{gerarOla()}</Text>
 
                 <View style={Styles.div}>
                     <Text style={Styles.titulo}>Playlists disponíveis no momento {EmojiAleatorio()}</Text>
 
                     {playlists && (
                         <View style={StylesPlaylist.divPlaylists}>
-                            <ScrollView horizontal={true} >
+                            <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                                 {playlists.filter(x => x.isAtivo === 1).map((p) => (
                                     <Playlists playlist={p} key={p.playlistId} />
                                 ))}
@@ -58,8 +58,6 @@ export default function App() {
                         </View>
                     )}
                 </View>
-
-                <Text style={Styles.titulo}>Chaleco CTM {EmojiAleatorio()}</Text>
             </View>
         </SafeAreaView>
     );

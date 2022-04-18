@@ -18,6 +18,7 @@ export default StyleSheet.create({
         lineHeight: 13,
         fontWeight: '700',
         color: '#fff',
+        opacity: 0.9,
         marginTop: 13
     },
 

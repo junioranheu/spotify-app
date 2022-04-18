@@ -8,18 +8,17 @@ export default StyleSheet.create({
         padding: 25
     },
 
+    div: {
+        // backgroundColor: 'red',
+        marginTop: 30
+    },
+
     safeAreaView: {
         backgroundColor: '#121212'
     },
 
-    bomDia: {
-        fontSize: 25,
-        fontWeight: '700',
-        color: '#fff'
-    },
-
     titulo: {
-        fontSize: 15,
+        fontSize: 25,
         fontWeight: '700',
         color: '#fff'
     }

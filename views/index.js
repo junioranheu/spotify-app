@@ -43,13 +43,13 @@ export default function App({ navigation }) {
                 <Text style={Styles.titulo}>{gerarOla()}</Text>
 
                 <View style={Styles.div}>
-                    <Text style={Styles.titulo} onPress={() => navigation.navigate('Fila')}>Playlists disponíveis no momento {EmojiAleatorio()}</Text>
+                    <Text style={Styles.titulo}>Playlists disponíveis no momento {EmojiAleatorio()}</Text>
 
                     {playlists && (
                         <View style={StylesPlaylist.divPlaylists}>
                             <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                                 {playlists.filter(x => x.isAtivo === 1).map((p) => (
-                                    <Playlists playlist={p} key={p.playlistId} />
+                                    <Playlists playlist={p} key={p.playlistId} navigation={navigation} />
                                 ))}
                             </ScrollView>
                         </View>

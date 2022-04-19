@@ -7,7 +7,7 @@ export default function Fila({ navigation }) {
     return (
         <SafeAreaView style={Styles.safeAreaView}>
             <View style={Styles.container}>
-                <Text style={Styles.titulo}>Fila</Text>
+                <Text style={Styles.titulo} onPress={() => navigation.navigate('Index')}>Fila</Text>
             </View>
         </SafeAreaView>
     );

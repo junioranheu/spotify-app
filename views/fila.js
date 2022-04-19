@@ -1,14 +1,12 @@
 import React from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
-import Styles from '../css/app';
+import { Text, View } from 'react-native';
+import Styles from '../css/index';
 
 export default function Fila({ navigation }) {
     return (
-        <SafeAreaView style={Styles.safeAreaView}>
-            <View style={Styles.container}>
-                <Text style={Styles.titulo} onPress={() => navigation.navigate('Index')}>Fila</Text>
-            </View>
-        </SafeAreaView>
+        <View style={Styles.container}>
+            <Text style={Styles.titulo} onPress={() => navigation.navigate('Index')}>Fila</Text>
+        </View>
     );
 }
 

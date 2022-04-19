@@ -4,7 +4,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native';
 import Footer from '../components/outros/footer';
 import Navbar from '../components/outros/navbar';
-import Styles from '../css/app';
+import Styles from '../css/index';
 import Fila from './fila';
 import Index from './index';
 

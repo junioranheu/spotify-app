@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import Playlists from '../components/playlists/playlists';
-import Styles from '../css/app';
+import Engrenagem from '../components/svg/engrenagem';
+import Historico from '../components/svg/historico';
+import Notificacao from '../components/svg/notificacao';
+import Styles from '../css';
 import StylesPlaylist from '../css/playlists';
 import CONSTANTS_PLAYLISTS from '../utils/data/constPlaylists';
 import EmojiAleatorio from '../utils/outros/emojiAleatorio';
 import HorarioBrasilia from '../utils/outros/horarioBrasilia';
 
 export default function Index({ navigation }) {
-    
+
     const [playlists, setPlaylists] = useState(null);
     useEffect(() => {
         async function getPlaylists() {
@@ -38,25 +41,33 @@ export default function Index({ navigation }) {
     }
 
     return (
-        <SafeAreaView style={Styles.safeAreaView}>
-            <View style={Styles.container}>
+        <View style={Styles.container}>
+            <View style={Styles.divOla}>
                 <Text style={Styles.titulo}>{gerarOla()}</Text>
 
-                <View style={Styles.div}>
-                    <Text style={Styles.titulo}>Playlists disponíveis no momento {EmojiAleatorio()}</Text>
-
-                    {playlists && (
-                        <View style={StylesPlaylist.divPlaylists}>
-                            <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                                {playlists.filter(x => x.isAtivo === 1).map((p) => (
-                                    <Playlists playlist={p} key={p.playlistId} navigation={navigation} />
-                                ))}
-                            </ScrollView>
-                        </View>
-                    )}
+                <View style={Styles.direita}>
+                    <Notificacao height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
+                    <View style={Styles.espacoIcones}></View>
+                    <Historico height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
+                    <View style={Styles.espacoIcones}></View>
+                    <Engrenagem height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
                 </View>
             </View>
-        </SafeAreaView>
+
+            <View style={Styles.margemTop}>
+                <Text style={Styles.titulo}>Playlists disponíveis {EmojiAleatorio()}</Text>
+
+                {playlists && (
+                    <View style={StylesPlaylist.divPlaylists}>
+                        <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+                            {playlists.filter(x => x.isAtivo === 1).map((p) => (
+                                <Playlists playlist={p} key={p.playlistId} navigation={navigation} />
+                            ))}
+                        </ScrollView>
+                    </View>
+                )}
+            </View>
+        </View>
     );
 }
 

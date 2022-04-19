@@ -8,7 +8,25 @@ export default StyleSheet.create({
         padding: 25
     },
 
-    div: {
+    divOla: {
+        // backgroundColor: 'pink',
+        display: 'flex',
+        flexDirection: 'row'
+    },
+
+    direita: {
+        // backgroundColor: 'red',
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginLeft: 'auto'
+    },
+
+    espacoIcones: {
+        width: 20
+    },
+
+    margemTop: {
         // backgroundColor: 'red',
         marginTop: 20
     },
@@ -18,7 +36,7 @@ export default StyleSheet.create({
     },
 
     titulo: {
-        fontSize: 25,
+        fontSize: 23,
         fontWeight: '700',
         color: '#fff'
     }

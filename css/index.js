@@ -6,7 +6,7 @@ export default StyleSheet.create({
         backgroundColor: '#121212',
         height: '100%',
         width: '100%',
-        padding: 25
+        padding: 20
     },
 
     divOla: {
@@ -24,7 +24,7 @@ export default StyleSheet.create({
     },
 
     espacoIcones: {
-        width: 20
+        width: 25
     },
 
     margemTop: {

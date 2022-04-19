@@ -4,7 +4,7 @@ export default StyleSheet.create({
     footer: {
         backgroundColor: 'rgba(18, 18, 18, 0.97)',
         height: 90,
-
+ 
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-evenly',

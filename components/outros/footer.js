@@ -11,10 +11,12 @@ export default function Footer() {
 
     return (
         <View style={Styles.container}>
-            <View style={Styles.divIcone}>
-                <Casa height={24} width={24} cor='rgba(255, 255, 255, 0.6)' />
-                <Text style={Styles.texto}>Início</Text>
-            </View>
+            <TouchableOpacity onPress={() => navigation.navigate('Index')}>
+                <View style={Styles.divIcone}>
+                    <Casa height={24} width={24} cor='rgba(255, 255, 255, 0.6)' />
+                    <Text style={Styles.texto}>Início</Text>
+                </View>
+            </TouchableOpacity>
 
             <View style={Styles.divIcone}>
                 <Lupa height={24} width={24} cor='rgba(255, 255, 255, 0.6)' />

@@ -1,20 +1,23 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-    container: {
-        backgroundColor: '#121212',
-        height: '100%',
-        width: '100%',
-        padding: 25
+    divAlbunsPequenos: {
+        // backgroundColor: 'red',
+        marginTop: 20,
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap'
     },
 
-    margemTop: {
-        // backgroundColor: 'red',
-        marginTop: 20
+    albumPequeno: {
+        // backgroundColor: 'pink',
+        width: '50%',
+        display: 'flex',
+        flexDirection: 'row'
     },
 
     titulo: {
-        fontSize: 23,
+        fontSize: 15,
         fontWeight: '700',
         color: '#fff'
     }

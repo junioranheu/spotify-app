@@ -10,7 +10,7 @@ export default StyleSheet.create({
 
     div: {
         // backgroundColor: 'red',
-        marginTop: 30
+        marginTop: 20
     },
 
     safeAreaView: {

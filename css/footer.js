@@ -8,16 +8,22 @@ export default StyleSheet.create({
 
         display: 'flex',
         flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'flex-start'
+    },
+
+    divIcone: {
+        // backgroundColor: 'pink',
+        paddingTop: 10,
+        display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
     },
 
-    margemDireita: {
-        // backgroundColor: 'pink',
-        minWidth: 20
-    },
-
     texto: {
-        color: '#fff'
+        paddingTop: 5,
+        color: '#fff',
+        fontSize: 12,
+        fontWeight: '500'
     }
 });

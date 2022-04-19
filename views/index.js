@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
+import AlbunsPequenos from '../components/outros/albunsPequenos';
 import Playlists from '../components/playlists/playlists';
 import Engrenagem from '../components/svg/engrenagem';
 import Historico from '../components/svg/historico';
 import Notificacao from '../components/svg/notificacao';
-import Styles from '../css';
+import Styles from '../css/index';
 import StylesPlaylist from '../css/playlists';
 import CONSTANTS_PLAYLISTS from '../utils/data/constPlaylists';
 import EmojiAleatorio from '../utils/outros/emojiAleatorio';
@@ -42,6 +43,7 @@ export default function Index({ navigation }) {
 
     return (
         <View style={Styles.container}>
+            {/* Olá + Ícones */}
             <View style={Styles.divOla}>
                 <Text style={Styles.titulo}>{gerarOla()}</Text>
 
@@ -54,13 +56,32 @@ export default function Index({ navigation }) {
                 </View>
             </View>
 
+            {/* Div com albuns pequenos*/}
+            <AlbunsPequenos />
+
+            {/* Playlists */}
             <View style={Styles.margemTop}>
                 <Text style={Styles.titulo}>Playlists disponíveis {EmojiAleatorio()}</Text>
 
                 {playlists && (
                     <View style={StylesPlaylist.divPlaylists}>
                         <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                            {playlists.filter(x => x.isAtivo === 1).map((p) => (
+                            {playlists.filter(x => x.isAtivo === 1 && !x.nome.includes('Funk')).map((p) => (
+                                <Playlists playlist={p} key={p.playlistId} navigation={navigation} />
+                            ))}
+                        </ScrollView>
+                    </View>
+                )}
+            </View>
+
+            {/* Playlists */}
+            <View style={Styles.margemTop}>
+                <Text style={Styles.titulo}>Playlists 100% brasileiras</Text>
+
+                {playlists && (
+                    <View style={StylesPlaylist.divPlaylists}>
+                        <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+                            {playlists.filter(x => x.isAtivo === 1 && x.nome.includes('Funk')).map((p) => (
                                 <Playlists playlist={p} key={p.playlistId} navigation={navigation} />
                             ))}
                         </ScrollView>

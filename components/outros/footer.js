@@ -29,7 +29,7 @@ export default function Footer() {
                     <Text style={Styles.texto}>Sua fila</Text>
                 </View>
             </TouchableOpacity>
-        </View >
+        </View>
     );
 }
 

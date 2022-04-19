@@ -28,7 +28,7 @@ export default StyleSheet.create({
 
     margemTop: {
         // backgroundColor: 'red',
-        marginTop: 20
+        marginTop: 30
     },
 
     safeAreaView: {

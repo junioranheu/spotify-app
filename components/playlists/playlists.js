@@ -9,7 +9,7 @@ export default function Playlists({ playlist, navigation }) {
                 <TouchableOpacity onPress={() => navigation.navigate('Fila')}>
                     <View style={Styles.divThumbnail}>
                         <Image
-                            style={{ width: 200, height: 200 }}
+                            style={{ width: 170, height: 170 }}
                             source={{ uri: `https://spotifyapi.azurewebsites.net/Upload/playlists/${playlist.playlistId}.webp` }}
                         />
                     </View>

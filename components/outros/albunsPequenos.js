@@ -1,39 +1,34 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import Styles from '../../css/albunsPequenos';
+import Foto1 from '../../static/image/albunsPequenos/albumPequeno1.webp';
+import Foto2 from '../../static/image/albunsPequenos/albumPequeno2.webp';
+import Foto3 from '../../static/image/albunsPequenos/albumPequeno3.webp';
+import Foto4 from '../../static/image/albunsPequenos/albumPequeno4.webp';
+import Foto5 from '../../static/image/albunsPequenos/albumPequeno5.webp';
+import Foto6 from '../../static/image/albunsPequenos/albumPequeno6.webp';
 
 export default function AlbunsPequenos() {
+
+    const albunsPequenos = [
+        { id: 1, foto: Foto1, titulo: 'Músicas curtidas', url: '' },
+        { id: 2, foto: Foto2, titulo: 'Oasis', url: '' },
+        { id: 3, foto: Foto3, titulo: 'Lofi Fruits Music', url: '' },
+        { id: 4, foto: Foto4, titulo: 'Engenheiros do Havaii', url: '' },
+        { id: 5, foto: Foto5, titulo: 'Carro', url: '' },
+        { id: 6, foto: Foto6, titulo: 'Boas', url: '' }
+    ];
+
     return (
         <View style={Styles.divAlbunsPequenos}>
-            <View style={Styles.albumPequeno}>
-                <Text style={Styles.titulo}>Foto</Text>
-                <Text style={Styles.titulo}>1</Text>
-            </View>
-
-            <View style={Styles.albumPequeno}>
-                <Text style={Styles.titulo}>Foto</Text>
-                <Text style={Styles.titulo}>1</Text>
-            </View>
-
-            <View style={Styles.albumPequeno}>
-                <Text style={Styles.titulo}>Foto</Text>
-                <Text style={Styles.titulo}>1</Text>
-            </View>
-
-            <View style={Styles.albumPequeno}>
-                <Text style={Styles.titulo}>Foto</Text>
-                <Text style={Styles.titulo}>1</Text>
-            </View>
-
-            <View style={Styles.albumPequeno}>
-            <Text style={Styles.titulo}>Foto</Text>
-                <Text style={Styles.titulo}>1</Text>
-            </View>
-
-            <View style={Styles.albumPequeno}>
-                <Text style={Styles.titulo}>Foto</Text>
-                <Text style={Styles.titulo}>1</Text>
-            </View>
+            {albunsPequenos.map((item, key) => {
+                return (
+                    <View style={Styles.albumPequeno} key={item.id}>
+                        <Image source={item.foto} style={Styles.imageBackground}></Image>
+                        <Text style={Styles.titulo}>{item.titulo}</Text>
+                    </View>
+                )
+            })}
         </View>
     );
 }

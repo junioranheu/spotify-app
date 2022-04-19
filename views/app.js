@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native'; // https://react
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
+import Footer from '../components/outros/footer';
 import Navbar from '../components/outros/navbar';
 import Styles from '../css/app';
 import Fila from './fila';
@@ -20,6 +21,8 @@ export default function App() {
                 <Stack.Screen component={Index} name='Index' options={{ headerShown: false }} />
                 <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
             </Stack.Navigator>
+
+            <Footer />
         </NavigationContainer>
     );
 }

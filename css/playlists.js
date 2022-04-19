@@ -3,14 +3,20 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
     divPlaylists: {
         // backgroundColor: 'pink',
+        marginTop: 20,
         display: 'flex',
         width: '100%'
     },
 
     playlist: {
         // backgroundColor: 'pink',
-        padding: 18,
+        // padding: 18,
         maxWidth: 250,
+    },
+
+    margemDireita: {
+        // backgroundColor: 'pink',
+        minWidth: 20
     },
 
     tituloPlaylist: {

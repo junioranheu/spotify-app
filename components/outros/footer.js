@@ -10,7 +10,7 @@ export default function Footer() {
     const navigation = useNavigation();
 
     return (
-        <View style={Styles.container}>
+        <View style={Styles.footer}>
             <TouchableOpacity onPress={() => navigation.navigate('Index')}>
                 <View style={Styles.divIcone}>
                     <Casa height={24} width={24} cor='rgba(255, 255, 255, 0.6)' />

@@ -4,7 +4,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native';
 import Footer from '../components/outros/footer';
 import Navbar from '../components/outros/navbar';
-import Styles from '../css/index';
+import { default as Styles } from '../css/global';
 import Fila from './fila';
 import Index from './index';
 
@@ -12,7 +12,7 @@ export default function App() {
     const Stack = createNativeStackNavigator();
 
     return (
-        <NavigationContainer>
+        <NavigationContainer style={Styles.corPrincipalFundo}>
             <SafeAreaView style={Styles.safeAreaView}>
                 <Navbar />
             </SafeAreaView>

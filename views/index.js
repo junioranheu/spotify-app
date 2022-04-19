@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import AlbunsPequenos from '../components/outros/albunsPequenos';
+import MargemBotFooter from '../components/outros/margemBotFooter';
 import Playlists from '../components/playlists/playlists';
 import Engrenagem from '../components/svg/engrenagem';
 import Historico from '../components/svg/historico';
@@ -42,7 +43,7 @@ export default function Index({ navigation }) {
     }
 
     return (
-        <View style={Styles.container}>
+        <ScrollView style={Styles.container}>
             {/* Olá + Ícones */}
             <View style={Styles.divOla}>
                 <Text style={Styles.titulo}>{gerarOla()}</Text>
@@ -88,7 +89,9 @@ export default function Index({ navigation }) {
                     </View>
                 )}
             </View>
-        </View>
+
+            <MargemBotFooter />
+        </ScrollView>
     );
 }
 

@@ -7,8 +7,8 @@ import CONSTANTS_PLAYLISTS from '../utils/data/constPlaylists';
 import EmojiAleatorio from '../utils/outros/emojiAleatorio';
 import HorarioBrasilia from '../utils/outros/horarioBrasilia';
 
-export default function App({ navigation }) {
-
+export default function Index({ navigation }) {
+    
     const [playlists, setPlaylists] = useState(null);
     useEffect(() => {
         async function getPlaylists() {

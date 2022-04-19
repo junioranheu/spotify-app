@@ -4,7 +4,7 @@ export default StyleSheet.create({
     container: {
         backgroundColor: 'rgba(18, 18, 18, 0.97)',
 
-        height: 80,
+        height: 90,
 
         display: 'flex',
         flexDirection: 'row',
@@ -14,7 +14,7 @@ export default StyleSheet.create({
 
     divIcone: {
         // backgroundColor: 'pink',
-        paddingTop: 10,
+        paddingTop: 15,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
@@ -22,7 +22,7 @@ export default StyleSheet.create({
 
     texto: {
         paddingTop: 5,
-        color: '#fff',
+        color: 'rgba(255, 255, 255, 0.6)',
         fontSize: 12,
         fontWeight: '500'
     }

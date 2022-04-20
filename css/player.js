@@ -21,6 +21,11 @@ export default StyleSheet.create({
         flexDirection: 'row'
     },
 
+    margemTopPequena: {
+        // backgroundColor: 'red',
+        marginTop: 3
+    },
+
     // =-=-=-=-=-=-=-=-=-=-=-=-=-= Esquerda =-=-=-=-=-=-=-=-=-=-=-=-=-=
     esquerda: {
         // backgroundColor: 'pink',

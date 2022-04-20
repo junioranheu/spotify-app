@@ -14,7 +14,7 @@ export default StyleSheet.create({
     },
 
     margemBotFooter: {
-        marginBottom: 50
+        marginBottom: 40
     },
 
     svg16px: {

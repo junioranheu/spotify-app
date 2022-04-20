@@ -1,31 +1,44 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, View } from 'react-native';
 import Styles from '../../css/player';
-import Foto6 from '../../static/image/albunsPequenos/albumPequeno6.webp';
+import ImgCinza from '../../static/image/outros/cinza.webp';
 import { MusicaContext } from '../../utils/context/musicaContext';
+import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
 import BotaoPlay from '../svg/botaoPlay';
 import Dispositivo from '../svg/dispositivo';
 
 export default function Player() {
     const [musicaContext] = useContext(MusicaContext); // Context da música;
-
-    // XXXXXXXXXXXX AINDA FALTA VERIFICAR SEM MUSICA, COLOCAR O NOME DELA E TALS -> MAS A FILA TEM QUE SER FEITA ANTES
+    const [imagemBanda, setImagemBanda] = useState(null);
 
     useEffect(() => {
         console.log(musicaContext);
+
+        // Import dinâmico: capa da música reproduzindo;
+        if (musicaContext?.musicaId > 0) {
+            if (musicaContext?.musicasBandas[0]?.bandas.foto) {
+                const img = `${CONSTANTS_UPLOAD.API_URL_GET_CAPA}/${musicaContext?.musicasBandas[0]?.bandas.foto}`;
+                setImagemBanda(img);
+            }
+        }
     }, [musicaContext]);
 
     return (
-        musicaContext.PromiseResult ? (
+        musicaContext?.musicaId > 0 ? (
             <View style={Styles.container}>
                 <View style={Styles.player}>
-
                     <View style={Styles.esquerda}>
-                        <Image source={Foto6} style={Styles.imageBackground}></Image>
+                        {
+                            imagemBanda ? (
+                                <Image source={{ uri: imagemBanda }} style={Styles.imageBackground}></Image>
+                            ) : (
+                                <Image source={ImgCinza} style={Styles.imageBackground}></Image>
+                            )
+                        }
 
                         <View style={Styles.divInfoMusica}>
-                            <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.tituloMusica}>Música aqui</Text>
-                            <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.banda}>Nome da banda aqui</Text>
+                            <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.tituloMusica}>{musicaContext.nome}</Text>
+                            <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.banda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
                         </View>
                     </View>
 

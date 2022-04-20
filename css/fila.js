@@ -21,7 +21,7 @@ export default StyleSheet.create({
 
     margemTopPequena: {
         // backgroundColor: 'red',
-        marginTop: 5
+        marginTop: 10
     },
 
     // =-=-=-=-=-=-=-=-=-=-=-=-=-= musicaRow =-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -29,7 +29,7 @@ export default StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'row',
-        marginBottom: 10
+        marginBottom: 15
     },
 
     imageBackground: {
@@ -42,19 +42,26 @@ export default StyleSheet.create({
 
     divInfoMusica: {
         // backgroundColor: 'pink',
-        marginLeft: 8,
+        marginLeft: 10,
         maxWidth: 200
     },
 
     tituloMusica: {
         color: 'rgba(255, 255, 255, 0.8)',
-        fontSize: 14,
-        fontWeight: '500'
+        fontSize: 16,
+        fontWeight: '600'
     },
 
     banda: {
         color: 'rgba(255, 255, 255, 0.6)',
         fontSize: 12,
         fontWeight: '500'
+    },
+
+    direita: {
+        // backgroundColor: 'pink',
+        display: 'flex',
+        alignItems: 'center',
+        marginLeft: 'auto'
     },
 });

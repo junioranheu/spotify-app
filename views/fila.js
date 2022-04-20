@@ -1,26 +1,27 @@
 import React, { Fragment, useContext } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import MusicaRow from '../components/fila/musicaRow';
+import MargemBotFooter from '../components/outros/margemBotFooter';
 import Styles from '../css/fila';
 import StylesGlobal from '../css/global';
 import { ListaMusicasContext } from '../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
+import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
 
 export default function Fila({ navigation }) {
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
 
-    async function setarMusica(e) {
+    async function setarMusica(id) {
+        // console.log(id);
+
         // Se o usuário estiver deslogado;
         // if (!isAuth) {
         //     Aviso.custom('Inicie uma sessão para escutar essa música', 5000);
         //     return false;
         // }
 
-        const id = e.currentTarget.id;
-        // console.log(id);
-
-        const url = `${CONSTANTS.API_URL_GET_POR_ID}/${id}`;
+        const url = `${CONSTANTS_MUSICAS.API_URL_GET_POR_ID}/${id}`;
         const res = await fetch(url)
         const musica = await res.json();
         // console.log(musica);
@@ -41,7 +42,6 @@ export default function Fila({ navigation }) {
                     {
                         musicaContext?.musicaId > 0 ? (
                             <MusicaRow
-                                i={1}
                                 id={musicaContext.musicaId}
                                 foto={musicaContext.musicasBandas[0]?.bandas.foto}
                                 titulo={musicaContext.nome}
@@ -49,7 +49,6 @@ export default function Fila({ navigation }) {
                                 album={musicaContext.albunsMusicas[0]?.albuns.nome}
                                 tempo={musicaContext.duracaoSegundos}
                                 setarMusica={setarMusica}
-                                isDesativarUm={true}
                             />
                         ) : (
                             <View>
@@ -72,7 +71,6 @@ export default function Fila({ navigation }) {
                                     listaMusicasContext.filter(x => x.musicaId !== musicaContext?.musicaId).map((m, i) => (
                                         <MusicaRow
                                             key={m.musicaId}
-                                            i={(i + 2)} // A ordem tem que começar no 2;
                                             id={m.musicaId}
                                             foto={m.musicasBandas[0]?.bandas.foto}
                                             titulo={m.nome}
@@ -80,7 +78,6 @@ export default function Fila({ navigation }) {
                                             album={m.albunsMusicas[0]?.albuns.nome}
                                             tempo={m.duracaoSegundos}
                                             setarMusica={setarMusica}
-                                            isDesativarUm={true}
                                         />
                                     ))
                                 }
@@ -93,6 +90,9 @@ export default function Fila({ navigation }) {
                     }
                 </View>
             </View>
+
+            {/* Margem do footer */}
+            <MargemBotFooter />
         </ScrollView>
     );
 }

@@ -28,9 +28,17 @@ export default function Player() {
             const urlMusica = `${CONSTANTS_UPLOAD.API_URL_GET_MUSIC}/${musicaContext.musicaId}.mp3`;
             // console.log(urlMusica);
 
-            // Permitir tocar em modo silencioso;
+            // Permitir tocar em modo silencioso, ficar ativo ao minimizar, etc: https://docs.expo.dev/versions/latest/sdk/audio/;
             // await Audio.requestPermissionsAsync();
-            await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+            await Audio.setAudioModeAsync({
+                playsInSilentModeIOS: true,
+                allowsRecordingIOS: false,
+                staysActiveInBackground: true,
+                interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DUCK_OTHERS,
+                shouldDuckAndroid: true,
+                interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
+                playThroughEarpieceAndroid: false
+            });
 
             // "Criar" música;
             const { sound } = await Audio.Sound.createAsync(

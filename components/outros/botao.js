@@ -4,7 +4,7 @@ import { Button, Linking, TouchableHighlight } from 'react-native';
 
 export default function Botao({ texto, corTexto, corBotao, height, width, url, isExterno, funcaoExtra }) {
     const navigation = useNavigation();
-
+ 
     function handlePress() {
         // Se o botão tiver o props "funcaoExtra" significa que deve ser executado uma outra função;
         if (funcaoExtra) {

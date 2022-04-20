@@ -1,10 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Button, Linking, TouchableHighlight } from 'react-native';
+import { Linking, Text, TouchableHighlight } from 'react-native';
 
-export default function Botao({ texto, corTexto, corBotao, height, width, url, isExterno, funcaoExtra }) {
+export default function Botao({ texto, corTexto, corBotao, corBotaoOnPress, height, width, url, isExterno, funcaoExtra }) {
     const navigation = useNavigation();
- 
+
     function handlePress() {
         // Se o botão tiver o props "funcaoExtra" significa que deve ser executado uma outra função;
         if (funcaoExtra) {
@@ -26,13 +26,14 @@ export default function Botao({ texto, corTexto, corBotao, height, width, url, i
     }
 
     return (
-        <TouchableHighlight style={{ height: height, width: width, borderRadius: 50, backgroundColor: corBotao, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Button
-                onPress={() => handlePress()}
-                title={texto}
-                color={corTexto}
-                accessibilityLabel={texto}
-            />
+        <TouchableHighlight
+            onPress={() => handlePress()}
+            activeOpacity={0.6} underlayColor={corBotaoOnPress}
+            style={{ height: height, width: width, borderRadius: 50, backgroundColor: corBotao, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
+            <Text style={{ color: corTexto, }}>
+                {texto}
+            </Text>
         </TouchableHighlight>
     );
 }

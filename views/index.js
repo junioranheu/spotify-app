@@ -116,7 +116,7 @@ export default function Index({ navigation }) {
                 <Text style={Styles.texto}>Para “renovar” sua playlist por completo, clique no botão abaixo.</Text>
 
                 <View style={Styles.margemTopPequena}>
-                    <Botao texto='Importar todas as músicas' corTexto='rgba(255, 255, 255, 0.8)' corBotao='rgba(29, 185, 84, 0.8)' height={50} width={'100%'}
+                    <Botao texto='Importar todas as músicas' corTexto='rgba(255, 255, 255, 0.8)' corBotao='rgba(29, 185, 84, 0.8)' corBotaoOnPress='rgba(29, 185, 84, 0.4)' height={50} width={'100%'}
                         url='' isExterno={false} funcaoExtra={renovarFila}
                     />
                 </View>

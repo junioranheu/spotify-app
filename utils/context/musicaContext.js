@@ -25,7 +25,7 @@ export const MusicaStorage = {
         try {
             await AsyncStorage.setItem('@musicaContext', parsedData);
         } catch (e) {
-            // saving error
+            console.log('Ocorreu um erro ao salvar o local storage');
         }
     },
 
@@ -35,7 +35,7 @@ export const MusicaStorage = {
                 const jsonValue = await AsyncStorage.getItem('@musicaContext');
                 return jsonValue != null ? JSON.parse(jsonValue) : null;
             } catch (e) {
-                // error reading value
+                console.log('Ocorreu um erro ao ler o local storage');
             }
         }
 
@@ -51,7 +51,7 @@ export const MusicaStorage = {
         try {
             await AsyncStorage.removeItem('@musicaContext');
         } catch (e) {
-            // error reading value
+            console.log('Ocorreu um erro ao deletar o local storage');
         }
     }
 }

@@ -21,7 +21,7 @@ export default StyleSheet.create({
 
     margemTopPequena: {
         // backgroundColor: 'red',
-        marginTop: 10
+        marginTop: 8
     },
 
     // =-=-=-=-=-=-=-=-=-=-=-=-=-= musicaRow =-=-=-=-=-=-=-=-=-=-=-=-=-=

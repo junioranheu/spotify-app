@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import MusicaRow from '../components/fila/musicaRow';
 import MargemBotFooter from '../components/outros/margemBotFooter';
@@ -12,7 +12,13 @@ export default function Fila({ navigation }) {
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
 
+    const [isPodeAvancar, setIsPodeAvancar] = useState(true);
     async function setarMusica(id) {
+        if (!isPodeAvancar) {
+            console.log('Não é possível avançar a música agora, aguarde um momento');
+            return false;
+        }
+
         // console.log(id);
 
         // Se o usuário estiver deslogado;
@@ -29,7 +35,19 @@ export default function Fila({ navigation }) {
         // Salvar no Context e no localStorage;
         MusicaStorage.set(musica);
         setMusicaContext(musica);
+
+        // Bloquear "avanço";
+        setIsPodeAvancar(false);
     }
+
+    useEffect(() => {
+        // Aguardar x segundos para poder avançar novamente, para evitar bugs;
+        if (!isPodeAvancar) {
+            setTimeout(function () {
+                setIsPodeAvancar(true);
+            }, 1000);
+        }
+    }, [isPodeAvancar]);
 
     return (
         <ScrollView style={StylesGlobal.containerPrincipal}>
@@ -48,7 +66,7 @@ export default function Fila({ navigation }) {
                                 banda={musicaContext.musicasBandas[0]?.bandas.nome}
                                 album={musicaContext.albunsMusicas[0]?.albuns.nome}
                                 tempo={musicaContext.duracaoSegundos}
-                                setarMusica={setarMusica}
+                                setarMusica={null}
                             />
                         ) : (
                             <View>
@@ -65,7 +83,8 @@ export default function Fila({ navigation }) {
 
                 <View style={Styles.margemTopPequena}>
                     {
-                        listaMusicasContext?.length > 0 ? (
+                        // Bug bizarro que tive que por o length > 1, por algum motivo, o 0 não funcionou nesse caso...
+                        listaMusicasContext?.length > 1 ? (
                             <Fragment>
                                 {
                                     listaMusicasContext.filter(x => x.musicaId !== musicaContext?.musicaId).map((m, i) => (

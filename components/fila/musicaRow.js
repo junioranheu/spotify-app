@@ -24,7 +24,7 @@ export default function MusicaRow({ id, foto, titulo, banda, album, tempo, setar
     }, [musicaContext]);
 
     return (
-        <TouchableOpacity onPress={() => setarMusica(id)}>
+        <TouchableOpacity onPress={() => (setarMusica ? setarMusica(id) : false)}>
             <View style={Styles.divMusica}>
                 {
                     imagemBanda ? (

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, View } from 'react-native';
 import Styles from '../../css/player';
 import ImgCinza from '../../static/image/outros/cinza.webp';
+import { ListaMusicasContext, ListaMusicasStorage } from '../../utils/context/listaMusicasContext';
 import { MusicaContext } from '../../utils/context/musicaContext';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
 import BotaoPlay from '../svg/botaoPlay';
@@ -9,17 +10,53 @@ import Dispositivo from '../svg/dispositivo';
 
 export default function Player() {
     const [musicaContext] = useContext(MusicaContext); // Context da música;
+    const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [imagemBanda, setImagemBanda] = useState(null);
+    const [arquivoMusica, setArquivoMusica] = useState();
 
+    // Ao alterar a música em musicaContext;
     useEffect(() => {
-        console.log(musicaContext);
+        // console.log(musicaContext);
+
+        async function importDinamico() {
+            // Importar música dinamicamente;
+            const url = `${CONSTANTS_UPLOAD.API_URL_GET_MUSIC}/${musicaContext.musicaId}.mp3`;
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'audio/mpeg',
+                },
+            })
+                .then((response) => response.blob())
+                .then((blob) => {
+                    // Criar blob;
+                    const arquivoBlob = window.URL.createObjectURL(
+                        new Blob([blob], {
+                            type: 'audio/mpeg'
+                        }),
+                    );
+
+                    // console.log(arquivoBlob);
+                    setArquivoMusica(arquivoBlob);
+                    console.log(`Música "${musicaContext.nome}" (${musicaContext.musicaId}) importada`);
+
+                    // Quando a música for importada, é necessário removê-la da lista/fila;
+                    const indexMusicaTocando = listaMusicasContext?.findIndex(m => m.musicaId === musicaContext?.musicaId);
+                    listaMusicasContext?.splice(indexMusicaTocando, 1);
+                    ListaMusicasStorage.set(listaMusicasContext);
+                    setListaMusicasContext(listaMusicasContext);
+                });
+        }
 
         // Import dinâmico: capa da música reproduzindo;
         if (musicaContext?.musicaId > 0) {
+            // Atribuir a imagem da música atual;
             if (musicaContext?.musicasBandas[0]?.bandas.foto) {
                 const img = `${CONSTANTS_UPLOAD.API_URL_GET_CAPA}/${musicaContext?.musicasBandas[0]?.bandas.foto}`;
                 setImagemBanda(img);
             }
+
+            importDinamico();
         }
     }, [musicaContext]);
 

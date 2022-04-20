@@ -6,7 +6,7 @@ export default StyleSheet.create({
         fontWeight: '700',
         color: '#fff'
     },
-
+ 
     subtitulo: {
         fontSize: 15,
         fontWeight: '700',
@@ -64,4 +64,8 @@ export default StyleSheet.create({
         alignItems: 'center',
         marginLeft: 'auto'
     },
+
+    corVerde:{
+        color: 'rgba(29, 185, 84, 0.8)'
+    }
 });

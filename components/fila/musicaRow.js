@@ -35,7 +35,10 @@ export default function MusicaRow({ id, foto, titulo, banda, album, tempo, setar
                 }
 
                 <View style={Styles.divInfoMusica}>
-                    <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.tituloMusica}>{titulo}</Text>
+                    <Text numberOfLines={1} ellipsizeMode='tail' style={[Styles.tituloMusica, (id === musicaContext?.musicaId ? Styles.corVerde : null)]}>
+                        {titulo}
+                    </Text>
+
                     <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.banda}>{banda}</Text>
                 </View>
 

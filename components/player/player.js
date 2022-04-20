@@ -1,3 +1,4 @@
+import { Audio } from 'expo-av'; // https://docs.expo.dev/versions/latest/sdk/audio/
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, View } from 'react-native';
@@ -13,7 +14,7 @@ export default function Player() {
     const [musicaContext] = useContext(MusicaContext); // Context da música;
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [imagemBanda, setImagemBanda] = useState(null);
-    const [arquivoMusica, setArquivoMusica] = useState();
+    const [musica, setMusica] = useState();
 
     // Ao alterar a música em musicaContext;
     useEffect(() => {
@@ -21,32 +22,19 @@ export default function Player() {
 
         async function importDinamico() {
             // Importar música dinamicamente;
-            const url = `${CONSTANTS_UPLOAD.API_URL_GET_MUSIC}/${musicaContext.musicaId}.mp3`;
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'audio/mpeg',
-                },
-            })
-                .then((response) => response.blob())
-                .then((blob) => {
-                    // Criar blob;
-                    const arquivoBlob = window.URL.createObjectURL(
-                        new Blob([blob], {
-                            type: 'audio/mpeg'
-                        }),
-                    );
+            const urlMusica = `${CONSTANTS_UPLOAD.API_URL_GET_MUSIC}/${musicaContext.musicaId}.mp3`;
+            // console.log(urlMusica);
 
-                    // console.log(arquivoBlob);
-                    setArquivoMusica(arquivoBlob);
-                    console.log(`Música "${musicaContext.nome}" (${musicaContext.musicaId}) importada`);
+            const { sound } = await Audio.Sound.createAsync({ uri: urlMusica }, { shouldPlay: true });
+            setMusica(sound);
+            // await sound.playAsync();
+            console.log(`Música "${musicaContext.nome}" (${musicaContext.musicaId}) importada`);
 
-                    // Quando a música for importada, é necessário removê-la da lista/fila;
-                    const indexMusicaTocando = listaMusicasContext?.findIndex(m => m.musicaId === musicaContext?.musicaId);
-                    listaMusicasContext?.splice(indexMusicaTocando, 1);
-                    ListaMusicasStorage.set(listaMusicasContext);
-                    setListaMusicasContext(listaMusicasContext);
-                });
+            // Quando a música for importada, é necessário removê-la da lista/fila;
+            const indexMusicaTocando = listaMusicasContext?.findIndex(m => m.musicaId === musicaContext?.musicaId);
+            listaMusicasContext?.splice(indexMusicaTocando, 1);
+            ListaMusicasStorage.set(listaMusicasContext);
+            setListaMusicasContext(listaMusicasContext);
         }
 
         // Import dinâmico: capa da música reproduzindo;
@@ -60,6 +48,16 @@ export default function Player() {
             importDinamico();
         }
     }, [musicaContext]);
+
+    // Descarregar som ao trocar de música;
+    useEffect(() => {
+        return musica
+            ? () => {
+                // console.log('Descarregando som');
+                musica.unloadAsync();
+            }
+            : undefined;
+    }, [musica]);
 
     return (
         musicaContext?.musicaId > 0 ? (

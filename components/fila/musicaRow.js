@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import Styles from '../../css/fila';
 import ImgCinza from '../../static/image/outros/cinza.webp';
+import EqualiserGif from '../../static/image/outros/equaliser.gif';
 import { MusicaContext } from '../../utils/context/musicaContext';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
 import Reticencias from '../svg/reticencias';
@@ -35,9 +36,15 @@ export default function MusicaRow({ id, foto, titulo, banda, album, tempo, setar
                 }
 
                 <View style={Styles.divInfoMusica}>
-                    <Text numberOfLines={1} ellipsizeMode='tail' style={[Styles.tituloMusica, (id === musicaContext?.musicaId ? Styles.corVerde : null)]}>
-                        {titulo}
-                    </Text>
+                    <View style={Styles.mesmaLinha}>
+                        {id === musicaContext?.musicaId && (
+                            <Image source={EqualiserGif} style={Styles.equaliser}></Image>
+                        )}
+
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={[Styles.tituloMusica, (id === musicaContext?.musicaId ? Styles.corVerde : null)]}>
+                            {titulo}
+                        </Text>
+                    </View>
 
                     <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.banda}>{banda}</Text>
                 </View>

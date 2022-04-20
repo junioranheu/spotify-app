@@ -26,8 +26,8 @@ export default function Player() {
             // console.log(urlMusica);
 
             const { sound } = await Audio.Sound.createAsync({ uri: urlMusica }, { shouldPlay: true });
-            setMusica(sound);
-            // await sound.playAsync();
+            await sound.playAsync();
+            setMusica(sound);   
             console.log(`Música "${musicaContext.nome}" (${musicaContext.musicaId}) importada`);
 
             // Quando a música for importada, é necessário removê-la da lista/fila;
@@ -45,6 +45,7 @@ export default function Player() {
                 setImagemBanda(img);
             }
 
+            // Importar música;
             importDinamico();
         }
     }, [musicaContext]);

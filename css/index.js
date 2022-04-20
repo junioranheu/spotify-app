@@ -32,9 +32,22 @@ export default StyleSheet.create({
         marginTop: 30
     },
 
+    margemTopPequena: {
+        // backgroundColor: 'red',
+        marginTop: 20
+    },
+
     titulo: {
         fontSize: 23,
         fontWeight: '700',
         color: '#fff'
+    },
+
+    texto: {
+        fontSize: 15,
+        fontWeight: '500',
+        color: '#fff',
+        opacity: 0.5,
+        marginTop: 3
     }
 });

@@ -38,7 +38,7 @@ export default function Fila({ navigation }) {
 
         // Bloquear "avanço";
         setIsPodeAvancar(false);
-    } 
+    }
 
     useEffect(() => {
         // Aguardar x segundos para poder avançar novamente, para evitar bugs;
@@ -54,7 +54,12 @@ export default function Fila({ navigation }) {
             {/* Música atual */}
             <View>
                 <Text style={Styles.titulo}>Sua fila</Text>
-                <Text style={Styles.subtitulo}>Em reprodução</Text>
+
+                {
+                    musicaContext?.musicaId > 0 && (
+                        <Text style={Styles.subtitulo}>Em reprodução</Text>
+                    )
+                }
 
                 <View style={Styles.margemTopPequena}>
                     {

@@ -7,17 +7,7 @@ export const MusicaContext = createContext();
 
 // Provider: para 'segurar' uma informação e passar para todos os componentes 'child';
 export const MusicaProvider = props => {
-
-    const getData = async () => {
-        try {
-            const jsonValue = await AsyncStorage.getItem('@musicaContext')
-            return jsonValue != null ? JSON.parse(jsonValue) : null;
-        } catch (e) {
-            // error reading value
-        }
-    }
-
-    const [musica, setMusica] = useState(getData);
+    const [musica, setMusica] = useState(MusicaStorage.get());
 
     return (
         <MusicaContext.Provider value={[musica, setMusica]}>
@@ -33,16 +23,16 @@ export const MusicaStorage = {
         let parsedData = JSON.stringify(data);
 
         try {
-            await AsyncStorage.setItem('@musicaContext', parsedData)
+            await AsyncStorage.setItem('@musicaContext', parsedData);
         } catch (e) {
             // saving error
         }
     },
 
-    async get() {
+    get() {
         const getData = async () => {
             try {
-                const jsonValue = await AsyncStorage.getItem('@musicaContext')
+                const jsonValue = await AsyncStorage.getItem('@musicaContext');
                 return jsonValue != null ? JSON.parse(jsonValue) : null;
             } catch (e) {
                 // error reading value

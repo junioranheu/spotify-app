@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import AlbunsPequenos from '../components/outros/albunsPequenos';
 import Botao from '../components/outros/botao';
@@ -9,11 +9,14 @@ import Historico from '../components/svg/historico';
 import Notificacao from '../components/svg/notificacao';
 import Styles from '../css/index';
 import StylesPlaylist from '../css/playlists';
+import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/listaMusicasContext';
+import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
 import CONSTANTS_PLAYLISTS from '../utils/data/constPlaylists';
 import EmojiAleatorio from '../utils/outros/emojiAleatorio';
 import HorarioBrasilia from '../utils/outros/horarioBrasilia';
 
 export default function Index({ navigation }) {
+    const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
 
     const [playlists, setPlaylists] = useState(null);
     useEffect(() => {
@@ -41,6 +44,20 @@ export default function Index({ navigation }) {
         }
 
         return msg;
+    }
+
+    async function renovarFila() {
+        const url = CONSTANTS_MUSICAS.API_URL_GET_TODOS;
+        const res = await fetch(url)
+        const musicas = await res.json();
+
+        // Salvar no Context e no localStorage;
+        // console.log(musicas);
+        ListaMusicasStorage.set(musicas);
+        setListaMusicasContext(musicas);
+
+        // Aviso.custom('Todas as músicas disponíveis atualmente foram importadas para sua fila', 10000);
+        alert('Todas as músicas disponíveis atualmente foram importadas para sua fila');
     }
 
     return (
@@ -90,7 +107,7 @@ export default function Index({ navigation }) {
                     </View>
                 )}
             </View>
- 
+
             {/* Botão para importar todas as músicas */}
             <View style={Styles.margemTop}>
                 <Text style={Styles.titulo}>Outras playlists</Text>
@@ -98,7 +115,9 @@ export default function Index({ navigation }) {
                 <Text style={Styles.texto}>Para “renovar” sua playlist por completo, clique no botão abaixo.</Text>
 
                 <View style={Styles.margemTopPequena}>
-                    <Botao texto='Importar todas as músicas' corTexto='rgba(255, 255, 255, 0.8)' corBotao='rgba(29, 185, 84, 0.8)' height={50} width={'100%'} url='Fila' isExterno={false} />
+                    <Botao texto='Importar todas as músicas' corTexto='rgba(255, 255, 255, 0.8)' corBotao='rgba(29, 185, 84, 0.8)' height={50} width={'100%'}
+                        url='' isExterno={false} funcaoExtra={renovarFila}
+                    />
                 </View>
             </View>
 

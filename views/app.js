@@ -6,6 +6,8 @@ import Footer from '../components/outros/footer';
 import Navbar from '../components/outros/navbar';
 import Player from '../components/player/player';
 import Styles from '../css/global';
+import { ListaMusicasProvider } from '../utils/context/listaMusicasContext';
+import { MusicaProvider } from '../utils/context/musicaContext';
 import Fila from './fila';
 import Index from './index';
 
@@ -13,19 +15,23 @@ export default function App() {
     const Stack = createNativeStackNavigator();
 
     return (
-        <NavigationContainer>
-            <SafeAreaView style={Styles.safeAreaView}>
-                <Navbar />
-            </SafeAreaView>
+        <ListaMusicasProvider>
+            <MusicaProvider>
+                <NavigationContainer>
+                    <SafeAreaView style={Styles.safeAreaView}>
+                        <Navbar />
+                    </SafeAreaView>
 
-            <Stack.Navigator initialRouteName='Index'>
-                <Stack.Screen component={Index} name='Index' options={{ headerShown: false }} />
-                <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
-            </Stack.Navigator>
+                    <Stack.Navigator initialRouteName='Index'>
+                        <Stack.Screen component={Index} name='Index' options={{ headerShown: false }} />
+                        <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
+                    </Stack.Navigator>
 
-            <Player />
-            <Footer />
-        </NavigationContainer>
+                    <Player />
+                    <Footer />
+                </NavigationContainer>
+            </MusicaProvider>
+        </ListaMusicasProvider>
     );
 }
 

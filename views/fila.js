@@ -38,7 +38,7 @@ export default function Fila({ navigation }) {
 
         // Bloquear "avanço";
         setIsPodeAvancar(false);
-    }
+    } 
 
     useEffect(() => {
         // Aguardar x segundos para poder avançar novamente, para evitar bugs;

@@ -16,7 +16,7 @@ export default StyleSheet.create({
 
     margemTop: {
         // backgroundColor: 'red',
-        marginTop: 30
+        marginTop: 16
     },
 
     margemTopPequena: {

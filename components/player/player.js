@@ -4,7 +4,7 @@ import Styles from '../../css/player';
 import Foto6 from '../../static/image/albunsPequenos/albumPequeno6.webp';
 import BotaoPlay from '../svg/botaoPlay';
 import Dispositivo from '../svg/dispositivo';
- 
+  
 export default function Player() {
     return (
         <View style={Styles.container}>

@@ -15,8 +15,10 @@ export default function Playlists({ playlist, navigation }) {
                     </View>
                 </TouchableOpacity>
 
-                <Text style={Styles.tituloPlaylist}>{playlist.nome}</Text>
-                <Text style={Styles.descricaoPlaylist}>{playlist.sobre}</Text>
+                <View style={Styles.divInfos}>
+                    <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.tituloPlaylist}>{playlist.nome}</Text>
+                    <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.descricaoPlaylist}>{playlist.sobre}</Text>
+                </View>
             </View>
 
             <View style={Styles.margemDireita}></View>

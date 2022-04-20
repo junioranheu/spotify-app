@@ -6,7 +6,7 @@ export default StyleSheet.create({
         backgroundColor: '#121212',
         height: '100%',
         width: '100%',
-        padding: 20
+        padding: 15
     },
 
     divOla: {
@@ -44,7 +44,8 @@ export default StyleSheet.create({
     },
 
     texto: {
-        fontSize: 15,
+        fontSize: 11,
+        lineHeight: 12,
         fontWeight: '500',
         color: '#fff',
         opacity: 0.5,

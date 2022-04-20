@@ -19,6 +19,11 @@ export default StyleSheet.create({
         minWidth: 20
     },
 
+    divInfos: {
+        // backgroundColor: 'pink',
+        maxWidth: 170,
+    },
+
     tituloPlaylist: {
         fontSize: 13,
         lineHeight: 13,

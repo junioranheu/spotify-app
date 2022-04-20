@@ -90,7 +90,7 @@ export default function Index({ navigation }) {
                     </View>
                 )}
             </View>
-
+ 
             {/* Botão para importar todas as músicas */}
             <View style={Styles.margemTop}>
                 <Text style={Styles.titulo}>Outras playlists</Text>
@@ -98,7 +98,7 @@ export default function Index({ navigation }) {
                 <Text style={Styles.texto}>Para “renovar” sua playlist por completo, clique no botão abaixo.</Text>
 
                 <View style={Styles.margemTopPequena}>
-                    <Botao texto='Importar todas as músicas' corTexto='black' corBotao='#1DB954' height={50} width={'100%'} url='Fila' isExterno={false} />
+                    <Botao texto='Importar todas as músicas' corTexto='rgba(255, 255, 255, 0.8)' corBotao='rgba(29, 185, 84, 0.8)' height={50} width={'100%'} url='Fila' isExterno={false} />
                 </View>
             </View>
 

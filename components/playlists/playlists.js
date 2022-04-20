@@ -20,7 +20,7 @@ export default function Playlists({ playlist, navigation }) {
                     <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.descricaoPlaylist}>{playlist.sobre}</Text>
                 </View>
             </View>
-
+ 
             <View style={Styles.margemDireita}></View>
         </Fragment>
     );

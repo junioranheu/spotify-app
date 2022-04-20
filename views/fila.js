@@ -6,7 +6,7 @@ export default function Fila({ navigation }) {
     return (
         <View style={Styles.container}>
             <Text style={Styles.titulo} onPress={() => navigation.navigate('Index')}>Fila</Text>
-        </View>
+        </View> 
     );
 }
 

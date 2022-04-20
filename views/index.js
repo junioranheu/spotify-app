@@ -7,6 +7,7 @@ import Playlists from '../components/playlists/playlists';
 import Engrenagem from '../components/svg/engrenagem';
 import Historico from '../components/svg/historico';
 import Notificacao from '../components/svg/notificacao';
+import StylesGlobal from '../css/global';
 import Styles from '../css/index';
 import StylesPlaylist from '../css/playlists';
 import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/listaMusicasContext';
@@ -61,7 +62,7 @@ export default function Index({ navigation }) {
     }
 
     return (
-        <ScrollView style={Styles.container}>
+        <ScrollView style={StylesGlobal.containerPrincipal}>
             {/* Olá + Ícones */}
             <View style={Styles.divOla}>
                 <Text style={Styles.titulo}>{gerarOla()}</Text>

@@ -5,6 +5,14 @@ export default StyleSheet.create({
         backgroundColor: '#121212'
     },
 
+    containerPrincipal: {
+        // backgroundColor: 'pink',
+        backgroundColor: '#121212',
+        height: '100%',
+        width: '100%',
+        padding: 15
+    },
+
     margemBotFooter: {
         marginBottom: 50
     },

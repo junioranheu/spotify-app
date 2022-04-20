@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, View } from 'react-native';
 import Styles from '../../css/player';
@@ -63,29 +64,31 @@ export default function Player() {
     return (
         musicaContext?.musicaId > 0 ? (
             <View style={Styles.container}>
-                <View style={Styles.player}>
-                    <View style={Styles.esquerda}>
-                        {
-                            imagemBanda ? (
-                                <Image source={{ uri: imagemBanda }} style={Styles.imageBackground}></Image>
-                            ) : (
-                                <Image source={ImgCinza} style={Styles.imageBackground}></Image>
-                            )
-                        }
+                <LinearGradient colors={['#287a45', '#23944b', '#1db954', '#18d65b']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ borderRadius: 5 }}>
+                    <View style={Styles.player}>
+                        <View style={Styles.esquerda}>
+                            {
+                                imagemBanda ? (
+                                    <Image source={{ uri: imagemBanda }} style={Styles.imageBackground}></Image>
+                                ) : (
+                                    <Image source={ImgCinza} style={Styles.imageBackground}></Image>
+                                )
+                            }
 
-                        <View style={Styles.divInfoMusica}>
-                            <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.tituloMusica}>{musicaContext.nome}</Text>
-                            <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.banda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
+                            <View style={Styles.divInfoMusica}>
+                                <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.tituloMusica}>{musicaContext.nome}</Text>
+                                <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.banda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
+                            </View>
+                        </View>
+
+                        <View style={Styles.direita}>
+                            <Dispositivo height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
+                            <View style={Styles.margemDireita}></View>
+                            <BotaoPlay height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
+                            <View style={Styles.margemDireita}></View>
                         </View>
                     </View>
-
-                    <View style={Styles.direita}>
-                        <Dispositivo height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
-                        <View style={Styles.margemDireita}></View>
-                        <BotaoPlay height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
-                        <View style={Styles.margemDireita}></View>
-                    </View>
-                </View>
+                </LinearGradient>
             </View>
         ) : (
             <View>

@@ -11,7 +11,7 @@ export default StyleSheet.create({
     },
 
     player: {
-        backgroundColor: 'rgba(29, 185, 84, 0.8)',
+        // backgroundColor: 'rgba(29, 185, 84, 0.8)',
         height: '100%',
         borderRadius: 5,
         width: '95%',

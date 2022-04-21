@@ -31,7 +31,7 @@ export default function Botao({ texto, corTexto, corBotao, corBotaoOnPress, heig
             activeOpacity={0.6} underlayColor={corBotaoOnPress}
             style={{ height: height, width: width, borderRadius: 50, backgroundColor: corBotao, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         >
-            <Text style={{ color: corTexto, }}>
+            <Text style={{ color: corTexto, fontWeight: '700' }}>
                 {texto}
             </Text>
         </TouchableHighlight>

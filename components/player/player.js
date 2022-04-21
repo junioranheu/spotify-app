@@ -1,7 +1,8 @@
+import { useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av'; // https://docs.expo.dev/versions/latest/sdk/audio/
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
 import Styles from '../../css/player';
 import ImgCinza from '../../static/image/outros/cinza.webp';
@@ -12,6 +13,7 @@ import BotaoPlay from '../svg/botaoPlay';
 import Dispositivo from '../svg/dispositivo';
 
 export default function Player() {
+    const navigation = useNavigation();
     const [musicaContext] = useContext(MusicaContext); // Context da música;
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [widthContainerPlayer, setWidthContainerPlayer] = useState();
@@ -106,20 +108,21 @@ export default function Player() {
                             console.log(width);
                             setWidthContainerPlayer(width);
                         }}>
-                        <View style={Styles.esquerda}>
-                            {
-                                imagemBanda ? (
-                                    <Image source={{ uri: imagemBanda }} style={Styles.imageBackground}></Image>
-                                ) : (
-                                    <Image source={ImgCinza} style={Styles.imageBackground}></Image>
-                                )
-                            }
 
-                            <View style={Styles.divInfoMusica}>
-                                <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.tituloMusica}>{musicaContext.nome}</Text>
-                                <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.banda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
-                            </View>
-                        </View>
+                        <TouchableOpacity style={Styles.esquerda} onPress={() => navigation.navigate('PlayerFullScreen')}>   
+                                {
+                                    imagemBanda ? (
+                                        <Image source={{ uri: imagemBanda }} style={Styles.imageBackground}></Image>
+                                    ) : (
+                                        <Image source={ImgCinza} style={Styles.imageBackground}></Image>
+                                    )
+                                }
+
+                                <View style={Styles.divInfoMusica}>
+                                    <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.tituloMusica}>{musicaContext.nome}</Text>
+                                    <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.banda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
+                                </View>             
+                        </TouchableOpacity>
 
                         <View style={Styles.direita}>
                             <Dispositivo height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />

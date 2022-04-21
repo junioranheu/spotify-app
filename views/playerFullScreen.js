@@ -14,7 +14,7 @@ export default function PlayerFullScreen({ navigation }) {
 
     // https://stackoverflow.com/questions/55942600/how-to-get-previous-route-name-from-react-navigation;
     const routes = navigation.getState()?.routes;
-    const ultimaPaginaAberta = routes[routes.length - 2]; // -2 because -1 is the current route
+    const ultimaPaginaAberta = routes[routes.length - 2]; 
 
     // Imagem da banda
     const [imagemBanda, setImagemBanda] = useState(null);
@@ -30,7 +30,7 @@ export default function PlayerFullScreen({ navigation }) {
     return (
         <View style={StylesGlobal.containerPrincipal}>
             <View style={Styles.mesmaLinha}>
-                <TouchableOpacity onPress={() => navigation.navigate((ultimaPaginaAberta ?? 'Index'))}>
+                <TouchableOpacity onPress={() => navigation.navigate((ultimaPaginaAberta.name ?? 'Index'))}>
                     <SetinhaBaixo2 height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
                 </TouchableOpacity>
 

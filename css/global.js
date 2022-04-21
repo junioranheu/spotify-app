@@ -17,6 +17,10 @@ export default StyleSheet.create({
         marginBottom: 40
     },
 
+    esconder: {
+        display: 'none'
+    },
+
     svg16px: {
         minWidth: 16,
         minHeight: 16,

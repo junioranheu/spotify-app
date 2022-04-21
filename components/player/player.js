@@ -105,7 +105,7 @@ export default function Player() {
                     <View style={Styles.player}
                         onLayout={(event) => {
                             var { x, y, width, height } = event.nativeEvent.layout;
-                            console.log(width);
+                            // console.log(width);
                             setWidthContainerPlayer(width);
                         }}>
 

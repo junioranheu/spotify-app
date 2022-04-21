@@ -1,11 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native'; // https://reactnavigation.org/docs/getting-started/ + https://www.youtube.com/watch?v=FWwKjxSgLl8&ab_channel=PradipDebnath
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { Fragment, useRef, useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { SafeAreaView, View } from 'react-native';
 import Footer from '../components/outros/footer';
 import Navbar from '../components/outros/navbar';
 import Player from '../components/player/player';
-import Styles from '../css/global';
+import StylesGlobal from '../css/global';
 import { ListaMusicasProvider } from '../utils/context/listaMusicasContext';
 import { MusicaProvider } from '../utils/context/musicaContext';
 import Fila from './fila';
@@ -28,24 +28,23 @@ export default function App() {
                         setRotaAtual(currentRouteName);
                     }}
                 >
-                    <SafeAreaView style={Styles.safeAreaView}>
+                    {/* Navbar */}
+                    <SafeAreaView style={StylesGlobal.safeAreaView}>
                         <Navbar />
                     </SafeAreaView>
 
+                    {/* Telas */}
                     <Stack.Navigator initialRouteName='Index'>
                         <Stack.Screen component={Index} name='Index' options={{ headerShown: false }} />
                         <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
                         <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false }} />
                     </Stack.Navigator>
 
-                    {
-                        rotaAtual !== 'PlayerFullScreen' && (
-                            <Fragment>
-                                <Player />
-                                <Footer rotaAtual={rotaAtual} />
-                            </Fragment>
-                        )
-                    }
+                    {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}
+                    <View style={rotaAtual === 'PlayerFullScreen' ? StylesGlobal.esconder : null}>
+                        <Player />
+                        <Footer rotaAtual={rotaAtual} />
+                    </View>
                 </NavigationContainer>
             </MusicaProvider>
         </ListaMusicasProvider>

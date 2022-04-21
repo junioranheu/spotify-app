@@ -29,8 +29,9 @@ export default StyleSheet.create({
     // =-=-=-=-=-=-=-=-=-=-=-=-=-= Esquerda =-=-=-=-=-=-=-=-=-=-=-=-=-=
     esquerda: {
         // backgroundColor: 'pink',
+        width: '70%',
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         flexDirection: 'row',
         marginRight: 'auto',

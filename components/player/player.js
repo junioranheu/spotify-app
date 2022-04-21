@@ -3,7 +3,6 @@ import { Audio } from 'expo-av'; // https://docs.expo.dev/versions/latest/sdk/au
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import ImageColors from 'react-native-image-colors'; // https://github.com/osamaqarem/react-native-image-colors
 import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
 import Styles from '../../css/player';
 import ImgCinza from '../../static/image/outros/cinza.webp';
@@ -70,17 +69,6 @@ export default function Player() {
             if (musicaContext?.musicasBandas[0]?.bandas.foto) {
                 const urlImg = `${CONSTANTS_UPLOAD.API_URL_GET_CAPA}/${musicaContext?.musicasBandas[0]?.bandas.foto}`;
                 setImagemBanda(urlImg);
-
-                // Setar cor padrão;
-                setCoresDominantes('#23944b');
-
-                // Pegar a cor dominante da imagem que está em urlImg;
-                const resultadoCoresDominantes = await ImageColors.getColors(urlImg, {
-                    fallback: '#23944b'
-                });
-
-                console.log(resultadoCoresDominantes);
-                setCoresDominantes(resultadoCoresDominantes);
             }
         }
 
@@ -133,7 +121,7 @@ export default function Player() {
         musicaContext?.musicaId > 0 ? (
             <View style={Styles.container}>
                 <LinearGradient
-                    colors={coresDominantes ? [coresDominantes.dominant, coresDominantes.vibrant] : ['#287a45', '#23944b', '#1db954', '#18d65b']}
+                    colors={['#287a45', '#23944b', '#1db954', '#18d65b']}
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                     style={{ borderRadius: 5 }}
                 >

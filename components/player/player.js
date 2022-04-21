@@ -109,19 +109,19 @@ export default function Player() {
                             setWidthContainerPlayer(width);
                         }}>
 
-                        <TouchableOpacity style={Styles.esquerda} onPress={() => navigation.navigate('PlayerFullScreen')}>   
-                                {
-                                    imagemBanda ? (
-                                        <Image source={{ uri: imagemBanda }} style={Styles.imageBackground}></Image>
-                                    ) : (
-                                        <Image source={ImgCinza} style={Styles.imageBackground}></Image>
-                                    )
-                                }
+                        <TouchableOpacity style={Styles.esquerda} onPress={() => navigation.navigate('PlayerFullScreen')}>
+                            {
+                                imagemBanda ? (
+                                    <Image source={{ uri: imagemBanda }} style={Styles.imageBackground}></Image>
+                                ) : (
+                                    <Image source={ImgCinza} style={Styles.imageBackground}></Image>
+                                )
+                            }
 
-                                <View style={Styles.divInfoMusica}>
-                                    <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.tituloMusica}>{musicaContext.nome}</Text>
-                                    <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.banda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
-                                </View>             
+                            <View style={Styles.divInfoMusica}>
+                                <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.tituloMusica}>{musicaContext.nome}</Text>
+                                <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.banda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
+                            </View>
                         </TouchableOpacity>
 
                         <View style={Styles.direita}>

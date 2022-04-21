@@ -9,7 +9,7 @@ export default function PlayerFullScreen({ navigation }) {
 
     return (
         <ScrollView style={StylesGlobal.containerPrincipal}>
-            <Text onPress={() => navigation.navigate('Index')}>Oi</Text>
+            <Text onPress={() => navigation.navigate('Index')} style={{color: '#fff'}}>Voltar</Text>
 
             {/* Margem do footer */}
             <MargemBotFooter />

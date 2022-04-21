@@ -12,6 +12,11 @@ import CONSTANTS_UPLOAD from '../utils/data/constUpload';
 export default function PlayerFullScreen({ navigation }) {
     const [musicaContext] = useContext(MusicaContext); // Context da música;
 
+    // https://stackoverflow.com/questions/55942600/how-to-get-previous-route-name-from-react-navigation;
+    const routes = navigation.getState()?.routes;
+    const ultimaPaginaAberta = routes[routes.length - 2]; // -2 because -1 is the current route
+
+    // Imagem da banda
     const [imagemBanda, setImagemBanda] = useState(null);
     useEffect(() => {
         // Import dinâmico: capa da música reproduzindo;
@@ -25,7 +30,7 @@ export default function PlayerFullScreen({ navigation }) {
     return (
         <View style={StylesGlobal.containerPrincipal}>
             <View style={Styles.mesmaLinha}>
-                <TouchableOpacity onPress={() => navigation.navigate('Index')}>
+                <TouchableOpacity onPress={() => navigation.navigate((ultimaPaginaAberta ?? 'Index'))}>
                     <SetinhaBaixo2 height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
                 </TouchableOpacity>
 

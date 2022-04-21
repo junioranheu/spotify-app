@@ -15,6 +15,7 @@ import Dispositivo from '../svg/dispositivo';
 
 export default function Player() {
     const navigation = useNavigation();
+
     const [musicaContext] = useContext(MusicaContext); // Context da música;
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [widthContainerPlayer, setWidthContainerPlayer] = useState();
@@ -62,12 +63,19 @@ export default function Player() {
             setListaMusicasContext(listaMusicasContext);
         }
 
-        // Import dinâmico: capa da música reproduzindo;
-        if (musicaContext?.musicaId > 0) {
+        function getImagemCapaMusica() {
             // Atribuir a imagem da música atual;
             if (musicaContext?.musicasBandas[0]?.bandas.foto) {
                 const img = `${CONSTANTS_UPLOAD.API_URL_GET_CAPA}/${musicaContext?.musicasBandas[0]?.bandas.foto}`;
                 setImagemBanda(img);
+            }
+        }
+
+        // Import dinâmico: capa da música reproduzindo;
+        if (musicaContext?.musicaId > 0) {
+            // Atribuir a imagem da música atual;
+            if (musicaContext?.musicasBandas[0]?.bandas.foto) {
+                getImagemCapaMusica();
             }
 
             // Importar música;

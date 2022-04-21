@@ -3,6 +3,7 @@ import { Audio } from 'expo-av'; // https://docs.expo.dev/versions/latest/sdk/au
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
+import ImageColors from 'react-native-image-colors'; // https://github.com/osamaqarem/react-native-image-colors
 import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
 import Styles from '../../css/player';
 import ImgCinza from '../../static/image/outros/cinza.webp';
@@ -63,11 +64,51 @@ export default function Player() {
             setListaMusicasContext(listaMusicasContext);
         }
 
-        function getImagemCapaMusica() {
+        async function getImagemCapaMusica() {
+            // 1
+            fetch('https://spotifyapi.azurewebsites.net/Upload/image/cinza.webp', {
+                method: 'GET'
+            })
+                .then((response) => response.blob())
+                .then((blob) => {
+                    console.log('/image');
+                    console.log(blob);
+                });
+
+            // 2
+            fetch('https://spotifyapi.azurewebsites.net/Upload/playlists/1.webp', {
+                method: 'GET',
+                mode: 'no-cors'
+            })
+                .then((response) => response.blob())
+                .then((blob) => {
+                    console.log('/playlists 1');
+                    console.log(blob);
+                });
+
+            // 3
+            fetch('https://spotifyapi.azurewebsites.net/Upload/playlists/3.webp', {
+                method: 'GET'
+            })
+                .then((response) => response.blob())
+                .then((blob) => {
+                    console.log('/playlists 3');
+                    console.log(blob);
+                });
+
+            return false;
+
             // Atribuir a imagem da música atual;
             if (musicaContext?.musicasBandas[0]?.bandas.foto) {
-                const img = `${CONSTANTS_UPLOAD.API_URL_GET_CAPA}/${musicaContext?.musicasBandas[0]?.bandas.foto}`;
-                setImagemBanda(img);
+                const urlImg = `${CONSTANTS_UPLOAD.API_URL_GET_CAPA}/${musicaContext?.musicasBandas[0]?.bandas.foto}`;
+                setImagemBanda(urlImg);
+
+                // Pegar a cor dominante da imagem que está em urlImg;
+                const result = await ImageColors.getColors('https://spotifyapi.azurewebsites.net/Upload/playlists/3.webp', {
+                    fallback: '#23944b'
+                });
+
+                console.log(result);
             }
         }
 

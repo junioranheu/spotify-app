@@ -1,2 +1,0 @@
---
-Pegar a cor da imagem para colocar de fundo em player.js

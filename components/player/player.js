@@ -25,6 +25,7 @@ export default function Player() {
     const [infosMusica, setInfosMusica] = useState();
 
     // Ao alterar a música em musicaContext importe dinamicamente;
+    const [coresDominantes, setCoresDominantes] = useState(null);
     useEffect(() => {
         // console.log(musicaContext);
 
@@ -65,50 +66,21 @@ export default function Player() {
         }
 
         async function getImagemCapaMusica() {
-            // 1
-            fetch('https://spotifyapi.azurewebsites.net/Upload/image/cinza.webp', {
-                method: 'GET'
-            })
-                .then((response) => response.blob())
-                .then((blob) => {
-                    console.log('/image');
-                    console.log(blob);
-                });
-
-            // 2
-            fetch('https://spotifyapi.azurewebsites.net/Upload/playlists/1.webp', {
-                method: 'GET',
-                mode: 'no-cors'
-            })
-                .then((response) => response.blob())
-                .then((blob) => {
-                    console.log('/playlists 1');
-                    console.log(blob);
-                });
-
-            // 3
-            fetch('https://spotifyapi.azurewebsites.net/Upload/playlists/3.webp', {
-                method: 'GET'
-            })
-                .then((response) => response.blob())
-                .then((blob) => {
-                    console.log('/playlists 3');
-                    console.log(blob);
-                });
-
-            return false;
-
             // Atribuir a imagem da música atual;
             if (musicaContext?.musicasBandas[0]?.bandas.foto) {
                 const urlImg = `${CONSTANTS_UPLOAD.API_URL_GET_CAPA}/${musicaContext?.musicasBandas[0]?.bandas.foto}`;
                 setImagemBanda(urlImg);
 
+                // Setar cor padrão;
+                setCoresDominantes('#23944b');
+
                 // Pegar a cor dominante da imagem que está em urlImg;
-                const result = await ImageColors.getColors('https://spotifyapi.azurewebsites.net/Upload/playlists/3.webp', {
+                const resultadoCoresDominantes = await ImageColors.getColors(urlImg, {
                     fallback: '#23944b'
                 });
 
-                console.log(result);
+                console.log(resultadoCoresDominantes);
+                setCoresDominantes(resultadoCoresDominantes);
             }
         }
 
@@ -160,7 +132,11 @@ export default function Player() {
     return (
         musicaContext?.musicaId > 0 ? (
             <View style={Styles.container}>
-                <LinearGradient colors={['#287a45', '#23944b', '#1db954', '#18d65b']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ borderRadius: 5 }}>
+                <LinearGradient
+                    colors={coresDominantes ? [coresDominantes.dominant, coresDominantes.vibrant] : ['#287a45', '#23944b', '#1db954', '#18d65b']}
+                    start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+                    style={{ borderRadius: 5 }}
+                >
                     <View style={Styles.player}
                         onLayout={(event) => {
                             var { x, y, width, height } = event.nativeEvent.layout;

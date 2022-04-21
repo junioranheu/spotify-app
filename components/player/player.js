@@ -10,6 +10,7 @@ import { ListaMusicasContext, ListaMusicasStorage } from '../../utils/context/li
 import { MusicaContext } from '../../utils/context/musicaContext';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
 import BotaoPlay from '../svg/botaoPlay';
+import BotaoStop from '../svg/botaoStop';
 import Dispositivo from '../svg/dispositivo';
 
 export default function Player() {
@@ -21,7 +22,7 @@ export default function Player() {
     const [musica, setMusica] = useState();
     const [infosMusica, setInfosMusica] = useState();
 
-    // Ao alterar a música em musicaContext;
+    // Ao alterar a música em musicaContext importe dinamicamente;
     useEffect(() => {
         // console.log(musicaContext);
 
@@ -77,7 +78,7 @@ export default function Player() {
     // Infos da música em questão (atualiza a cada 100ms);
     const [porcetagemMusicaOuvida, setPorcetagemMusicaOuvida] = useState(0);
     useEffect(() => {
-        // console.log(infosMusica?); // Todos os status;
+        // console.log(infosMusica); // Todos os status;
         // console.log(infosMusica?.durationMillis); // Total ms;
         // console.log(infosMusica?.positionMillis); // Atual ms;
 
@@ -97,6 +98,15 @@ export default function Player() {
             }
             : undefined;
     }, [musica]);
+
+    // Play/pausar música ao clicar no ícone;
+    async function handleIsPlaying() {
+        if (infosMusica?.isPlaying) {
+            await musica.pauseAsync();
+        } else {
+            await musica.playAsync();
+        }
+    }
 
     return (
         musicaContext?.musicaId > 0 ? (
@@ -127,7 +137,20 @@ export default function Player() {
                         <View style={Styles.direita}>
                             <Dispositivo height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
                             <View style={Styles.margemDireita}></View>
-                            <BotaoPlay height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
+
+                            {/* Botão play/stop */}
+                            {
+                                infosMusica?.isPlaying ? (
+                                    <TouchableOpacity onPress={() => handleIsPlaying()}>
+                                        <BotaoStop height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
+                                    </TouchableOpacity>
+                                ) : (
+                                    <TouchableOpacity onPress={() => handleIsPlaying()}>
+                                        <BotaoPlay height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
+                                    </TouchableOpacity>
+                                )
+                            }
+
                             <View style={Styles.margemDireita}></View>
                         </View>
                     </View>

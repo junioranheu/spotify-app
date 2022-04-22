@@ -2,12 +2,12 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     safeAreaView: {
-        backgroundColor: '#121212'
+        backgroundColor: '#121212' // Cor principal;
     },
 
     containerPrincipal: {
         // backgroundColor: 'pink',
-        backgroundColor: '#121212',
+        backgroundColor: '#121212', // Cor principal;
         height: '100%',
         width: '100%',
         padding: 15

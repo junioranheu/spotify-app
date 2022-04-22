@@ -1,6 +1,6 @@
-import { NavigationContainer } from '@react-navigation/native'; // https://reactnavigation.org/docs/getting-started/ + https://www.youtube.com/watch?v=FWwKjxSgLl8&ab_channel=PradipDebnath
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useRef, useState } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import Footer from '../components/outros/footer';
 import Navbar from '../components/outros/navbar';
@@ -18,36 +18,42 @@ export default function App() {
     const [rotaAtual, setRotaAtual] = useState('Index');
 
     return (
-        <ListaMusicasProvider>
-            <MusicaProvider>
-                <NavigationContainer
-                    ref={refNavigation}
-                    onStateChange={() => {
-                        const currentRouteName = refNavigation.current.getCurrentRoute().name;
-                        // console.log(currentRouteName);
-                        setRotaAtual(currentRouteName);
-                    }}
-                >
-                    {/* Navbar */}
-                    <SafeAreaView style={StylesGlobal.safeAreaView}>
-                        <Navbar />
-                    </SafeAreaView>
+        <View style={{ backgroundColor: '#121212', flex: 1 }}>
+            <ListaMusicasProvider>
+                <MusicaProvider>
+                    <NavigationContainer
+                        ref={refNavigation}
+                        onStateChange={() => {
+                            const currentRouteName = refNavigation.current.getCurrentRoute().name;
+                            // console.log(currentRouteName);
+                            setRotaAtual(currentRouteName);
+                        }}
+                    >
+                        {/* Navbar */}
+                        <SafeAreaView style={StylesGlobal.safeAreaView}>
+                            <Navbar />
+                        </SafeAreaView>
 
-                    {/* Telas */}
-                    <Stack.Navigator initialRouteName='Index'>
-                        <Stack.Screen component={Index} name='Index' options={{ headerShown: false }} />
-                        <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
-                        <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false }} />
-                    </Stack.Navigator>
+                        {/* Telas */}
+                        <Stack.Navigator initialRouteName='Index'>
+                            <Stack.Screen component={Index} name='Index' options={{ headerShown: false }} />
+                            <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
+                            <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false }} />
+                        </Stack.Navigator>
 
-                    {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}
-                    <View style={rotaAtual === 'PlayerFullScreen' ? StylesGlobal.esconder : null}>
-                        <Player />
-                        <Footer rotaAtual={rotaAtual} />
-                    </View>
-                </NavigationContainer>
-            </MusicaProvider>
-        </ListaMusicasProvider>
+                        {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}
+                        {
+                            rotaAtual !== 'PlayerFullScreen' && (
+                                <Fragment>
+                                    <Player />
+                                    <Footer rotaAtual={rotaAtual} />
+                                </Fragment>
+                            )
+                        }
+                    </NavigationContainer>
+                </MusicaProvider>
+            </ListaMusicasProvider>
+        </View>
     );
 }
 

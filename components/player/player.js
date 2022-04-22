@@ -9,7 +9,6 @@ import Styles from '../../css/player';
 import ImgCinza from '../../static/image/outros/cinza.webp';
 import { ListaMusicasContext, ListaMusicasStorage } from '../../utils/context/listaMusicasContext';
 import { MusicaContext } from '../../utils/context/musicaContext';
-import CONSTANTS_IMAGENS from '../../utils/data/constImagens';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
 import BotaoPlay from '../svg/botaoPlay';
 import BotaoStop from '../svg/botaoStop';
@@ -72,22 +71,42 @@ export default function Player() {
                 const urlImg = `${CONSTANTS_UPLOAD.API_URL_GET_CAPA}/${musicaContext?.musicasBandas[0]?.bandas.foto}`;
                 setImagemBanda(urlImg);
 
-                // Pegar a cor predominante da imagem;
-                const urlImagemBase64 = `${CONSTANTS_IMAGENS.API_URL_GET_POR_CAMINHO_ID}?caminho=capas/${musicaContext?.musicasBandas[0]?.bandas.bandaId}.webp`;
-                console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx: ' + urlImagemBase64);
-                const res = await fetch(urlImagemBase64)
-                const imgBase64 = await res.json();
-
-                const fac = new FastAverageColor();
-                fac.getColorAsync(imgBase64)
-                    .then(color => {
-                        console.log(color.rgba);
-                        // container.style.backgroundColor = color.rgba;
-                        // container.style.color = color.isDark ? '#fff' : '#000';
+                try {
+                    const fac = new FastAverageColor();
+                    fac.getColorAsync(`https://spotifyapi.azurewebsites.net/Upload/capas/${musicaContext?.musicasBandas[0]?.bandas.bandaId}.webp`, {
+                        algorithm: 'dominant',
+                        ignoredColor: [
+                            [255, 255, 255, 255], // Branco;
+                            [146, 147, 157, 255], // Cinza feio;
+                            [237, 212, 187, 255], // Ocre feio;
+                            [249, 248, 248, 255], // Cinza feio 2;
+                            [249, 248, 248, 255], // Cinza feio 3;
+                            [250, 250, 250, 255], // Cinza feio 4;
+                        ]
                     })
-                    .catch(e => {
-                        console.log(e);
-                    });
+                        .then(color => {
+                            console.log(color);
+                            // console.log(color.rgba);
+
+                            if (color) {
+                                const cor = color.rgba;
+
+                                var tudoAntesUltimaVirgula = cor.substr(0, cor.lastIndexOf(','));
+                                const corMedia = `${tudoAntesUltimaVirgula},0.7)`;
+                                const corClara = `${tudoAntesUltimaVirgula},0.3)`;
+
+                                // console.log(cor);
+                                // console.log(corMedia);
+                                // console.log(corClara);
+                                setCoresDominantes({ cor, corMedia, corClara });
+                            }
+                        })
+                        .catch(e => {
+                            console.log(`Houve um erro ao descobrir a cor principal da imagem (1): ${e}`);
+                        });
+                } catch (error) {
+                    console.log(`Houve um erro ao descobrir a cor principal da imagem (2): ${error}`);
+                }
             }
         }
 
@@ -140,7 +159,7 @@ export default function Player() {
         musicaContext?.musicaId > 0 ? (
             <View style={Styles.container}>
                 <LinearGradient
-                    colors={['#287a45', '#23944b', '#1db954', '#18d65b']}
+                    colors={(coresDominantes ? [coresDominantes.cor, coresDominantes.corMedia, coresDominantes.corClara, '#1db954', '#23944b'] : ['#287a45', '#23944b', '#1db954', '#18d65b'])}
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                     style={{ borderRadius: 5 }}
                 >

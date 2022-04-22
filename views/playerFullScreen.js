@@ -28,6 +28,14 @@ export default function PlayerFullScreen({ navigation }) {
         }
     }, [musicaContext]);
 
+    // Esperar x segundos para exibir conteúdo de baixo;
+    const [isMostrarConteudo, setsMostrarConteudo] = useState(false);
+    useEffect(() => {
+        setTimeout(function () {
+            setsMostrarConteudo(true);
+        }, 1000);
+    }, []);
+
     // Detectar gesto (swipe);
     function handleGesture(e) {
         const { nativeEvent } = e;
@@ -50,7 +58,7 @@ export default function PlayerFullScreen({ navigation }) {
                     </TouchableOpacity>
 
                     <TouchableOpacity>
-                        <Text style={Styles.texto}>Nome do album aqui</Text>
+                        <Text style={Styles.textoMuitoPequeno}>Nome do album aqui</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity>
@@ -68,27 +76,31 @@ export default function PlayerFullScreen({ navigation }) {
                     }
                 </View>
 
-                <View style={Styles.fixarBot}>
-                    <View>
-                        <Text style={Styles.texto}>{musicaContext?.nome}</Text>
-                        <Text style={Styles.texto}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
-                    </View>
+                {
+                    isMostrarConteudo && (
+                        <View style={Styles.fixarBot}>
+                            <View>
+                                <Text style={Styles.texto}>{musicaContext?.nome}</Text>
+                                <Text style={Styles.texto}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
+                            </View>
 
-                    <View>
-                        <Text style={Styles.texto}>Progressbar</Text>
-                    </View>
+                            <View>
+                                <Text style={Styles.texto}>Progressbar</Text>
+                            </View>
 
-                    <View>
-                        <Text style={Styles.texto}>Botoes grandes</Text>
-                    </View>
+                            <View>
+                                <Text style={Styles.texto}>Botoes grandes</Text>
+                            </View>
 
-                    <View>
-                        <Text style={Styles.texto}>Botoes pequenos</Text>
-                    </View>
+                            <View>
+                                <Text style={Styles.texto}>Botoes pequenos</Text>
+                            </View>
 
-                    {/* Margem do footer */}
-                    <MargemBotFooter />
-                </View>
+                            {/* Margem do footer */}
+                            <MargemBotFooter />
+                        </View>
+                    )
+                }
             </View>
         </PanGestureHandler>
     );

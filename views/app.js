@@ -1,6 +1,6 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native'; // https://reactnavigation.org/docs/getting-started/ + https://www.youtube.com/watch?v=FWwKjxSgLl8&ab_channel=PradipDebnath
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { Fragment, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import Footer from '../components/outros/footer';
 import Navbar from '../components/outros/navbar';
@@ -42,14 +42,11 @@ export default function App() {
                         </Stack.Navigator>
 
                         {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}
-                        {
-                            rotaAtual !== 'PlayerFullScreen' && (
-                                <Fragment>
-                                    <Player />
-                                    <Footer rotaAtual={rotaAtual} />
-                                </Fragment>
-                            )
-                        }
+                        {/* É necessário esconder com css para que a música não pare! */}
+                        <View style={rotaAtual === 'PlayerFullScreen' ? StylesGlobal.esconder : null}>
+                            <Player />
+                            <Footer rotaAtual={rotaAtual} />
+                        </View>
                     </NavigationContainer>
                 </MusicaProvider>
             </ListaMusicasProvider>

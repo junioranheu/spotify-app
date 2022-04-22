@@ -8,6 +8,12 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
 
+    textoMuitoPequeno: {
+        fontSize: 12,
+        fontWeight: '700',
+        color: '#fff',
+    },
+
     texto: {
         fontSize: 23,
         fontWeight: '700',

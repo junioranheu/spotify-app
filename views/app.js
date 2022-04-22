@@ -18,7 +18,7 @@ export default function App() {
     const [rotaAtual, setRotaAtual] = useState('Index');
 
     return (
-        <View style={{ backgroundColor: '#121212', flex: 1 }}>
+        <View style={{ backgroundColor: 'inherit', flex: 1 }}>
             <ListaMusicasProvider>
                 <MusicaProvider>
                     <NavigationContainer

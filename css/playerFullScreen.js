@@ -1,6 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+    containerPrincipal: {
+        // backgroundColor: 'pink',
+        height: '100%',
+        width: '100%'
+    },
+
     centralizar: {
         // backgroundColor: 'pink',
         display: 'flex',

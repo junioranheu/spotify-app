@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av'; // https://docs.expo.dev/versions/latest/sdk/audio/
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
-import FastAverageColor from 'fast-average-color'; // https://github.com/fast-average-color/fast-average-color
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
@@ -71,41 +70,16 @@ export default function Player() {
                 const urlImg = `${CONSTANTS_UPLOAD.API_URL_GET_CAPA}/${musicaContext?.musicasBandas[0]?.bandas.foto}`;
                 setImagemBanda(urlImg);
 
-                try {
-                    const fac = new FastAverageColor();
-                    fac.getColorAsync(`https://spotifyapi.azurewebsites.net/Upload/capas/${musicaContext?.musicasBandas[0]?.bandas.bandaId}.webp`, {
-                        algorithm: 'dominant',
-                        ignoredColor: [
-                            [255, 255, 255, 255], // Branco;
-                            [146, 147, 157, 255], // Cinza feio;
-                            [237, 212, 187, 255], // Ocre feio;
-                            [249, 248, 248, 255], // Cinza feio 2;
-                            [249, 248, 248, 255], // Cinza feio 3;
-                            [250, 250, 250, 255], // Cinza feio 4;
-                        ]
-                    })
-                        .then(color => {
-                            console.log(color);
-                            // console.log(color.rgba);
+                // Pegar a cor dominante;
+                if (musicaContext?.musicasBandas[0]?.bandas.corDominante) {
+                    const corRgba = musicaContext?.musicasBandas[0]?.bandas.corDominante;
 
-                            if (color) {
-                                const cor = color.rgba;
+                    var tudoAntesUltimaVirgula = corRgba.substr(0, corRgba.lastIndexOf(','));
+                    const corMedia = `${tudoAntesUltimaVirgula}, 0.6)`;
+                    const corClara = `${tudoAntesUltimaVirgula}, 0.3)`;
 
-                                var tudoAntesUltimaVirgula = cor.substr(0, cor.lastIndexOf(','));
-                                const corMedia = `${tudoAntesUltimaVirgula},0.7)`;
-                                const corClara = `${tudoAntesUltimaVirgula},0.3)`;
-
-                                // console.log(cor);
-                                // console.log(corMedia);
-                                // console.log(corClara);
-                                setCoresDominantes({ cor, corMedia, corClara });
-                            }
-                        })
-                        .catch(e => {
-                            console.log(`Houve um erro ao descobrir a cor principal da imagem (1): ${e}`);
-                        });
-                } catch (error) {
-                    console.log(`Houve um erro ao descobrir a cor principal da imagem (2): ${error}`);
+                    // console.log({corRgba, corMedia, corClara})
+                    setCoresDominantes({ corRgba, corMedia, corClara });
                 }
             }
         }
@@ -159,7 +133,7 @@ export default function Player() {
         musicaContext?.musicaId > 0 ? (
             <View style={Styles.container}>
                 <LinearGradient
-                    colors={(coresDominantes ? [coresDominantes.cor, coresDominantes.corMedia, coresDominantes.corClara, '#1db954', '#23944b'] : ['#287a45', '#23944b', '#1db954', '#18d65b'])}
+                    colors={(coresDominantes ? [coresDominantes.corRgba, coresDominantes.corMedia, coresDominantes.corClara] : ['#287a45', '#23944b', '#1db954', '#18d65b'])}
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                     style={{ borderRadius: 5 }}
                 >

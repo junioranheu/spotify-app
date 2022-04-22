@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import FadeInOut from 'react-native-fade-in-out'; // https://www.npmjs.com/package/react-native-fade-in-out
 import { PanGestureHandler } from 'react-native-gesture-handler'; // https://stackoverflow.com/questions/58939431/detect-swipe-direction-using-react-native-gesture-handler-and-reanimated & https://docs.swmansion.com/react-native-gesture-handler/docs/gesture-handlers/api/pan-gh/; 
+import Coracao from '../components/outros/coracao';
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import Reticencias from '../components/svg/reticencias';
 import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
@@ -69,6 +70,7 @@ export default function PlayerFullScreen({ navigation }) {
                     colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
                     style={{ flex: 1, padding: 15 }}
                 >
+                    {/* #01 - Ícones de cima */}
                     <View style={Styles.mesmaLinha}>
                         <TouchableOpacity style={Styles.flexEsquerda} onPress={() => navigation.navigate((ultimaPaginaAberta.name ?? 'Index'))}>
                             <SetinhaBaixo2 height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
@@ -83,6 +85,7 @@ export default function PlayerFullScreen({ navigation }) {
                         </TouchableOpacity>
                     </View>
 
+                    {/* #02 - Imagem */}
                     <View style={[Styles.centralizar, Styles.margemTopGrande]}>
                         {
                             imagemBanda ? (
@@ -93,11 +96,18 @@ export default function PlayerFullScreen({ navigation }) {
                         }
                     </View>
 
-                    <FadeInOut visible={isExibirConteudo} duration={1000}>
-                        <View style={Styles.fixarBot}>
-                            <View>
-                                <Text style={Styles.texto}>{musicaContext?.nome}</Text>
-                                <Text style={Styles.texto}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
+                    {/* #02 - Outros elementos */}
+                    <View style={[Styles.divOutrosElementos, Styles.margemTopGrande]}>
+                        <FadeInOut visible={isExibirConteudo} duration={1000}>
+                            <View style={Styles.mesmaLinha}>
+                                <View>
+                                    <Text style={Styles.tituloMusica}>{musicaContext?.nome}</Text>
+                                    <Text style={Styles.nomeBanda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
+                                </View>
+
+                                <View style={Styles.flexDireita}>
+                                    <Coracao />
+                                </View>
                             </View>
 
                             <View>
@@ -111,11 +121,11 @@ export default function PlayerFullScreen({ navigation }) {
                             <View>
                                 <Text style={Styles.texto}>Botoes pequenos</Text>
                             </View>
+                        </FadeInOut>
+                    </View>
 
-                            {/* Margem do footer */}
-                            <MargemBotFooter />
-                        </View>
-                    </FadeInOut>
+                    {/* Margem do footer */}
+                    <MargemBotFooter />
                 </LinearGradient>
             </View>
         </PanGestureHandler>

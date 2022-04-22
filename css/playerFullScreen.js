@@ -26,6 +26,19 @@ export default StyleSheet.create({
         color: '#fff',
     },
 
+    tituloMusica: {
+        fontSize: 23,
+        fontWeight: '700',
+        color: '#fff',
+    },
+
+    nomeBanda: {
+        fontSize: 17,
+        fontWeight: '600',
+        color: '#fff',
+        opacity: 0.8
+    },
+
     imageBackground: {
         width: 350,
         height: 350,
@@ -43,12 +56,6 @@ export default StyleSheet.create({
         marginTop: 50
     },
 
-    fixarBot: {
-        // backgroundColor: 'pink',
-        display: 'flex',
-        marginTop: 'auto'
-    },
-
     flexEsquerda: {
         // backgroundColor: 'pink',
         marginRight: 'auto'
@@ -62,5 +69,11 @@ export default StyleSheet.create({
     flexDireita: {
         // backgroundColor: 'pink',
         marginLeft: 'auto'
-    }
+    },
+
+    divOutrosElementos: {
+        backgroundColor: 'pink',
+        paddingLeft: 15,
+        paddingRight: 15
+    },
 });

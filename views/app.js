@@ -19,7 +19,7 @@ export default function App() {
     StatusBar.setBarStyle('light-content', true); // Alterar a cor do StatusBar: https://stackoverflow.com/questions/39297291/how-to-set-ios-status-bar-background-color-in-react-native;
 
     return (
-        <View style={{ backgroundColor: 'inherit', flex: 1 }}>
+        <View style={{ backgroundColor: '#121212', flex: 1 }}>
             <ListaMusicasProvider>
                 <MusicaProvider>
                     <NavigationContainer

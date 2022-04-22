@@ -66,8 +66,7 @@ export default function PlayerFullScreen({ navigation }) {
         <PanGestureHandler onGestureEvent={handleGesture}>
             <View style={Styles.containerPrincipal}>
                 <LinearGradient
-                    colors={(coresDominantes ? [coresDominantes.corRgba, coresDominantes.corMedia, coresDominantes.corClara] : ['#121212', '#121212'])}
-                    start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+                    colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
                     style={{ flex: 1, padding: 15 }}
                 >
                     <View style={Styles.mesmaLinha}>

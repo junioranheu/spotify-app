@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'; // https://reactnavigation.org/docs/getting-started/ + https://www.youtube.com/watch?v=FWwKjxSgLl8&ab_channel=PradipDebnath
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useRef, useState } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, StatusBar, View } from 'react-native';
 import Footer from '../components/outros/footer';
 import Navbar from '../components/outros/navbar';
 import Player from '../components/player/player';
@@ -16,6 +16,7 @@ export default function App() {
     const Stack = createNativeStackNavigator();
     const refNavigation = useRef();
     const [rotaAtual, setRotaAtual] = useState('Index');
+    StatusBar.setBarStyle('light-content', true); // Alterar a cor do StatusBar: https://stackoverflow.com/questions/39297291/how-to-set-ios-status-bar-background-color-in-react-native;
 
     return (
         <View style={{ backgroundColor: 'inherit', flex: 1 }}>

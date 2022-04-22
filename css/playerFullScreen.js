@@ -29,7 +29,7 @@ export default StyleSheet.create({
     mesmaLinha: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        // justifyContent: 'space-around',
         alignItems: 'center'
     },
 
@@ -41,5 +41,20 @@ export default StyleSheet.create({
         // backgroundColor: 'pink',
         display: 'flex',
         marginTop: 'auto'
+    },
+
+    flexEsquerda: {
+        // backgroundColor: 'pink',
+        marginRight: 'auto'
+    },
+
+    flexCentro: {
+        // backgroundColor: 'pink',
+        margin: 'auto'
+    },
+
+    flexDireita: {
+        // backgroundColor: 'pink',
+        marginLeft: 'auto'
     }
 });

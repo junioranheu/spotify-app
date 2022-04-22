@@ -14,7 +14,7 @@ export default StyleSheet.create({
         // backgroundColor: 'rgba(29, 185, 84, 0.8)',
         height: '100%',
         borderRadius: 5,
-        width: (Platform.OS === 'web' ? '80vw' : '95%'),
+        width: (Platform.OS === 'web' ? '95vw' : '95%'),
 
         display: 'flex',
         justifyContent: 'center',

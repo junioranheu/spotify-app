@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
+import FadeInOut from 'react-native-fade-in-out'; // https://www.npmjs.com/package/react-native-fade-in-out
 import { PanGestureHandler } from 'react-native-gesture-handler'; // https://stackoverflow.com/questions/58939431/detect-swipe-direction-using-react-native-gesture-handler-and-reanimated & https://docs.swmansion.com/react-native-gesture-handler/docs/gesture-handlers/api/pan-gh/; 
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import Reticencias from '../components/svg/reticencias';
@@ -28,14 +29,6 @@ export default function PlayerFullScreen({ navigation }) {
         }
     }, [musicaContext]);
 
-    // Esperar x segundos para exibir conteúdo de baixo;
-    const [isMostrarConteudo, setsMostrarConteudo] = useState(false);
-    useEffect(() => {
-        setTimeout(function () {
-            setsMostrarConteudo(true);
-        }, 1000);
-    }, []);
-
     // Detectar gesto (swipe);
     function handleGesture(e) {
         const { nativeEvent } = e;
@@ -49,19 +42,26 @@ export default function PlayerFullScreen({ navigation }) {
         }
     };
 
+    const [isExibirConteudo, setIsExibirConteudo] = useState(false);
+    useEffect(() => {
+        setTimeout(function () {
+            setIsExibirConteudo(true);
+        }), 500;
+    }, []);
+
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
             <View style={StylesGlobal.containerPrincipal}>
                 <View style={Styles.mesmaLinha}>
-                    <TouchableOpacity onPress={() => navigation.navigate((ultimaPaginaAberta.name ?? 'Index'))}>
+                    <TouchableOpacity style={Styles.flexEsquerda} onPress={() => navigation.navigate((ultimaPaginaAberta.name ?? 'Index'))}>
                         <SetinhaBaixo2 height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity style={Styles.flexCentro}>
                         <Text style={Styles.textoMuitoPequeno}>Nome do album aqui</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity style={Styles.flexDireita}>
                         <Reticencias height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
                     </TouchableOpacity>
                 </View>
@@ -76,31 +76,29 @@ export default function PlayerFullScreen({ navigation }) {
                     }
                 </View>
 
-                {
-                    isMostrarConteudo && (
-                        <View style={Styles.fixarBot}>
-                            <View>
-                                <Text style={Styles.texto}>{musicaContext?.nome}</Text>
-                                <Text style={Styles.texto}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
-                            </View>
-
-                            <View>
-                                <Text style={Styles.texto}>Progressbar</Text>
-                            </View>
-
-                            <View>
-                                <Text style={Styles.texto}>Botoes grandes</Text>
-                            </View>
-
-                            <View>
-                                <Text style={Styles.texto}>Botoes pequenos</Text>
-                            </View>
-
-                            {/* Margem do footer */}
-                            <MargemBotFooter />
+                <FadeInOut visible={isExibirConteudo} duration={3000}>
+                    <View style={Styles.fixarBot}>
+                        <View>
+                            <Text style={Styles.texto}>{musicaContext?.nome}</Text>
+                            <Text style={Styles.texto}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
                         </View>
-                    )
-                }
+
+                        <View>
+                            <Text style={Styles.texto}>Progressbar</Text>
+                        </View>
+
+                        <View>
+                            <Text style={Styles.texto}>Botoes grandes</Text>
+                        </View>
+
+                        <View>
+                            <Text style={Styles.texto}>Botoes pequenos</Text>
+                        </View>
+
+                        {/* Margem do footer */}
+                        <MargemBotFooter />
+                    </View>
+                </FadeInOut>
             </View>
         </PanGestureHandler>
     );

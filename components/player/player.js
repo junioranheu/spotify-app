@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av'; // https://docs.expo.dev/versions/latest/sdk/audio/
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
+import FastAverageColor from 'fast-average-color'; // https://github.com/fast-average-color/fast-average-color
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
@@ -8,6 +9,7 @@ import Styles from '../../css/player';
 import ImgCinza from '../../static/image/outros/cinza.webp';
 import { ListaMusicasContext, ListaMusicasStorage } from '../../utils/context/listaMusicasContext';
 import { MusicaContext } from '../../utils/context/musicaContext';
+import CONSTANTS_IMAGENS from '../../utils/data/constImagens';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
 import BotaoPlay from '../svg/botaoPlay';
 import BotaoStop from '../svg/botaoStop';
@@ -69,6 +71,23 @@ export default function Player() {
             if (musicaContext?.musicasBandas[0]?.bandas.foto) {
                 const urlImg = `${CONSTANTS_UPLOAD.API_URL_GET_CAPA}/${musicaContext?.musicasBandas[0]?.bandas.foto}`;
                 setImagemBanda(urlImg);
+
+                // Pegar a cor predominante da imagem;
+                const urlImagemBase64 = `${CONSTANTS_IMAGENS.API_URL_GET_POR_CAMINHO_ID}?caminho=capas/${musicaContext?.musicasBandas[0]?.bandas.bandaId}.webp`;
+                console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx: ' + urlImagemBase64);
+                const res = await fetch(urlImagemBase64)
+                const imgBase64 = await res.json();
+
+                const fac = new FastAverageColor();
+                fac.getColorAsync(imgBase64)
+                    .then(color => {
+                        console.log(color.rgba);
+                        // container.style.backgroundColor = color.rgba;
+                        // container.style.color = color.isDark ? '#fff' : '#000';
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
             }
         }
 

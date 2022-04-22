@@ -3,8 +3,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import FadeInOut from 'react-native-fade-in-out'; // https://www.npmjs.com/package/react-native-fade-in-out
 import { PanGestureHandler } from 'react-native-gesture-handler'; // https://stackoverflow.com/questions/58939431/detect-swipe-direction-using-react-native-gesture-handler-and-reanimated & https://docs.swmansion.com/react-native-gesture-handler/docs/gesture-handlers/api/pan-gh/; 
-import Coracao from '../components/outros/coracao';
 import MargemBotFooter from '../components/outros/margemBotFooter';
+import Coracao from '../components/svg/coracao';
 import Reticencias from '../components/svg/reticencias';
 import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
 import Styles from '../css/playerFullScreen';
@@ -106,7 +106,7 @@ export default function PlayerFullScreen({ navigation }) {
                                 </View>
 
                                 <View style={Styles.flexDireita}>
-                                    <Coracao />
+                                    <Coracao height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
                                 </View>
                             </View>
 

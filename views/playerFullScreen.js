@@ -228,6 +228,11 @@ export default function PlayerFullScreen({ navigation }) {
         setIsModoLoopContext(!isModoLoopContext);
     }
 
+    // Ao clicar no ProgressBar;
+    function handleClickProgressBar() {
+        console.log('a');
+    }
+
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
             <View style={Styles.containerPrincipal}>
@@ -292,9 +297,12 @@ export default function PlayerFullScreen({ navigation }) {
                                     setWidthContainerPlayer(width);
                                 }}>
 
-                                <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'} animated={false}
-                                    height={4} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
-                                />
+                                <TouchableOpacity onPress={() => handleClickProgressBar()}>
+                                    <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'} animated={false}
+                                        height={5} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
+                                        unfilledColor={'#404131'}
+                                    />
+                                </TouchableOpacity>
 
                                 <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
                                     <Text style={Styles.spanTempoAtualProgressBar}>{formatarMilisegundos(musicaPlayingContext?.status?.positionMillis)}</Text>

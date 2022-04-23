@@ -169,6 +169,49 @@ export default function PlayerFullScreen({ navigation }) {
         }
     }, [isPodeAvancar]);
 
+    // Função de histórico da lista + função de voltar música;
+    const [historicoListaMusicasContext, setHistoricoListaMusicasContext] = useState();
+    useEffect(() => {
+        // console.log('Histórico inicial copiado');
+        const jsonFinal = [musicaContext].concat([ ...listaMusicasContext ]);
+        setHistoricoListaMusicasContext(jsonFinal);
+    }, [listaMusicasContext]);
+
+    function handleVoltar() {
+        // console.log(historicoListaMusicasContext);
+        // console.log(musicaContext.musicaId);
+
+        if (!isPodeAvancar) {
+            console.log('Não pode voltar a música agora, aguarde um momento');
+            return false;
+        }
+
+        // Converter o objeto para array de objetos e concatenar com a música atual;
+        // const arrayHistorico = [musicaContext].concat(Object.entries(historicoListaMusicasContext).map(e => e[1]));
+        const arrayHistorico = Object.entries(historicoListaMusicasContext).map(e => e[1]);
+        // console.log(arrayHistorico);
+
+        if (arrayHistorico?.length > 0) {
+            const index = arrayHistorico?.findIndex(m => m.musicaId == musicaContext?.musicaId);
+            const proximaMusica = arrayHistorico[index - 1]; // Voltar;
+
+            // console.log(index);
+            // console.log(arrayHistorico);
+            // console.log(proximaMusica);
+
+            if (proximaMusica) {
+                // Salvar no Context e no localStorage;
+                MusicaStorage.set(proximaMusica);
+                setMusicaContext(proximaMusica);
+
+                // Não permitir voltar até que passe o x segundos;
+                setIsPodeAvancar(false);
+            } else {
+                console.log('Sem música para voltar!');
+            }
+        }
+    }
+
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
             <View style={Styles.containerPrincipal}>
@@ -244,7 +287,9 @@ export default function PlayerFullScreen({ navigation }) {
                                     <Aleatorio height={22} width={22} cor={isModoAleatorio ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
                                 </TouchableOpacity>
 
-                                <BotaoVoltar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
+                                <TouchableOpacity onPress={() => handleVoltar()}>
+                                    <BotaoVoltar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
+                                </TouchableOpacity>
 
                                 <TouchableOpacity onPress={() => handleIsPlaying()}>
                                     <View style={Styles.circuloBotaoPlay}>

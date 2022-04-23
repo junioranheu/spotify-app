@@ -33,8 +33,8 @@ export default StyleSheet.create({
     },
 
     nomeBanda: {
-        fontSize: 17,
-        fontWeight: '600',
+        fontSize: 16,
+        fontWeight: '400',
         color: '#fff',
         opacity: 0.8
     },

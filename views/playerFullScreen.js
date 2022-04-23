@@ -154,10 +154,10 @@ export default function PlayerFullScreen({ navigation }) {
 
                             {/* =-=-=-=-=-=-=-=-=-=-= Botões pequenos =-=-=-=-=-=-=-=-=-=-= */}
                             <View style={[Styles.divBotoesPequenos, Styles.margemTop]}>
-                                <Dispositivo height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
+                                <Dispositivo height={20} width={20} cor={'rgba(255, 255, 255, 0.9)'} />
 
                                 <TouchableOpacity onPress={() => navigation.navigate('Fila')}>
-                                    <Fila height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
+                                    <Fila height={20} width={20} cor={'rgba(255, 255, 255, 0.9)'} />
                                 </TouchableOpacity>
                             </View>
                         </FadeInOut>

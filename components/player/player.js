@@ -238,7 +238,7 @@ export default function Player() {
 
                 {/* Progress bar */}
                 <View style={Styles.margemTopPequena}>
-                    <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'}
+                    <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'spring'} animated={true}
                         height={2} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
                     />
                 </View>

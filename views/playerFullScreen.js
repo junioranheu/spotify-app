@@ -292,7 +292,7 @@ export default function PlayerFullScreen({ navigation }) {
                                     setWidthContainerPlayer(width);
                                 }}>
 
-                                <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'}
+                                <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'} animated={false}
                                     height={4} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
                                 />
 

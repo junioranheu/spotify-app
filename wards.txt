@@ -1,4 +1,3 @@
 --
 criar animação ao voltar do playerFullScreen
-colocar uma bolinha no progressbar 
-função de "skip" parte musica
+melhorar bug de voltar do playerFullScreen para as outras telas

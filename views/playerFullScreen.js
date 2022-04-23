@@ -268,7 +268,7 @@ export default function PlayerFullScreen({ navigation }) {
                         </TouchableOpacity>
 
                         <TouchableOpacity style={Styles.flexCentro}>
-                            <Text style={Styles.textoMuitoPequeno}>Nome do album aqui</Text>
+                            {/* <Text style={Styles.textoMuitoPequeno}>xxx</Text> */}
                         </TouchableOpacity>
 
                         <TouchableOpacity style={[Styles.flexDireita, Styles.margemDireitaPequena]}>

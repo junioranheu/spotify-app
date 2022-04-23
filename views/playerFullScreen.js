@@ -19,6 +19,7 @@ import Reticencias from '../components/svg/reticencias';
 import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
 import Styles from '../css/playerFullScreen';
 import ImgCinza from '../static/image/outros/cinza.webp';
+import { ConfigContext } from '../utils/context/configContext';
 import { ListaMusicasContext } from '../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
 import { MusicaPlayingContext } from '../utils/context/musicaPlayingContext';
@@ -28,6 +29,7 @@ import NumeroAleatorio from '../utils/outros/numeroAleatorio';
 export default function PlayerFullScreen({ navigation }) {
     const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
     const [musicaPlayingContext] = useContext(MusicaPlayingContext); // Context da música que está tocando, contendo suas informações;
+    const [isModoAleatorioContext, setIsModoAleatorioContext, isModoLoopContext, setIsModoLoopContext] = useContext(ConfigContext); // Context da música;
     const [widthContainerPlayer, setWidthContainerPlayer] = useState();
 
     // https://stackoverflow.com/questions/55942600/how-to-get-previous-route-name-from-react-navigation;
@@ -109,16 +111,24 @@ export default function PlayerFullScreen({ navigation }) {
     }
 
     // Modo aleatório;
-    const [isModoAleatorio, setIsModoAleatorio] = useState(false);
     function handleModoAleatorio() {
-        setIsModoAleatorio(!isModoAleatorio);
+        setIsModoAleatorioContext(!isModoAleatorioContext);
     }
 
     // Avançar;
     const [listaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [isPodeAvancar, setIsPodeAvancar] = useState(true);
-    function handleAvancar() {
+    async function handleAvancar() {
         // console.log(listaMusicasContext);
+
+        //// **** Quando o usuário clicar para avançar, ignore o modo loop;
+        // // Se o isModoLoopContext for true, volte para o início da mesma música;
+        // // console.log(`playerFullScreen.js: ${isModoLoopContext}`);
+        // if (isModoLoopContext) {
+        //     await musicaPlayingContext.sound.setPositionAsync(0);
+        //     await musicaPlayingContext.sound.playAsync();
+        //     return false;
+        // }
 
         if (!isPodeAvancar) {
             console.log('Não é possível avançar a música agora, aguarde um momento');
@@ -129,14 +139,14 @@ export default function PlayerFullScreen({ navigation }) {
             // console.log(musicaContext.musicaId);
             let proximaMusica;
 
-            // Caso o isModoAleatorio NÃO seja true, pegue o próximo, normalmente;
-            if (!isModoAleatorio) {
+            // Caso o isModoAleatorioContext NÃO seja true, pegue o próximo, normalmente;
+            if (!isModoAleatorioContext) {
                 const index = listaMusicasContext?.findIndex(m => m.musicaId === musicaContext?.musicaId);
                 proximaMusica = listaMusicasContext[index + 1]; // Avançar;
             }
 
-            // Caso o isModoAleatorio seja true, o Avançar não pode ser simplesmente "+1";
-            if (isModoAleatorio) {
+            // Caso o isModoAleatorioContext seja true, o Avançar não pode ser simplesmente "+1";
+            if (isModoAleatorioContext) {
                 const listaLenght = listaMusicasContext?.length;
                 const random = NumeroAleatorio(0, listaLenght - 1);
                 // console.log(random);
@@ -173,7 +183,7 @@ export default function PlayerFullScreen({ navigation }) {
     const [historicoListaMusicasContext, setHistoricoListaMusicasContext] = useState();
     useEffect(() => {
         // console.log('Histórico inicial copiado');
-        const jsonFinal = [musicaContext].concat([ ...listaMusicasContext ]);
+        const jsonFinal = [musicaContext].concat([...listaMusicasContext]);
         setHistoricoListaMusicasContext(jsonFinal);
     }, [listaMusicasContext]);
 
@@ -210,6 +220,11 @@ export default function PlayerFullScreen({ navigation }) {
                 console.log('Sem música para voltar!');
             }
         }
+    }
+
+    // Modo loop;
+    function handleModoLoop() {
+        setIsModoLoopContext(!isModoLoopContext);
     }
 
     return (
@@ -284,7 +299,7 @@ export default function PlayerFullScreen({ navigation }) {
                             {/* =-=-=-=-=-=-=-=-=-=-= Botões grandes =-=-=-=-=-=-=-=-=-=-= */}
                             <View style={[Styles.divBotoesGrandes, Styles.margemTop]}>
                                 <TouchableOpacity onPress={() => handleModoAleatorio()}>
-                                    <Aleatorio height={22} width={22} cor={isModoAleatorio ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
+                                    <Aleatorio height={22} width={22} cor={isModoAleatorioContext ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
                                 </TouchableOpacity>
 
                                 <TouchableOpacity onPress={() => handleVoltar()}>
@@ -307,7 +322,9 @@ export default function PlayerFullScreen({ navigation }) {
                                     <BotaoAvancar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
                                 </TouchableOpacity>
 
-                                <Loop height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
+                                <TouchableOpacity onPress={() => handleModoLoop()}>
+                                    <Loop height={22} width={22} cor={isModoLoopContext ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
+                                </TouchableOpacity>
                             </View>
 
                             {/* =-=-=-=-=-=-=-=-=-=-= Botões pequenos =-=-=-=-=-=-=-=-=-=-= */}

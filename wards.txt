@@ -1,2 +1,6 @@
 --
 criar animação ao voltar do playerFullScreen
+ajustar animação do progressbar quando acaba a musica ele volta devagarrr
+
+colocar o tempo agora e total da musica no playerFullScreen
+função de "skip" parte musica

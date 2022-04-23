@@ -6,6 +6,7 @@ import Footer from '../components/outros/footer';
 import Navbar from '../components/outros/navbar';
 import Player from '../components/player/player';
 import StylesGlobal from '../css/global';
+import { ConfigProvider } from '../utils/context/configContext';
 import { ListaMusicasProvider } from '../utils/context/listaMusicasContext';
 import { MusicaProvider } from '../utils/context/musicaContext';
 import { MusicaPlayingProvider } from '../utils/context/musicaPlayingContext';
@@ -24,33 +25,35 @@ export default function App() {
             <ListaMusicasProvider>
                 <MusicaProvider>
                     <MusicaPlayingProvider>
-                        <NavigationContainer
-                            ref={refNavigation}
-                            onStateChange={() => {
-                                const currentRouteName = refNavigation.current.getCurrentRoute().name;
-                                // console.log(currentRouteName);
-                                setRotaAtual(currentRouteName);
-                            }}
-                        >
-                            {/* Navbar */}
-                            <SafeAreaView style={StylesGlobal.safeAreaView}>
-                                <Navbar />
-                            </SafeAreaView>
+                        <ConfigProvider>
+                            <NavigationContainer
+                                ref={refNavigation}
+                                onStateChange={() => {
+                                    const currentRouteName = refNavigation.current.getCurrentRoute().name;
+                                    // console.log(currentRouteName);
+                                    setRotaAtual(currentRouteName);
+                                }}
+                            >
+                                {/* Navbar */}
+                                <SafeAreaView style={StylesGlobal.safeAreaView}>
+                                    <Navbar />
+                                </SafeAreaView>
 
-                            {/* Telas */}
-                            <Stack.Navigator initialRouteName='Index'>
-                                <Stack.Screen component={Index} name='Index' options={{ headerShown: false }} />
-                                <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
-                                <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false }} />
-                            </Stack.Navigator>
+                                {/* Telas */}
+                                <Stack.Navigator initialRouteName='Index'>
+                                    <Stack.Screen component={Index} name='Index' options={{ headerShown: false }} />
+                                    <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
+                                    <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false }} />
+                                </Stack.Navigator>
 
-                            {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}
-                            {/* É necessário esconder com css para que a música não pare! */}
-                            <View style={rotaAtual === 'PlayerFullScreen' ? StylesGlobal.esconder : null}>
-                                <Player />
-                                <Footer rotaAtual={rotaAtual} />
-                            </View>
-                        </NavigationContainer>
+                                {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}
+                                {/* É necessário esconder com css para que a música não pare! */}
+                                <View style={rotaAtual === 'PlayerFullScreen' ? StylesGlobal.esconder : null}>
+                                    <Player />
+                                    <Footer rotaAtual={rotaAtual} />
+                                </View>
+                            </NavigationContainer>
+                        </ConfigProvider>
                     </MusicaPlayingProvider>
                 </MusicaProvider>
             </ListaMusicasProvider>

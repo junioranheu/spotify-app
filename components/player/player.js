@@ -6,10 +6,12 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
 import Styles from '../../css/player';
 import ImgCinza from '../../static/image/outros/cinza.webp';
+import { ConfigContext } from '../../utils/context/configContext';
 import { ListaMusicasContext, ListaMusicasStorage } from '../../utils/context/listaMusicasContext';
-import { MusicaContext } from '../../utils/context/musicaContext';
+import { MusicaContext, MusicaStorage } from '../../utils/context/musicaContext';
 import { MusicaPlayingContext } from '../../utils/context/musicaPlayingContext';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
+import NumeroAleatorio from '../../utils/outros/numeroAleatorio';
 import BotaoPlay from '../svg/botaoPlay';
 import BotaoStop from '../svg/botaoStop';
 import Dispositivo from '../svg/dispositivo';
@@ -17,9 +19,10 @@ import Dispositivo from '../svg/dispositivo';
 export default function Player() {
     const navigation = useNavigation();
 
-    const [musicaContext] = useContext(MusicaContext); // Context da música;
+    const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [musicaPlayingContext, setMusicaPlayingContext] = useContext(MusicaPlayingContext); // Context da música que está tocando, contendo suas informações;
+    const [isModoAleatorioContext, setIsModoAleatorioContext, isModoLoopContext, setIsModoLoopContext] = useContext(ConfigContext); // Context da música;
 
     const [widthContainerPlayer, setWidthContainerPlayer] = useState();
     const [imagemBanda, setImagemBanda] = useState(null);
@@ -110,6 +113,50 @@ export default function Player() {
         }
     }, [musicaContext]);
 
+    // Avançar;
+    async function handleAvancar() {
+        // console.log(listaMusicasContext);
+
+        // Se o isModoLoopContext for true, volte para o início da mesma música;
+        // console.log(`player.js: ${isModoLoopContext}`);
+        if (isModoLoopContext) {
+            await musicaPlayingContext.sound.setPositionAsync(0);
+            await musicaPlayingContext.sound.playAsync();
+            return false;
+        }
+
+        if (listaMusicasContext?.length > 0) {
+            // console.log(musicaContext.musicaId);
+            let proximaMusica;
+
+            // Caso o isModoAleatorioContext NÃO seja true, pegue o próximo, normalmente;
+            if (!isModoAleatorioContext) {
+                const index = listaMusicasContext?.findIndex(m => m.musicaId === musicaContext?.musicaId);
+                proximaMusica = listaMusicasContext[index + 1]; // Avançar;
+            }
+
+            // Caso o isModoAleatorioContext seja true, o Avançar não pode ser simplesmente "+1";
+            if (isModoAleatorioContext) {
+                const listaLenght = listaMusicasContext?.length;
+                const random = NumeroAleatorio(0, listaLenght - 1);
+                // console.log(random);
+                proximaMusica = listaMusicasContext[random];
+            }
+
+            // Caso "proximaMusica" esteja vazia, pegue a primeira da lista novamente;
+            if (!proximaMusica) {
+                // console.log('Não existe index + 1... voltar para o 0');
+                proximaMusica = listaMusicasContext[0];
+            }
+
+            // console.log(proximaMusica);
+
+            // Salvar no Context e no localStorage;
+            MusicaStorage.set(proximaMusica);
+            setMusicaContext(proximaMusica);
+        }
+    }
+
     // Infos da música em questão (atualiza a cada 100ms);
     const [porcetagemMusicaOuvida, setPorcetagemMusicaOuvida] = useState(0);
     useEffect(() => {
@@ -122,6 +169,12 @@ export default function Player() {
         porcentagemMusicaOuvidaCalculo = !porcentagemMusicaOuvidaCalculo ? 0 : Number(porcentagemMusicaOuvidaCalculo.toFixed(2));
         setPorcetagemMusicaOuvida(porcentagemMusicaOuvidaCalculo);
         // console.log(porcentagemMusicaOuvidaCalculo);
+
+        // Se a música acabar, vai pra próxima;
+        // console.log(musicaPlayingContext?.status);
+        if (musicaPlayingContext?.status?.didJustFinish) {
+            handleAvancar();
+        }
     }, [musicaPlayingContext?.status]);
 
     // Play/pausar música ao clicar no ícone;

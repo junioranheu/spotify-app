@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import Styles from '../../css/playlists';
+import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
 
 export default function Playlists({ playlist, navigation }) {
     return (
@@ -10,7 +11,7 @@ export default function Playlists({ playlist, navigation }) {
                     <View style={Styles.divThumbnail}>
                         <Image
                             style={{ width: 170, height: 170 }}
-                            source={{ uri: `https://spotifyapi.azurewebsites.net/Upload/playlists/${playlist.playlistId}.webp` }}
+                            source={{ uri: `${CONSTANTS_UPLOAD.API_URL_GET_PLAYLIST}/${playlist.playlistId}.webp` }}
                         />
                     </View>
                 </TouchableOpacity>

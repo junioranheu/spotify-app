@@ -1,1 +1,2 @@
 --
+criar animação ao voltar do playerFullScreen

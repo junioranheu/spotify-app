@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     footer: {
-        backgroundColor: 'rgba(18, 18, 18, 0.97)',
+        backgroundColor: 'rgba(18, 18, 18, 1)',
         height: 90,
  
         display: 'flex',

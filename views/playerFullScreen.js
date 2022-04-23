@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import FadeInOut from 'react-native-fade-in-out'; // https://www.npmjs.com/package/react-native-fade-in-out
 import { PanGestureHandler } from 'react-native-gesture-handler'; // https://stackoverflow.com/questions/58939431/detect-swipe-direction-using-react-native-gesture-handler-and-reanimated & https://docs.swmansion.com/react-native-gesture-handler/docs/gesture-handlers/api/pan-gh/; 
+import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import Aleatorio from '../components/svg/aleatorio';
 import BotaoAvancar from '../components/svg/botaoAvancar';
@@ -22,6 +23,7 @@ import CONSTANTS_UPLOAD from '../utils/data/constUpload';
 
 export default function PlayerFullScreen({ navigation }) {
     const [musicaContext] = useContext(MusicaContext); // Context da música;
+    const [widthContainerPlayer, setWidthContainerPlayer] = useState();
 
     // https://stackoverflow.com/questions/55942600/how-to-get-previous-route-name-from-react-navigation;
     const routes = navigation.getState()?.routes;
@@ -135,8 +137,15 @@ export default function PlayerFullScreen({ navigation }) {
                             </View>
 
                             {/* =-=-=-=-=-=-=-=-=-=-= Progressbar =-=-=-=-=-=-=-=-=-=-= */}
-                            <View style={Styles.margemTop}>
-                                <Text style={Styles.texto}>Progressbar</Text>
+                            <View style={Styles.margemTop}
+                                onLayout={(event) => {
+                                    var { x, y, width, height } = event.nativeEvent.layout;
+                                    // console.log(width);
+                                    setWidthContainerPlayer(width);
+                                }}>
+                                <Progress.Bar progress={'1'} animationType={'timing'}
+                                    height={4} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
+                                />
                             </View>
 
                             {/* =-=-=-=-=-=-=-=-=-=-= Botões grandes =-=-=-=-=-=-=-=-=-=-= */}

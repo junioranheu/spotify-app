@@ -60,6 +60,14 @@ export default StyleSheet.create({
         marginTop: 30
     },
 
+    margemEsquerdaPequena: {
+        marginLeft: 10
+    },
+
+    margemDireitaPequena: {
+        marginRight: 10
+    },
+
     flexEsquerda: {
         // backgroundColor: 'pink',
         marginRight: 'auto'

@@ -19,12 +19,14 @@ import Reticencias from '../components/svg/reticencias';
 import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
 import Styles from '../css/playerFullScreen';
 import ImgCinza from '../static/image/outros/cinza.webp';
-import { MusicaContext } from '../utils/context/musicaContext';
+import { ListaMusicasContext } from '../utils/context/listaMusicasContext';
+import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
 import { MusicaPlayingContext } from '../utils/context/musicaPlayingContext';
 import CONSTANTS_UPLOAD from '../utils/data/constUpload';
+import NumeroAleatorio from '../utils/outros/numeroAleatorio';
 
 export default function PlayerFullScreen({ navigation }) {
-    const [musicaContext] = useContext(MusicaContext); // Context da música;
+    const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
     const [musicaPlayingContext] = useContext(MusicaPlayingContext); // Context da música que está tocando, contendo suas informações;
     const [widthContainerPlayer, setWidthContainerPlayer] = useState();
 
@@ -106,6 +108,67 @@ export default function PlayerFullScreen({ navigation }) {
         }
     }
 
+    // Modo aleatório;
+    const [isModoAleatorio, setIsModoAleatorio] = useState(false);
+    function handleModoAleatorio() {
+        setIsModoAleatorio(!isModoAleatorio);
+    }
+
+    // Avançar;
+    const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
+    const [isPodeAvancar, setIsPodeAvancar] = useState(true);
+    function handleAvancar() {
+        // console.log(listaMusicasContext);
+
+        if (!isPodeAvancar) {
+            console.log('Não é possível avançar a música agora, aguarde um momento');
+            return false;
+        }
+
+        if (listaMusicasContext?.length > 0) {
+            // console.log(musicaContext.musicaId);
+            let proximaMusica;
+
+            // Caso o isModoAleatorio NÃO seja true, pegue o próximo, normalmente;
+            if (!isModoAleatorio) {
+                const index = listaMusicasContext?.findIndex(m => m.musicaId === musicaContext?.musicaId);
+                proximaMusica = listaMusicasContext[index + 1]; // Avançar;
+            }
+
+            // Caso o isModoAleatorio seja true, o Avançar não pode ser simplesmente "+1";
+            if (isModoAleatorio) {
+                const listaLenght = listaMusicasContext?.length;
+                const random = NumeroAleatorio(0, listaLenght - 1);
+                // console.log(random);
+                proximaMusica = listaMusicasContext[random];
+            }
+
+            // Caso "proximaMusica" esteja vazia, pegue a primeira da lista novamente;
+            if (!proximaMusica) {
+                // console.log('Não existe index + 1... voltar para o 0');
+                proximaMusica = listaMusicasContext[0];
+            }
+
+            // console.log(proximaMusica);
+
+            // Salvar no Context e no localStorage;
+            MusicaStorage.set(proximaMusica);
+            setMusicaContext(proximaMusica);
+
+            // Não permitir avançar até que passe o x segundos;
+            setIsPodeAvancar(false);
+        }
+    }
+
+    useEffect(() => {
+        // Aguardar x segundos para poder avançar novamente, para evitar bugs;
+        if (!isPodeAvancar) {
+            setTimeout(function () {
+                setIsPodeAvancar(true);
+            }, 1000);
+        }
+    }, [isPodeAvancar]);
+
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
             <View style={Styles.containerPrincipal}>
@@ -115,7 +178,7 @@ export default function PlayerFullScreen({ navigation }) {
                 >
                     {/* #01 - Ícones de cima */}
                     <View style={Styles.mesmaLinha}>
-                        <TouchableOpacity style={Styles.flexEsquerda} onPress={() => navigation.navigate((ultimaPaginaAberta.name ?? 'Index'))}>
+                        <TouchableOpacity style={[Styles.flexEsquerda, Styles.margemEsquerdaPequena]} onPress={() => navigation.navigate((ultimaPaginaAberta.name ?? 'Index'))}>
                             <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
                         </TouchableOpacity>
 
@@ -123,7 +186,7 @@ export default function PlayerFullScreen({ navigation }) {
                             <Text style={Styles.textoMuitoPequeno}>Nome do album aqui</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={Styles.flexDireita}>
+                        <TouchableOpacity style={[Styles.flexDireita, Styles.margemDireitaPequena]}>
                             <Reticencias height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
                         </TouchableOpacity>
                     </View>
@@ -153,9 +216,9 @@ export default function PlayerFullScreen({ navigation }) {
                                     <TouchableOpacity onPress={() => handleCurtir()}>
                                         {
                                             isCurtido ? (
-                                                <CoracaoPreenchido height={24} width={24} cor={'#20D660'} />
+                                                <CoracaoPreenchido height={22} width={22} cor={'#20D660'} />
                                             ) : (
-                                                <Coracao height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
+                                                <Coracao height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
                                             )
                                         }
                                     </TouchableOpacity>
@@ -177,7 +240,10 @@ export default function PlayerFullScreen({ navigation }) {
 
                             {/* =-=-=-=-=-=-=-=-=-=-= Botões grandes =-=-=-=-=-=-=-=-=-=-= */}
                             <View style={[Styles.divBotoesGrandes, Styles.margemTop]}>
-                                <Aleatorio height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
+                                <TouchableOpacity onPress={() => handleModoAleatorio()}>
+                                    <Aleatorio height={22} width={22} cor={isModoAleatorio ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
+                                </TouchableOpacity>
+
                                 <BotaoVoltar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
 
                                 <TouchableOpacity onPress={() => handleIsPlaying()}>
@@ -192,16 +258,19 @@ export default function PlayerFullScreen({ navigation }) {
                                     </View>
                                 </TouchableOpacity>
 
-                                <BotaoAvancar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
-                                <Loop height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
+                                <TouchableOpacity onPress={() => handleAvancar()}>
+                                    <BotaoAvancar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
+                                </TouchableOpacity>
+
+                                <Loop height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
                             </View>
 
                             {/* =-=-=-=-=-=-=-=-=-=-= Botões pequenos =-=-=-=-=-=-=-=-=-=-= */}
                             <View style={[Styles.divBotoesPequenos, Styles.margemTop]}>
-                                <Dispositivo height={20} width={20} cor={'rgba(255, 255, 255, 0.9)'} />
+                                <Dispositivo height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
 
                                 <TouchableOpacity onPress={() => navigation.navigate('Fila')}>
-                                    <Fila height={20} width={20} cor={'rgba(255, 255, 255, 0.9)'} />
+                                    <Fila height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
                                 </TouchableOpacity>
                             </View>
                         </FadeInOut>

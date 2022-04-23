@@ -270,7 +270,7 @@ export default function PlayerFullScreen({ navigation }) {
                         </TouchableOpacity>
 
                         <TouchableOpacity style={Styles.flexCentro}>
-                            {/* <Text style={Styles.textoMuitoPequeno}>xxx</Text> */}
+                            {/* <Text style={Styles.textoMuitoPequeno}>{musicaContext.albunsMusicas[0]?.albuns.nome}</Text> */}
                         </TouchableOpacity>
 
                         <TouchableOpacity style={[Styles.flexDireita, Styles.margemDireitaPequena]}>

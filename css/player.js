@@ -12,9 +12,9 @@ export default StyleSheet.create({
 
     player: {
         // backgroundColor: 'rgba(29, 185, 84, 0.8)',
-        height: '100%',
-        borderRadius: 5,
+        height: (Platform.OS === 'web' ? 60 : '100%'),
         width: (Platform.OS === 'web' ? '95vw' : '95%'),
+        borderRadius: 5,
 
         display: 'flex',
         justifyContent: 'center',

@@ -60,6 +60,10 @@ export default StyleSheet.create({
         marginTop: 30
     },
 
+    margemTopPequena: {
+        marginTop: 10
+    },
+
     margemEsquerdaPequena: {
         marginLeft: 10
     },
@@ -113,5 +117,23 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
-    }
+    },
+
+    spanTempoAtualProgressBar: {
+        // color: 'pink',
+        marginRight: 'auto',
+        fontSize: 11,
+        fontWeight: '500',
+        color: '#fff',
+        opacity: 0.6
+    },
+
+    sapnTempoMaximoProgressBar: {
+        // color: 'pink',
+        marginLeft: 'auto',
+        fontSize: 11,
+        fontWeight: '500',
+        color: '#fff',
+        opacity: 0.6
+    },
 });

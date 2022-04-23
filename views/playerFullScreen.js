@@ -24,6 +24,7 @@ import { ListaMusicasContext } from '../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
 import { MusicaPlayingContext } from '../utils/context/musicaPlayingContext';
 import CONSTANTS_UPLOAD from '../utils/data/constUpload';
+import formatarMilisegundos from '../utils/outros/formatarMilisegundos';
 import NumeroAleatorio from '../utils/outros/numeroAleatorio';
 
 export default function PlayerFullScreen({ navigation }) {
@@ -294,6 +295,11 @@ export default function PlayerFullScreen({ navigation }) {
                                 <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'}
                                     height={4} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
                                 />
+
+                                <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
+                                    <Text style={Styles.spanTempoAtualProgressBar}>{formatarMilisegundos(musicaPlayingContext?.status?.positionMillis)}</Text>
+                                    <Text style={Styles.sapnTempoMaximoProgressBar}>{formatarMilisegundos(musicaPlayingContext?.status?.durationMillis)}</Text>
+                                </View>
                             </View>
 
                             {/* =-=-=-=-=-=-=-=-=-=-= Botões grandes =-=-=-=-=-=-=-=-=-=-= */}

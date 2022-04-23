@@ -2,8 +2,8 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import Styles from '../../css/footer';
-import Biblioteca from '../svg/biblioteca';
 import Casa from '../svg/casa';
+import Fila from '../svg/fila';
 import Lupa from '../svg/lupa';
 
 export default function Footer({ rotaAtual }) {
@@ -25,7 +25,7 @@ export default function Footer({ rotaAtual }) {
 
             <TouchableOpacity onPress={() => navigation.navigate('Fila')}>
                 <View style={Styles.divIcone}>
-                    <Biblioteca height={24} width={24} cor={rotaAtual === 'Fila' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.5)'} />
+                    <Fila height={24} width={24} cor={rotaAtual === 'Fila' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.5)'} />
                     <Text style={Styles.texto}>Sua fila</Text>
                 </View>
             </TouchableOpacity>

@@ -56,6 +56,10 @@ export default StyleSheet.create({
         marginTop: 50
     },
 
+    margemTop: {
+        marginTop: 30
+    },
+
     flexEsquerda: {
         // backgroundColor: 'pink',
         marginRight: 'auto'
@@ -72,8 +76,34 @@ export default StyleSheet.create({
     },
 
     divOutrosElementos: {
-        backgroundColor: 'pink',
+        // backgroundColor: 'pink',
         paddingLeft: 15,
         paddingRight: 15
     },
+
+    divBotoesGrandes: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+
+    circuloBotaoPlay: {
+        backgroundColor: 'rgba(255, 255, 255, 0.85)',
+        borderRadius: 32,
+        height: 60,
+        width: 60,
+
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    divBotoesPequenos: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    }
 });

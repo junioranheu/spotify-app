@@ -4,7 +4,15 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import FadeInOut from 'react-native-fade-in-out'; // https://www.npmjs.com/package/react-native-fade-in-out
 import { PanGestureHandler } from 'react-native-gesture-handler'; // https://stackoverflow.com/questions/58939431/detect-swipe-direction-using-react-native-gesture-handler-and-reanimated & https://docs.swmansion.com/react-native-gesture-handler/docs/gesture-handlers/api/pan-gh/; 
 import MargemBotFooter from '../components/outros/margemBotFooter';
+import Aleatorio from '../components/svg/aleatorio';
+import BotaoAvancar from '../components/svg/botaoAvancar';
+import BotaoPlay from '../components/svg/botaoPlay';
+import BotaoVoltar from '../components/svg/botaoVoltar';
 import Coracao from '../components/svg/coracao';
+import CoracaoPreenchido from '../components/svg/coracaoPreenchido';
+import Dispositivo from '../components/svg/dispositivo';
+import Fila from '../components/svg/fila';
+import Loop from '../components/svg/loop';
 import Reticencias from '../components/svg/reticencias';
 import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
 import Styles from '../css/playerFullScreen';
@@ -56,12 +64,19 @@ export default function PlayerFullScreen({ navigation }) {
         }
     };
 
+    // Exibir conteúdo bottom;
     const [isExibirConteudo, setIsExibirConteudo] = useState(false);
     useEffect(() => {
         setTimeout(function () {
             setIsExibirConteudo(true);
-        }, 100);
+        }, 500);
     }, []);
+
+    // Curtir;
+    const [isCurtido, setIsCurtido] = useState(false);
+    function handleCurtir() {
+        setIsCurtido(!isCurtido);
+    }
 
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
@@ -99,6 +114,7 @@ export default function PlayerFullScreen({ navigation }) {
                     {/* #02 - Outros elementos */}
                     <View style={[Styles.divOutrosElementos, Styles.margemTopGrande]}>
                         <FadeInOut visible={isExibirConteudo} duration={1000}>
+                            {/* =-=-=-=-=-=-=-=-=-=-= Informações =-=-=-=-=-=-=-=-=-=-= */}
                             <View style={Styles.mesmaLinha}>
                                 <View>
                                     <Text style={Styles.tituloMusica}>{musicaContext?.nome}</Text>
@@ -106,20 +122,43 @@ export default function PlayerFullScreen({ navigation }) {
                                 </View>
 
                                 <View style={Styles.flexDireita}>
-                                    <Coracao height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
+                                    <TouchableOpacity onPress={() => handleCurtir()}>
+                                        {
+                                            isCurtido ? (
+                                                <CoracaoPreenchido height={24} width={24} cor={'#20D660'} />
+                                            ) : (
+                                                <Coracao height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
+                                            )
+                                        }
+                                    </TouchableOpacity>
                                 </View>
                             </View>
 
-                            <View>
+                            {/* =-=-=-=-=-=-=-=-=-=-= Progressbar =-=-=-=-=-=-=-=-=-=-= */}
+                            <View style={Styles.margemTop}>
                                 <Text style={Styles.texto}>Progressbar</Text>
                             </View>
 
-                            <View>
-                                <Text style={Styles.texto}>Botoes grandes</Text>
+                            {/* =-=-=-=-=-=-=-=-=-=-= Botões grandes =-=-=-=-=-=-=-=-=-=-= */}
+                            <View style={[Styles.divBotoesGrandes, Styles.margemTop]}>
+                                <Aleatorio height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
+                                <BotaoVoltar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
+
+                                <View style={Styles.circuloBotaoPlay}>
+                                    <BotaoPlay height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
+                                </View>
+
+                                <BotaoAvancar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
+                                <Loop height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
                             </View>
 
-                            <View>
-                                <Text style={Styles.texto}>Botoes pequenos</Text>
+                            {/* =-=-=-=-=-=-=-=-=-=-= Botões pequenos =-=-=-=-=-=-=-=-=-=-= */}
+                            <View style={[Styles.divBotoesPequenos, Styles.margemTop]}>
+                                <Dispositivo height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
+
+                                <TouchableOpacity onPress={() => navigation.navigate('Fila')}>
+                                    <Fila height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
+                                </TouchableOpacity>
                             </View>
                         </FadeInOut>
                     </View>

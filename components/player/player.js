@@ -46,33 +46,36 @@ export default function Player() {
                 playThroughEarpieceAndroid: false
             });
 
-            // Descarregar música "anterior";
-            musicaPlayingContext?.sound?.unloadAsync();
+            try {
+                // Descarregar música "anterior"; 
+                await musicaPlayingContext?.sound?.unloadAsync();
+                // console.log('Música descarregada');
+            } finally {
+                // "Criar" música e tocar automáticamente (shouldPlay: true);
+                const { sound } = await Audio.Sound.createAsync(
+                    { uri: urlMusica },
+                    { shouldPlay: true, isLooping: false, playsInSilentModeIOS: true },
+                    (status) => {
+                        // Setar em "setMusicaPlayingContext" o status (informações da música atual) + sound (a música em si);
+                        const jsonFinal = {
+                            status: status,
+                            sound: sound
+                        }
 
-            // "Criar" música e tocar automáticamente (shouldPlay: true);
-            const { sound } = await Audio.Sound.createAsync(
-                { uri: urlMusica },
-                { shouldPlay: true, isLooping: false, playsInSilentModeIOS: true },
-                (status) => {
-                    // Setar em "setMusicaPlayingContext" o status (informações da música atual) + sound (a música em si);
-                    const jsonFinal = {
-                        status: status,
-                        sound: sound
+                        // Setar valores (status) em uma variável context para ser usada aqui e em outras telas;
+                        setMusicaPlayingContext(jsonFinal);
                     }
+                );
 
-                    // Setar valores (status) em uma variável context para ser usada aqui e em outras telas;
-                    setMusicaPlayingContext(jsonFinal);
-                }
-            );
+                // Log;
+                console.log(`Música "${musicaContext.nome}" (${musicaContext.musicaId}) importada`);
 
-            // Log;
-            console.log(`Música "${musicaContext.nome}" (${musicaContext.musicaId}) importada`);
-
-            // Quando a música for importada, é necessário removê-la da lista/fila;
-            const indexMusicaTocando = listaMusicasContext?.findIndex(m => m.musicaId === musicaContext?.musicaId);
-            listaMusicasContext?.splice(indexMusicaTocando, 1);
-            ListaMusicasStorage.set(listaMusicasContext);
-            setListaMusicasContext(listaMusicasContext);
+                // Quando a música for importada, é necessário removê-la da lista/fila;
+                const indexMusicaTocando = listaMusicasContext?.findIndex(m => m.musicaId === musicaContext?.musicaId);
+                listaMusicasContext?.splice(indexMusicaTocando, 1);
+                ListaMusicasStorage.set(listaMusicasContext);
+                setListaMusicasContext(listaMusicasContext);
+            }
         }
 
         async function getImagemCapaMusica() {

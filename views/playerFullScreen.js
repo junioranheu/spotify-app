@@ -115,7 +115,7 @@ export default function PlayerFullScreen({ navigation }) {
     }
 
     // Avançar;
-    const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
+    const [listaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [isPodeAvancar, setIsPodeAvancar] = useState(true);
     function handleAvancar() {
         // console.log(listaMusicasContext);
@@ -165,7 +165,7 @@ export default function PlayerFullScreen({ navigation }) {
         if (!isPodeAvancar) {
             setTimeout(function () {
                 setIsPodeAvancar(true);
-            }, 1000);
+            }, 2000);
         }
     }, [isPodeAvancar]);
 

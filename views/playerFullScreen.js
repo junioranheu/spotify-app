@@ -229,8 +229,29 @@ export default function PlayerFullScreen({ navigation }) {
     }
 
     // Ao clicar no ProgressBar;
-    function handleClickProgressBar() {
-        console.log('a');
+    async function handleClickProgressBar(e) {
+        // console.log(e);
+        // console.log(e.pageX);
+        // console.log(widthContainerPlayer);
+
+        // Descobrir o ponto clicado;
+        const respaldo = 32; // Foi percebido que por algum motivo desconhecido existe 32px de diferença... ele deve ser descontado;
+        let pontoClicado = e.pageX - respaldo;
+        pontoClicado = pontoClicado < 0 ? 0 : pontoClicado;
+        pontoClicado = pontoClicado > widthContainerPlayer ? widthContainerPlayer : pontoClicado;
+        // console.log(pontoClicado);
+
+        // Descobrir a porcentagem que esse ponto clicado representa;
+        const porcentagemPontoClicado = pontoClicado / widthContainerPlayer;
+        // console.log(porcentagemPontoClicado);
+
+        // Descobrir quantos milisegundos da música atual essa porcentagem do ponto clicado representa;
+        const milisegundosReferente = porcentagemPontoClicado * musicaPlayingContext?.status?.durationMillis;
+        // console.log(musicaPlayingContext?.status?.durationMillis);
+        // console.log(milisegundosReferente);
+
+        // Setar o valor em milisegundos encontrados na música atual;
+        await musicaPlayingContext.sound.setPositionAsync(milisegundosReferente);
     }
 
     return (
@@ -297,7 +318,7 @@ export default function PlayerFullScreen({ navigation }) {
                                     setWidthContainerPlayer(width);
                                 }}>
 
-                                <TouchableOpacity onPress={() => handleClickProgressBar()}>
+                                <TouchableOpacity onPress={(e) => handleClickProgressBar(e)}>
                                     <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'} animated={false}
                                         height={5} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
                                         unfilledColor={'#404131'}

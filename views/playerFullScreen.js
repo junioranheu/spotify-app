@@ -19,18 +19,20 @@ import Reticencias from '../components/svg/reticencias';
 import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
 import Styles from '../css/playerFullScreen';
 import ImgCinza from '../static/image/outros/cinza.webp';
-import { ConfigContext } from '../utils/context/configContext';
+import { InfoMusicaContext } from '../utils/context/infoMusicaContext';
 import { ListaMusicasContext } from '../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
-import { MusicaPlayingContext } from '../utils/context/musicaPlayingContext';
 import CONSTANTS_UPLOAD from '../utils/data/constUpload';
 import formatarMilisegundos from '../utils/outros/formatarMilisegundos';
 import NumeroAleatorio from '../utils/outros/numeroAleatorio';
 
 export default function PlayerFullScreen({ navigation }) {
     const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
-    const [musicaPlayingContext] = useContext(MusicaPlayingContext); // Context da música que está tocando, contendo suas informações;
-    const [isModoAleatorioContext, setIsModoAleatorioContext, isModoLoopContext, setIsModoLoopContext] = useContext(ConfigContext); // Context da música;
+    const [
+        infoMusicaContext, setInfoMusicaContext,
+        isModoAleatorioContext, setIsModoAleatorioContext,
+        isModoLoopContext, setIsModoLoopContext
+    ] = useContext(InfoMusicaContext); // Context da música que está tocando, contendo suas informações;
     const [widthContainerPlayer, setWidthContainerPlayer] = useState();
 
     // https://stackoverflow.com/questions/55942600/how-to-get-previous-route-name-from-react-navigation;
@@ -91,23 +93,23 @@ export default function PlayerFullScreen({ navigation }) {
     // Infos da música em questão (atualiza a cada 100ms);
     const [porcetagemMusicaOuvida, setPorcetagemMusicaOuvida] = useState(0);
     useEffect(() => {
-        // console.log(musicaPlayingContext); // Todos os status;
-        // console.log(musicaPlayingContext?.status?.durationMillis); // Total ms;
-        // console.log(musicaPlayingContext?.status?.positionMillis); // Atual ms;
+        // console.log(infoMusicaContext); // Todos os status;
+        // console.log(infoMusicaContext?.status?.durationMillis); // Total ms;
+        // console.log(infoMusicaContext?.status?.positionMillis); // Atual ms;
 
         // Calcular a porcentagem da música escutada para setar no progressbar;
-        let porcentagemMusicaOuvidaCalculo = (musicaPlayingContext?.status?.positionMillis / musicaPlayingContext?.status?.durationMillis); // * 100
+        let porcentagemMusicaOuvidaCalculo = (infoMusicaContext?.status?.positionMillis / infoMusicaContext?.status?.durationMillis); // * 100
         porcentagemMusicaOuvidaCalculo = !porcentagemMusicaOuvidaCalculo ? 0 : Number(porcentagemMusicaOuvidaCalculo.toFixed(2));
         setPorcetagemMusicaOuvida(porcentagemMusicaOuvidaCalculo);
         // console.log(porcentagemMusicaOuvidaCalculo);
-    }, [musicaPlayingContext?.status]);
+    }, [infoMusicaContext?.status]);
 
     // Play/pausar música ao clicar no ícone;
     async function handleIsPlaying() {
-        if (musicaPlayingContext?.status?.isPlaying) {
-            await musicaPlayingContext.sound.pauseAsync();
+        if (infoMusicaContext?.status?.isPlaying) {
+            await infoMusicaContext.sound.pauseAsync();
         } else {
-            await musicaPlayingContext.sound.playAsync();
+            await infoMusicaContext.sound.playAsync();
         }
     }
 
@@ -126,8 +128,8 @@ export default function PlayerFullScreen({ navigation }) {
         // // Se o isModoLoopContext for true, volte para o início da mesma música;
         // // console.log(`playerFullScreen.js: ${isModoLoopContext}`);
         // if (isModoLoopContext) {
-        //     await musicaPlayingContext.sound.setPositionAsync(0);
-        //     await musicaPlayingContext.sound.playAsync();
+        //     await infoMusicaContext.sound.setPositionAsync(0);
+        //     await infoMusicaContext.sound.playAsync();
         //     return false;
         // }
 
@@ -246,12 +248,12 @@ export default function PlayerFullScreen({ navigation }) {
         // console.log(porcentagemPontoClicado);
 
         // Descobrir quantos milisegundos da música atual essa porcentagem do ponto clicado representa;
-        const milisegundosReferente = porcentagemPontoClicado * musicaPlayingContext?.status?.durationMillis;
-        // console.log(musicaPlayingContext?.status?.durationMillis);
+        const milisegundosReferente = porcentagemPontoClicado * infoMusicaContext?.status?.durationMillis;
+        // console.log(infoMusicaContext?.status?.durationMillis);
         // console.log(milisegundosReferente);
 
         // Setar o valor em milisegundos encontrados na música atual;
-        await musicaPlayingContext.sound.setPositionAsync(milisegundosReferente);
+        await infoMusicaContext.sound.setPositionAsync(milisegundosReferente);
     }
 
     return (
@@ -326,8 +328,8 @@ export default function PlayerFullScreen({ navigation }) {
                                 </TouchableOpacity>
 
                                 <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
-                                    <Text style={Styles.spanTempoAtualProgressBar}>{formatarMilisegundos(musicaPlayingContext?.status?.positionMillis)}</Text>
-                                    <Text style={Styles.sapnTempoMaximoProgressBar}>{formatarMilisegundos(musicaPlayingContext?.status?.durationMillis)}</Text>
+                                    <Text style={Styles.spanTempoAtualProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.positionMillis)}</Text>
+                                    <Text style={Styles.sapnTempoMaximoProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.durationMillis)}</Text>
                                 </View>
                             </View>
 
@@ -344,7 +346,7 @@ export default function PlayerFullScreen({ navigation }) {
                                 <TouchableOpacity onPress={() => handleIsPlaying()}>
                                     <View style={Styles.circuloBotaoPlay}>
                                         {
-                                            musicaPlayingContext?.status?.isPlaying ? (
+                                            infoMusicaContext?.status?.isPlaying ? (
                                                 <BotaoStop height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
                                             ) : (
                                                 <BotaoPlay height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />

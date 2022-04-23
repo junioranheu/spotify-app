@@ -3,13 +3,13 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import Styles from '../../css/fila';
 import ImgCinza from '../../static/image/outros/cinza.webp';
 import EqualiserGif from '../../static/image/outros/equaliser.gif';
+import { InfoMusicaContext } from '../../utils/context/infoMusicaContext';
 import { MusicaContext } from '../../utils/context/musicaContext';
-import { MusicaPlayingContext } from '../../utils/context/musicaPlayingContext';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
 import Reticencias from '../svg/reticencias';
 
 export default function MusicaRow({ id, foto, titulo, banda, album, tempo, setarMusica }) {
-    const [musicaPlayingContext] = useContext(MusicaPlayingContext); // Context da música que está tocando, contendo suas informações;
+    const [infoMusicaContext] = useContext(InfoMusicaContext); // Context da música que está tocando, contendo suas informações;
 
     // Quando uma música é selecionada no MusicaContext;
     const [musicaContext] = useContext(MusicaContext); // Context da música;
@@ -41,7 +41,7 @@ export default function MusicaRow({ id, foto, titulo, banda, album, tempo, setar
                 <View style={Styles.divInfoMusica}>
                     <View style={Styles.mesmaLinha}>
                         {
-                            musicaPlayingContext?.status?.isPlaying && (
+                            infoMusicaContext?.status?.isPlaying && (
                                 <Fragment>
                                     {id === musicaContext?.musicaId && (
                                         <Image source={EqualiserGif} style={Styles.equaliser}></Image>

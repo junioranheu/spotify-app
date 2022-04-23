@@ -6,10 +6,9 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
 import Styles from '../../css/player';
 import ImgCinza from '../../static/image/outros/cinza.webp';
-import { ConfigContext } from '../../utils/context/configContext';
+import { InfoMusicaContext } from '../../utils/context/infoMusicaContext';
 import { ListaMusicasContext, ListaMusicasStorage } from '../../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../../utils/context/musicaContext';
-import { MusicaPlayingContext } from '../../utils/context/musicaPlayingContext';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
 import NumeroAleatorio from '../../utils/outros/numeroAleatorio';
 import BotaoPlay from '../svg/botaoPlay';
@@ -21,8 +20,11 @@ export default function Player() {
 
     const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
-    const [musicaPlayingContext, setMusicaPlayingContext] = useContext(MusicaPlayingContext); // Context da música que está tocando, contendo suas informações;
-    const [isModoAleatorioContext, setIsModoAleatorioContext, isModoLoopContext, setIsModoLoopContext] = useContext(ConfigContext); // Context da música;
+    const [
+        infoMusicaContext, setInfoMusicaContext, 
+        isModoAleatorioContext, setIsModoAleatorioContext,
+        isModoLoopContext, setIsModoLoopContext
+    ] = useContext(InfoMusicaContext); // Context da música que está tocando, contendo suas informações;
 
     const [widthContainerPlayer, setWidthContainerPlayer] = useState();
     const [imagemBanda, setImagemBanda] = useState(null);
@@ -51,7 +53,7 @@ export default function Player() {
 
             try {
                 // Descarregar música "anterior"; 
-                await musicaPlayingContext?.sound?.unloadAsync();
+                await infoMusicaContext?.sound?.unloadAsync();
                 // console.log('Música descarregada');
             } finally {
                 // "Criar" música e tocar automáticamente (shouldPlay: true);
@@ -59,14 +61,14 @@ export default function Player() {
                     { uri: urlMusica },
                     { shouldPlay: true, isLooping: false, playsInSilentModeIOS: true },
                     (status) => {
-                        // Setar em "setMusicaPlayingContext" o status (informações da música atual) + sound (a música em si);
+                        // Setar em "setInfoMusicaContext" o status (informações da música atual) + sound (a música em si);
                         const jsonFinal = {
                             status: status,
                             sound: sound
                         }
 
                         // Setar valores (status) em uma variável context para ser usada aqui e em outras telas;
-                        setMusicaPlayingContext(jsonFinal);
+                        setInfoMusicaContext(jsonFinal);
                     }
                 );
 
@@ -120,8 +122,8 @@ export default function Player() {
         // Se o isModoLoopContext for true, volte para o início da mesma música;
         // console.log(`player.js: ${isModoLoopContext}`);
         if (isModoLoopContext) {
-            await musicaPlayingContext.sound.setPositionAsync(0);
-            await musicaPlayingContext.sound.playAsync();
+            await infoMusicaContext.sound.setPositionAsync(0);
+            await infoMusicaContext.sound.playAsync();
             return false;
         }
 
@@ -160,29 +162,29 @@ export default function Player() {
     // Infos da música em questão (atualiza a cada 100ms);
     const [porcetagemMusicaOuvida, setPorcetagemMusicaOuvida] = useState(0);
     useEffect(() => {
-        // console.log(musicaPlayingContext); // Todos os status;
-        // console.log(musicaPlayingContext?.status?.durationMillis); // Total ms;
-        // console.log(musicaPlayingContext?.status?.positionMillis); // Atual ms;
+        // console.log(infoMusicaContext); // Todos os status;
+        // console.log(infoMusicaContext?.status?.durationMillis); // Total ms;
+        // console.log(infoMusicaContext?.status?.positionMillis); // Atual ms;
 
         // Calcular a porcentagem da música escutada para setar no progressbar;
-        let porcentagemMusicaOuvidaCalculo = (musicaPlayingContext?.status?.positionMillis / musicaPlayingContext?.status?.durationMillis); // * 100
+        let porcentagemMusicaOuvidaCalculo = (infoMusicaContext?.status?.positionMillis / infoMusicaContext?.status?.durationMillis); // * 100
         porcentagemMusicaOuvidaCalculo = !porcentagemMusicaOuvidaCalculo ? 0 : Number(porcentagemMusicaOuvidaCalculo.toFixed(2));
         setPorcetagemMusicaOuvida(porcentagemMusicaOuvidaCalculo);
         // console.log(porcentagemMusicaOuvidaCalculo);
 
         // Se a música acabar, vai pra próxima;
-        // console.log(musicaPlayingContext?.status);
-        if (musicaPlayingContext?.status?.didJustFinish) {
+        // console.log(infoMusicaContext?.status);
+        if (infoMusicaContext?.status?.didJustFinish) {
             handleAvancar();
         }
-    }, [musicaPlayingContext?.status]);
+    }, [infoMusicaContext?.status]);
 
     // Play/pausar música ao clicar no ícone;
     async function handleIsPlaying() {
-        if (musicaPlayingContext?.status?.isPlaying) {
-            await musicaPlayingContext?.sound?.pauseAsync();
+        if (infoMusicaContext?.status?.isPlaying) {
+            await infoMusicaContext?.sound?.pauseAsync();
         } else {
-            await musicaPlayingContext?.sound?.playAsync();
+            await infoMusicaContext?.sound?.playAsync();
         }
     }
 
@@ -223,7 +225,7 @@ export default function Player() {
                             {/* Botão play/stop */}
                             <TouchableOpacity onPress={() => handleIsPlaying()}>
                                 {
-                                    musicaPlayingContext?.status?.isPlaying ? (
+                                    infoMusicaContext?.status?.isPlaying ? (
                                         <BotaoStop height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
                                     ) : (
                                         <BotaoPlay height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />

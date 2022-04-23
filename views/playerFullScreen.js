@@ -8,6 +8,7 @@ import MargemBotFooter from '../components/outros/margemBotFooter';
 import Aleatorio from '../components/svg/aleatorio';
 import BotaoAvancar from '../components/svg/botaoAvancar';
 import BotaoPlay from '../components/svg/botaoPlay';
+import BotaoStop from '../components/svg/botaoStop';
 import BotaoVoltar from '../components/svg/botaoVoltar';
 import Coracao from '../components/svg/coracao';
 import CoracaoPreenchido from '../components/svg/coracaoPreenchido';
@@ -19,10 +20,12 @@ import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
 import Styles from '../css/playerFullScreen';
 import ImgCinza from '../static/image/outros/cinza.webp';
 import { MusicaContext } from '../utils/context/musicaContext';
+import { MusicaPlayingContext } from '../utils/context/musicaPlayingContext';
 import CONSTANTS_UPLOAD from '../utils/data/constUpload';
 
 export default function PlayerFullScreen({ navigation }) {
     const [musicaContext] = useContext(MusicaContext); // Context da música;
+    const [musicaPlayingContext] = useContext(MusicaPlayingContext); // Context da música que está tocando, contendo suas informações;
     const [widthContainerPlayer, setWidthContainerPlayer] = useState();
 
     // https://stackoverflow.com/questions/55942600/how-to-get-previous-route-name-from-react-navigation;
@@ -80,6 +83,29 @@ export default function PlayerFullScreen({ navigation }) {
         setIsCurtido(!isCurtido);
     }
 
+    // Infos da música em questão (atualiza a cada 100ms);
+    const [porcetagemMusicaOuvida, setPorcetagemMusicaOuvida] = useState(0);
+    useEffect(() => {
+        // console.log(musicaPlayingContext); // Todos os status;
+        // console.log(musicaPlayingContext?.status?.durationMillis); // Total ms;
+        // console.log(musicaPlayingContext?.status?.positionMillis); // Atual ms;
+
+        // Calcular a porcentagem da música escutada para setar no progressbar;
+        let porcentagemMusicaOuvidaCalculo = (musicaPlayingContext?.status?.positionMillis / musicaPlayingContext?.status?.durationMillis); // * 100
+        porcentagemMusicaOuvidaCalculo = !porcentagemMusicaOuvidaCalculo ? 0 : Number(porcentagemMusicaOuvidaCalculo.toFixed(2));
+        setPorcetagemMusicaOuvida(porcentagemMusicaOuvidaCalculo);
+        // console.log(porcentagemMusicaOuvidaCalculo);
+    }, [musicaPlayingContext?.status]);
+
+    // Play/pausar música ao clicar no ícone;
+    async function handleIsPlaying() {
+        if (musicaPlayingContext?.status?.isPlaying) {
+            await musicaPlayingContext.sound.pauseAsync();
+        } else {
+            await musicaPlayingContext.sound.playAsync();
+        }
+    }
+
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
             <View style={Styles.containerPrincipal}>
@@ -90,7 +116,7 @@ export default function PlayerFullScreen({ navigation }) {
                     {/* #01 - Ícones de cima */}
                     <View style={Styles.mesmaLinha}>
                         <TouchableOpacity style={Styles.flexEsquerda} onPress={() => navigation.navigate((ultimaPaginaAberta.name ?? 'Index'))}>
-                            <SetinhaBaixo2 height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
+                            <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
                         </TouchableOpacity>
 
                         <TouchableOpacity style={Styles.flexCentro}>
@@ -98,7 +124,7 @@ export default function PlayerFullScreen({ navigation }) {
                         </TouchableOpacity>
 
                         <TouchableOpacity style={Styles.flexDireita}>
-                            <Reticencias height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
+                            <Reticencias height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
                         </TouchableOpacity>
                     </View>
 
@@ -143,7 +169,8 @@ export default function PlayerFullScreen({ navigation }) {
                                     // console.log(width);
                                     setWidthContainerPlayer(width);
                                 }}>
-                                <Progress.Bar progress={'1'} animationType={'timing'}
+
+                                <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'}
                                     height={4} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
                                 />
                             </View>
@@ -153,9 +180,17 @@ export default function PlayerFullScreen({ navigation }) {
                                 <Aleatorio height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />
                                 <BotaoVoltar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
 
-                                <View style={Styles.circuloBotaoPlay}>
-                                    <BotaoPlay height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
-                                </View>
+                                <TouchableOpacity onPress={() => handleIsPlaying()}>
+                                    <View style={Styles.circuloBotaoPlay}>
+                                        {
+                                            musicaPlayingContext?.status?.isPlaying ? (
+                                                <BotaoStop height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
+                                            ) : (
+                                                <BotaoPlay height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
+                                            )
+                                        }
+                                    </View>
+                                </TouchableOpacity>
 
                                 <BotaoAvancar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
                                 <Loop height={24} width={24} cor={'rgba(255, 255, 255, 0.9)'} />

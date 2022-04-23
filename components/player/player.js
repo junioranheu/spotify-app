@@ -8,6 +8,7 @@ import Styles from '../../css/player';
 import ImgCinza from '../../static/image/outros/cinza.webp';
 import { ListaMusicasContext, ListaMusicasStorage } from '../../utils/context/listaMusicasContext';
 import { MusicaContext } from '../../utils/context/musicaContext';
+import { MusicaPlayingContext } from '../../utils/context/musicaPlayingContext';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
 import BotaoPlay from '../svg/botaoPlay';
 import BotaoStop from '../svg/botaoStop';
@@ -18,10 +19,10 @@ export default function Player() {
 
     const [musicaContext] = useContext(MusicaContext); // Context da música;
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
+    const [musicaPlayingContext, setMusicaPlayingContext] = useContext(MusicaPlayingContext); // Context da música que está tocando, contendo suas informações;
+
     const [widthContainerPlayer, setWidthContainerPlayer] = useState();
     const [imagemBanda, setImagemBanda] = useState(null);
-    const [musica, setMusica] = useState();
-    const [infosMusica, setInfosMusica] = useState();
 
     // Ao alterar a música em musicaContext importe dinamicamente;
     const [coresDominantes, setCoresDominantes] = useState(null);
@@ -49,10 +50,18 @@ export default function Player() {
             const { sound } = await Audio.Sound.createAsync(
                 { uri: urlMusica },
                 { shouldPlay: true, isLooping: false, playsInSilentModeIOS: true },
-                (status) => setInfosMusica(status)
+                (status) => {
+                    // Setar em "setMusicaPlayingContext" o status (informações da música atual) + sound (a música em si);
+                    const jsonFinal = {
+                        status: status,
+                        sound: sound
+                    }
+
+                    // Setar valores (status) em uma variável context para ser usada aqui e em outras telas;
+                    setMusicaPlayingContext(jsonFinal);
+                }
             );
             await sound.playAsync();
-            setMusica(sound);
 
             // Log;
             console.log(`Música "${musicaContext.nome}" (${musicaContext.musicaId}) importada`);
@@ -99,33 +108,33 @@ export default function Player() {
     // Infos da música em questão (atualiza a cada 100ms);
     const [porcetagemMusicaOuvida, setPorcetagemMusicaOuvida] = useState(0);
     useEffect(() => {
-        // console.log(infosMusica); // Todos os status;
-        // console.log(infosMusica?.durationMillis); // Total ms;
-        // console.log(infosMusica?.positionMillis); // Atual ms;
+        // console.log(musicaPlayingContext); // Todos os status;
+        // console.log(musicaPlayingContext?.status?.durationMillis); // Total ms;
+        // console.log(musicaPlayingContext?.status?.positionMillis); // Atual ms;
 
         // Calcular a porcentagem da música escutada para setar no progressbar;
-        let porcentagemMusicaOuvidaCalculo = (infosMusica?.positionMillis / infosMusica?.durationMillis); // * 100
+        let porcentagemMusicaOuvidaCalculo = (musicaPlayingContext?.status?.positionMillis / musicaPlayingContext?.status?.durationMillis); // * 100
         porcentagemMusicaOuvidaCalculo = !porcentagemMusicaOuvidaCalculo ? 0 : Number(porcentagemMusicaOuvidaCalculo.toFixed(2));
         setPorcetagemMusicaOuvida(porcentagemMusicaOuvidaCalculo);
         // console.log(porcentagemMusicaOuvidaCalculo);
-    }, [infosMusica]);
+    }, [musicaPlayingContext?.status]);
 
     // Descarregar som ao trocar de música;
     useEffect(() => {
-        return musica
+        return musicaPlayingContext.sound
             ? () => {
                 // console.log('Descarregando som');
-                musica.unloadAsync();
+                musicaPlayingContext.sound.unloadAsync();
             }
             : undefined;
-    }, [musica]);
+    }, [musicaPlayingContext?.sound]);
 
     // Play/pausar música ao clicar no ícone;
     async function handleIsPlaying() {
-        if (infosMusica?.isPlaying) {
-            await musica.pauseAsync();
+        if (musicaPlayingContext?.status?.isPlaying) {
+            await musicaPlayingContext.sound.pauseAsync();
         } else {
-            await musica.playAsync();
+            await musicaPlayingContext.sound.playAsync();
         }
     }
 
@@ -164,17 +173,15 @@ export default function Player() {
                             <View style={Styles.margemDireita}></View>
 
                             {/* Botão play/stop */}
-                            {
-                                infosMusica?.isPlaying ? (
-                                    <TouchableOpacity onPress={() => handleIsPlaying()}>
+                            <TouchableOpacity onPress={() => handleIsPlaying()}>
+                                {
+                                    musicaPlayingContext?.status?.isPlaying ? (
                                         <BotaoStop height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
-                                    </TouchableOpacity>
-                                ) : (
-                                    <TouchableOpacity onPress={() => handleIsPlaying()}>
+                                    ) : (
                                         <BotaoPlay height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
-                                    </TouchableOpacity>
-                                )
-                            }
+                                    )
+                                }
+                            </TouchableOpacity>
 
                             <View style={Styles.margemDireita}></View>
                         </View>

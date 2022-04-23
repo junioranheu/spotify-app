@@ -46,7 +46,10 @@ export default function Player() {
                 playThroughEarpieceAndroid: false
             });
 
-            // "Criar" música;
+            // Descarregar música "anterior";
+            musicaPlayingContext?.sound?.unloadAsync();
+
+            // "Criar" música e tocar automáticamente (shouldPlay: true);
             const { sound } = await Audio.Sound.createAsync(
                 { uri: urlMusica },
                 { shouldPlay: true, isLooping: false, playsInSilentModeIOS: true },
@@ -61,7 +64,6 @@ export default function Player() {
                     setMusicaPlayingContext(jsonFinal);
                 }
             );
-            await sound.playAsync();
 
             // Log;
             console.log(`Música "${musicaContext.nome}" (${musicaContext.musicaId}) importada`);
@@ -119,22 +121,12 @@ export default function Player() {
         // console.log(porcentagemMusicaOuvidaCalculo);
     }, [musicaPlayingContext?.status]);
 
-    // Descarregar som ao trocar de música;
-    useEffect(() => {
-        return musicaPlayingContext.sound
-            ? () => {
-                // console.log('Descarregando som');
-                musicaPlayingContext.sound.unloadAsync();
-            }
-            : undefined;
-    }, [musicaPlayingContext?.sound]);
-
     // Play/pausar música ao clicar no ícone;
     async function handleIsPlaying() {
         if (musicaPlayingContext?.status?.isPlaying) {
-            await musicaPlayingContext.sound.pauseAsync();
+            await musicaPlayingContext?.sound?.pauseAsync();
         } else {
-            await musicaPlayingContext.sound.playAsync();
+            await musicaPlayingContext?.sound?.playAsync();
         }
     }
 

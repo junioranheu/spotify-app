@@ -1,7 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Platform, Text, TouchableOpacity, View } from 'react-native';
-import FadeInOut from 'react-native-fade-in-out'; // https://www.npmjs.com/package/react-native-fade-in-out
 import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
 import GestureRecognizer from 'react-native-swipe-gestures'; // https://www.npmjs.com/package/react-native-swipe-gestures
 import MargemBotFooter from '../components/outros/margemBotFooter';
@@ -35,10 +34,6 @@ export default function PlayerFullScreen({ navigation }) {
     ] = useContext(InfoMusicaContext); // Context da música que está tocando, contendo suas informações;
     const [widthContainerPlayer, setWidthContainerPlayer] = useState();
 
-    // https://stackoverflow.com/questions/55942600/how-to-get-previous-route-name-from-react-navigation;
-    const routes = navigation.getState()?.routes;
-    const ultimaPaginaAberta = routes[routes.length - 2];
-
     // Imagem da banda e cores dominantes;
     const [imagemBanda, setImagemBanda] = useState(null);
     const [coresDominantes, setCoresDominantes] = useState(null);
@@ -62,14 +57,6 @@ export default function PlayerFullScreen({ navigation }) {
             setCoresDominantes({ corRgba, corMedia, corClara });
         }
     }, [musicaContext]);
-
-    // Exibir conteúdo bottom;
-    const [isExibirConteudo, setIsExibirConteudo] = useState(false);
-    useEffect(() => {
-        setTimeout(function () {
-            setIsExibirConteudo(true);
-        }, 500);
-    }, []);
 
     // Curtir;
     const [isCurtido, setIsCurtido] = useState(false);
@@ -250,7 +237,7 @@ export default function PlayerFullScreen({ navigation }) {
     function handleSwipeDown(e) {
         // console.log(e);  
         // console.log('Swipe para baixo com a força necessária config/velocityThreshold');
-        navigation.navigate((ultimaPaginaAberta.name ?? 'Index'))
+        navigation.goBack();
     }
 
     return (
@@ -262,7 +249,7 @@ export default function PlayerFullScreen({ navigation }) {
                 >
                     {/* #01 - Ícones de cima */}
                     <View style={Styles.mesmaLinha}>
-                        <TouchableOpacity style={[Styles.flexEsquerda, Styles.margemEsquerdaPequena]} onPress={() => navigation.navigate((ultimaPaginaAberta.name ?? 'Index'))}>
+                        <TouchableOpacity style={[Styles.flexEsquerda, Styles.margemEsquerdaPequena]} onPress={() => navigation.goBack()}>
                             <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
                         </TouchableOpacity>
 
@@ -288,88 +275,86 @@ export default function PlayerFullScreen({ navigation }) {
 
                     {/* #02 - Outros elementos */}
                     <View style={[Styles.divOutrosElementos, Styles.margemTopGrande]}>
-                        <FadeInOut visible={isExibirConteudo} duration={1000}>
-                            {/* =-=-=-=-=-=-=-=-=-=-= Informações =-=-=-=-=-=-=-=-=-=-= */}
-                            <View style={Styles.mesmaLinha}>
-                                <View>
-                                    <Text style={Styles.tituloMusica}>{musicaContext?.nome}</Text>
-                                    <Text style={Styles.nomeBanda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
+                        {/* =-=-=-=-=-=-=-=-=-=-= Informações =-=-=-=-=-=-=-=-=-=-= */}
+                        <View style={Styles.mesmaLinha}>
+                            <View>
+                                <Text style={Styles.tituloMusica}>{musicaContext?.nome}</Text>
+                                <Text style={Styles.nomeBanda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
+                            </View>
+
+                            <View style={Styles.flexDireita}>
+                                <TouchableOpacity onPress={() => handleCurtir()}>
+                                    {
+                                        isCurtido ? (
+                                            <CoracaoPreenchido height={22} width={22} cor={'#20D660'} />
+                                        ) : (
+                                            <Coracao height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
+                                        )
+                                    }
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+
+                        {/* =-=-=-=-=-=-=-=-=-=-= Progressbar =-=-=-=-=-=-=-=-=-=-= */}
+                        <View style={Styles.margemTop}
+                            onLayout={(event) => {
+                                var { x, y, width, height } = event.nativeEvent.layout;
+                                // console.log(width);
+                                setWidthContainerPlayer(width);
+                            }}>
+
+                            <TouchableOpacity onPress={(e) => handleClickProgressBar(e)}>
+                                <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'} animated={true}
+                                    height={5} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
+                                    unfilledColor={'#404131'}
+                                />
+                            </TouchableOpacity>
+
+                            <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
+                                <Text style={Styles.spanTempoAtualProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.positionMillis)}</Text>
+                                <Text style={Styles.sapnTempoMaximoProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.durationMillis)}</Text>
+                            </View>
+                        </View>
+
+                        {/* =-=-=-=-=-=-=-=-=-=-= Botões grandes =-=-=-=-=-=-=-=-=-=-= */}
+                        <View style={[Styles.divBotoesGrandes, Styles.margemTop]}>
+                            <TouchableOpacity onPress={() => handleModoAleatorio()}>
+                                <Aleatorio height={22} width={22} cor={isModoAleatorioContext ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity onPress={() => handleVoltar()}>
+                                <BotaoVoltar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity onPress={() => handleIsPlaying()}>
+                                <View style={Styles.circuloBotaoPlay}>
+                                    {
+                                        infoMusicaContext?.status?.isPlaying ? (
+                                            <BotaoStop height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
+                                        ) : (
+                                            <BotaoPlay height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
+                                        )
+                                    }
                                 </View>
+                            </TouchableOpacity>
 
-                                <View style={Styles.flexDireita}>
-                                    <TouchableOpacity onPress={() => handleCurtir()}>
-                                        {
-                                            isCurtido ? (
-                                                <CoracaoPreenchido height={22} width={22} cor={'#20D660'} />
-                                            ) : (
-                                                <Coracao height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
-                                            )
-                                        }
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
+                            <TouchableOpacity onPress={() => handleAvancar()}>
+                                <BotaoAvancar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
+                            </TouchableOpacity>
 
-                            {/* =-=-=-=-=-=-=-=-=-=-= Progressbar =-=-=-=-=-=-=-=-=-=-= */}
-                            <View style={Styles.margemTop}
-                                onLayout={(event) => {
-                                    var { x, y, width, height } = event.nativeEvent.layout;
-                                    // console.log(width);
-                                    setWidthContainerPlayer(width);
-                                }}>
+                            <TouchableOpacity onPress={() => handleModoLoop()}>
+                                <Loop height={22} width={22} cor={isModoLoopContext ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
+                            </TouchableOpacity>
+                        </View>
 
-                                <TouchableOpacity onPress={(e) => handleClickProgressBar(e)}>
-                                    <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'} animated={true}
-                                        height={5} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
-                                        unfilledColor={'#404131'}
-                                    />
-                                </TouchableOpacity>
+                        {/* =-=-=-=-=-=-=-=-=-=-= Botões pequenos =-=-=-=-=-=-=-=-=-=-= */}
+                        <View style={[Styles.divBotoesPequenos, Styles.margemTop]}>
+                            <Dispositivo height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
 
-                                <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
-                                    <Text style={Styles.spanTempoAtualProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.positionMillis)}</Text>
-                                    <Text style={Styles.sapnTempoMaximoProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.durationMillis)}</Text>
-                                </View>
-                            </View>
-
-                            {/* =-=-=-=-=-=-=-=-=-=-= Botões grandes =-=-=-=-=-=-=-=-=-=-= */}
-                            <View style={[Styles.divBotoesGrandes, Styles.margemTop]}>
-                                <TouchableOpacity onPress={() => handleModoAleatorio()}>
-                                    <Aleatorio height={22} width={22} cor={isModoAleatorioContext ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
-                                </TouchableOpacity>
-
-                                <TouchableOpacity onPress={() => handleVoltar()}>
-                                    <BotaoVoltar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
-                                </TouchableOpacity>
-
-                                <TouchableOpacity onPress={() => handleIsPlaying()}>
-                                    <View style={Styles.circuloBotaoPlay}>
-                                        {
-                                            infoMusicaContext?.status?.isPlaying ? (
-                                                <BotaoStop height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
-                                            ) : (
-                                                <BotaoPlay height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
-                                            )
-                                        }
-                                    </View>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity onPress={() => handleAvancar()}>
-                                    <BotaoAvancar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
-                                </TouchableOpacity>
-
-                                <TouchableOpacity onPress={() => handleModoLoop()}>
-                                    <Loop height={22} width={22} cor={isModoLoopContext ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
-                                </TouchableOpacity>
-                            </View>
-
-                            {/* =-=-=-=-=-=-=-=-=-=-= Botões pequenos =-=-=-=-=-=-=-=-=-=-= */}
-                            <View style={[Styles.divBotoesPequenos, Styles.margemTop]}>
-                                <Dispositivo height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
-
-                                <TouchableOpacity onPress={() => navigation.navigate('Fila')}>
-                                    <Fila height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
-                                </TouchableOpacity>
-                            </View>
-                        </FadeInOut>
+                            <TouchableOpacity onPress={() => navigation.navigate('Fila')}>
+                                <Fila height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
                     {/* Margem do footer */}

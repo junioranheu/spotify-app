@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet } from 'react-native';
+import { Platform, StatusBar, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     safeAreaView: {

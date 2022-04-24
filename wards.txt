@@ -2,3 +2,5 @@
 criar animação ao voltar do playerFullScreen
 colocar animação no coração
 
+--
+corrigir "statusbar" dos androids

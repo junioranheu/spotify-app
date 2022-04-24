@@ -1,9 +1,9 @@
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, Text, TouchableOpacity, View } from 'react-native';
 import FadeInOut from 'react-native-fade-in-out'; // https://www.npmjs.com/package/react-native-fade-in-out
-import { PanGestureHandler } from 'react-native-gesture-handler'; // https://stackoverflow.com/questions/58939431/detect-swipe-direction-using-react-native-gesture-handler-and-reanimated & https://docs.swmansion.com/react-native-gesture-handler/docs/gesture-handlers/api/pan-gh/; 
 import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
+import GestureRecognizer from 'react-native-swipe-gestures'; // https://www.npmjs.com/package/react-native-swipe-gestures
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import Aleatorio from '../components/svg/aleatorio';
 import BotaoAvancar from '../components/svg/botaoAvancar';
@@ -62,19 +62,6 @@ export default function PlayerFullScreen({ navigation }) {
             setCoresDominantes({ corRgba, corMedia, corClara });
         }
     }, [musicaContext]);
-
-    // Detectar gesto (swipe);
-    function handleGesture(e) {
-        const { nativeEvent } = e;
-        // console.log(nativeEvent);
-
-        if (nativeEvent.velocityY > 1100) {
-            // console.log('Swipe para baixo com força');
-            navigation.navigate((ultimaPaginaAberta.name ?? 'Index'))
-        } else {
-            // console.log('Swipe para cima');
-        }
-    };
 
     // Exibir conteúdo bottom;
     const [isExibirConteudo, setIsExibirConteudo] = useState(false);
@@ -233,12 +220,15 @@ export default function PlayerFullScreen({ navigation }) {
     // Ao clicar no ProgressBar;
     async function handleClickProgressBar(e) {
         // console.log(e);
-        // console.log(e.pageX);
         // console.log(widthContainerPlayer);
+
+        // Pegar o pageX "ponto clicado" dependendo do dispositivo;
+        const pageX = (Platform.OS === 'web' ? e.pageX : e.nativeEvent.pageX);
+        // console.log(pageX);
 
         // Descobrir o ponto clicado;
         const respaldo = 32; // Foi percebido que por algum motivo desconhecido existe 32px de diferença... ele deve ser descontado;
-        let pontoClicado = e.pageX - respaldo;
+        let pontoClicado = pageX - respaldo;
         pontoClicado = pontoClicado < 0 ? 0 : pontoClicado;
         pontoClicado = pontoClicado > widthContainerPlayer ? widthContainerPlayer : pontoClicado;
         // console.log(pontoClicado);
@@ -256,8 +246,15 @@ export default function PlayerFullScreen({ navigation }) {
         await infoMusicaContext.sound.setPositionAsync(milisegundosReferente);
     }
 
+    // GestureRecognizer;
+    function handleSwipeDown(e) {
+        // console.log(e);  
+        // console.log('Swipe para baixo com a força necessária config/velocityThreshold');
+        navigation.navigate((ultimaPaginaAberta.name ?? 'Index'))
+    }
+
     return (
-        <PanGestureHandler onGestureEvent={handleGesture}>
+        <GestureRecognizer onSwipeDown={(e) => handleSwipeDown(e)} config={[{ velocityThreshold: 0.2, directionalOffsetThreshold: 100 }]}>
             <View style={Styles.containerPrincipal}>
                 <LinearGradient
                     colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
@@ -379,7 +376,7 @@ export default function PlayerFullScreen({ navigation }) {
                     <MargemBotFooter />
                 </LinearGradient>
             </View>
-        </PanGestureHandler>
+        </GestureRecognizer>
     );
 }
 

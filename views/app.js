@@ -32,7 +32,7 @@ export default function App() {
                                 setRotaAtual(currentRouteName);
                             }}
                         >
-                            {/* Navbar */}
+                            {/* Navbar (é o que "desbuga" o statusbar do mobile) */}
                             <SafeAreaView style={StylesGlobal.safeAreaView}>
                                 <Navbar />
                             </SafeAreaView>

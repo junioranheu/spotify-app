@@ -1,8 +1,9 @@
-import { StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     safeAreaView: {
-        backgroundColor: '#121212' // Cor principal;
+        backgroundColor: '#121212', // Cor principal;
+        paddingTop: (Platform.OS === 'android' ? StatusBar.currentHeight : 0),
     },
 
     containerPrincipal: {

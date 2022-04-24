@@ -22,17 +22,9 @@ export default function Index({ navigation }) {
     const [playlists, setPlaylists] = useState(null);
     useEffect(() => {
         async function getPlaylists() {
-            try {
-                console.log(CONSTANTS_PLAYLISTS.API_URL_GET_TODOS);
-                const res = await fetch(CONSTANTS_PLAYLISTS.API_URL_GET_TODOS);
-                console.log(res);
-                const playlists = await res.json();
-                console.log(playlists);
-                setPlaylists(playlists);
-            } catch (error) {
-                console.log('error');
-                console.log(error);
-            }
+            const res = await fetch(CONSTANTS_PLAYLISTS.API_URL_GET_TODOS);
+            const playlists = await res.json();
+            setPlaylists(playlists);
         }
 
         getPlaylists();

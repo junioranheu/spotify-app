@@ -122,8 +122,8 @@ export default function Player() {
         // Se o isModoLoopContext for true, volte para o início da mesma música;
         // console.log(`player.js: ${isModoLoopContext}`);
         if (isModoLoopContext) {
-            await infoMusicaContext.sound.setPositionAsync(0);
-            await infoMusicaContext.sound.playAsync();
+            await infoMusicaContext?.sound?.setPositionAsync(0);
+            await infoMusicaContext?.sound?.playAsync();
             return false;
         }
 

@@ -321,7 +321,7 @@ export default function PlayerFullScreen({ navigation }) {
                                 }}>
 
                                 <TouchableOpacity onPress={(e) => handleClickProgressBar(e)}>
-                                    <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'} animated={false}
+                                    <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'} animated={true}
                                         height={5} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
                                         unfilledColor={'#404131'}
                                     />

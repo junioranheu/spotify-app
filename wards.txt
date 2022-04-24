@@ -1,6 +1,4 @@
 --
 criar animação ao voltar do playerFullScreen
-melhorar bug de voltar do playerFullScreen para as outras telas
+colocar animação no coração
 
--- 
-dps que a api voltar: ajustar PLAYLISTS.JS

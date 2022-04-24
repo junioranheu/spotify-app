@@ -1,5 +1,5 @@
 --
-criar animação ao voltar do playerFullScreen
 colocar animação no coração
+criar login: usuario só pode ouvir se estiver logado
 
 --

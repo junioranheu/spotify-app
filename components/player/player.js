@@ -227,7 +227,7 @@ export default function Player() {
                             <View style={Styles.margemDireita}></View>
 
                             {/* Botão play/stop */}
-                            <TouchableOpacity onPress={() => handleIsPlaying()}>
+                            <TouchableOpacity onPress={() => handleIsPlaying()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                                 {
                                     infoMusicaContext?.status?.isPlaying ? (
                                         <BotaoStop height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />

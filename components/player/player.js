@@ -214,7 +214,7 @@ export default function Player() {
                             }
 
                             <View style={Styles.divInfoMusica}>
-                                <TextTicker duration={5000} loop bounce={false} repeatSpacer={50} marqueeDelay={0} style={Styles.tituloMusica}>
+                                <TextTicker duration={8000} loop bounce={false} repeatSpacer={50} marqueeDelay={0} style={Styles.tituloMusica}>
                                     {musicaContext.nome}
                                 </TextTicker>
 

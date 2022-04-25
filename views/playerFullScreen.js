@@ -250,7 +250,7 @@ export default function PlayerFullScreen({ navigation }) {
                 >
                     {/* #01 - Ícones de cima */}
                     <View style={Styles.mesmaLinha}>
-                        <TouchableOpacity style={[Styles.flexEsquerda, Styles.margemEsquerdaPequena]} onPress={() => navigation.goBack()}>
+                        <TouchableOpacity style={[Styles.flexEsquerda, Styles.margemEsquerdaPequena]} onPress={() => navigation.goBack()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                             <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
                         </TouchableOpacity>
 
@@ -258,7 +258,7 @@ export default function PlayerFullScreen({ navigation }) {
                             {/* <Text style={Styles.textoMuitoPequeno}>{musicaContext.albunsMusicas[0]?.albuns.nome}</Text> */}
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={[Styles.flexDireita, Styles.margemDireitaPequena]}>
+                        <TouchableOpacity style={[Styles.flexDireita, Styles.margemDireitaPequena]} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                             <Reticencias height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
                         </TouchableOpacity>
                     </View>
@@ -279,7 +279,7 @@ export default function PlayerFullScreen({ navigation }) {
                         {/* =-=-=-=-=-=-=-=-=-=-= Informações =-=-=-=-=-=-=-=-=-=-= */}
                         <View style={Styles.mesmaLinha}>
                             <View style={Styles.divTituloMusica}>
-                                <TextTicker duration={5000} loop bounce={false} repeatSpacer={50} marqueeDelay={0} style={Styles.tituloMusica}>
+                                <TextTicker duration={8000} loop bounce={false} repeatSpacer={50} marqueeDelay={0} style={Styles.tituloMusica}>
                                     {musicaContext?.nome}
                                 </TextTicker>
 
@@ -287,7 +287,7 @@ export default function PlayerFullScreen({ navigation }) {
                             </View>
 
                             <View style={Styles.flexDireita}>
-                                <TouchableOpacity onPress={() => handleCurtir()}>
+                                <TouchableOpacity onPress={() => handleCurtir()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                                     {
                                         isCurtido ? (
                                             <CoracaoPreenchido height={22} width={22} cor={'#20D660'} />
@@ -307,7 +307,7 @@ export default function PlayerFullScreen({ navigation }) {
                                 setWidthContainerPlayer(width);
                             }}>
 
-                            <TouchableOpacity onPress={(e) => handleClickProgressBar(e)}>
+                            <TouchableOpacity onPress={(e) => handleClickProgressBar(e)} hitSlop={{ top: 20, bottom: 20 }}>
                                 <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'} animated={true}
                                     height={5} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
                                     unfilledColor={'#404131'}

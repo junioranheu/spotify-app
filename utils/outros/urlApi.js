@@ -1,4 +1,4 @@
-let API_BASE_URL_DEV = 'http://192.168.8.211:5001';
+let API_BASE_URL_DEV = 'http://192.168.8.214:7226';
 let API_BASE_URL_PROD = 'https://spotifyapi.azurewebsites.net';
 
 // Habilitar dev = prod;

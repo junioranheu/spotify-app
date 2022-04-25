@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
+import TextTicker from 'react-native-text-ticker'; // https://www.npmjs.com/package/react-native-text-ticker
 import Styles from '../../css/player';
 import ImgCinza from '../../static/image/outros/cinza.webp';
 import { InfoMusicaContext } from '../../utils/context/infoMusicaContext';
@@ -21,7 +22,7 @@ export default function Player() {
     const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [
-        infoMusicaContext, setInfoMusicaContext, 
+        infoMusicaContext, setInfoMusicaContext,
         isModoAleatorioContext, setIsModoAleatorioContext,
         isModoLoopContext, setIsModoLoopContext
     ] = useContext(InfoMusicaContext); // Context da música que está tocando, contendo suas informações;
@@ -213,7 +214,10 @@ export default function Player() {
                             }
 
                             <View style={Styles.divInfoMusica}>
-                                <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.tituloMusica}>{musicaContext.nome}</Text>
+                                <TextTicker duration={5000} loop bounce={false} repeatSpacer={50} marqueeDelay={0} style={Styles.tituloMusica}>
+                                    {musicaContext.nome}
+                                </TextTicker>
+
                                 <Text numberOfLines={1} ellipsizeMode='tail' style={Styles.banda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
                             </View>
                         </TouchableOpacity>

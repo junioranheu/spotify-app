@@ -1,9 +1,9 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     containerPrincipal: {
         // backgroundColor: 'pink',
-        height: '100%',
+        height: (Platform.OS === 'web' ? '100vh' : '100%'),
         width: '100%'
     },
 
@@ -29,7 +29,12 @@ export default StyleSheet.create({
     tituloMusica: {
         fontSize: 23,
         fontWeight: '700',
-        color: '#fff',
+        color: '#fff'
+    },
+
+    divTituloMusica: {
+        // backgroundColor: 'pink',
+        maxWidth: 300
     },
 
     nomeBanda: {

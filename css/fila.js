@@ -43,7 +43,7 @@ export default StyleSheet.create({
     divInfoMusica: {
         // backgroundColor: 'pink',
         marginLeft: 10,
-        maxWidth: 200
+        maxWidth: 250
     },
 
     tituloMusica: {

@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Image, Platform, Text, TouchableOpacity, View } from 'react-native';
 import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
 import GestureRecognizer from 'react-native-swipe-gestures'; // https://www.npmjs.com/package/react-native-swipe-gestures
+import TextTicker from 'react-native-text-ticker'; // https://www.npmjs.com/package/react-native-text-ticker
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import Aleatorio from '../components/svg/aleatorio';
 import BotaoAvancar from '../components/svg/botaoAvancar';
@@ -277,8 +278,11 @@ export default function PlayerFullScreen({ navigation }) {
                     <View style={[Styles.divOutrosElementos, Styles.margemTopGrande]}>
                         {/* =-=-=-=-=-=-=-=-=-=-= Informações =-=-=-=-=-=-=-=-=-=-= */}
                         <View style={Styles.mesmaLinha}>
-                            <View>
-                                <Text style={Styles.tituloMusica}>{musicaContext?.nome}</Text>
+                            <View style={Styles.divTituloMusica}>
+                                <TextTicker duration={5000} loop bounce={false} repeatSpacer={50} marqueeDelay={0} style={Styles.tituloMusica}>
+                                    {musicaContext?.nome}
+                                </TextTicker>
+
                                 <Text style={Styles.nomeBanda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
                             </View>
 

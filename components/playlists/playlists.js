@@ -7,7 +7,7 @@ export default function Playlists({ playlist, navigation }) {
     return (
         <Fragment>
             <View style={Styles.playlist} id={playlist.playlistId}>
-                <TouchableOpacity onPress={() => navigation.navigate('Fila')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Playlist', { playlistId: playlist.playlistId })}>
                     <View style={Styles.divThumbnail}>
                         <Image
                             style={{ width: 170, height: 170 }}

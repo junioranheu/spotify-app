@@ -12,6 +12,7 @@ import { MusicaProvider } from '../utils/context/musicaContext';
 import Fila from './fila';
 import Index from './index';
 import PlayerFullScreen from './playerFullScreen';
+import Playlist from './playlist';
 
 export default function App() {
     const Stack = createNativeStackNavigator();
@@ -42,6 +43,7 @@ export default function App() {
                                 <Stack.Screen component={Index} name='Index' options={{ headerShown: false }} />
                                 <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
                                 <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false, animation: 'slide_from_bottom' }} />
+                                <Stack.Screen component={Playlist} name='Playlist' options={{ headerShown: false }} />
                             </Stack.Navigator>
 
                             {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}

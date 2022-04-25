@@ -80,5 +80,15 @@ export default StyleSheet.create({
         width: 12,
         marginRight: 5,
         marginLeft: 2
+    },
+
+    centralizar: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+
+    gifWait: {
+        height: 250,
+        width: 250
     }
 });

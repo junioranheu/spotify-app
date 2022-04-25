@@ -1,9 +1,10 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 import MusicaRow from '../components/fila/musicaRow';
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import Styles from '../css/fila';
 import StylesGlobal from '../css/global';
+import WaitGif from '../static/image/outros/wait.gif';
 import { ListaMusicasContext } from '../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
@@ -114,6 +115,15 @@ export default function Fila({ navigation }) {
                     }
                 </View>
             </View>
+
+            {/* Gif caso não tenha música tocando e nem na fila */}
+            {
+                !listaMusicasContext?.length && !musicaContext?.musicaId && (
+                    <View style={Styles.centralizar}>
+                        <Image source={WaitGif} style={Styles.gifWait}></Image>
+                    </View>
+                )
+            }
 
             {/* Margem do footer */}
             <MargemBotFooter />

@@ -11,8 +11,7 @@ export default function Playlists({ playlist, navigation }) {
                     <View style={Styles.divThumbnail}>
                         <Image
                             style={{ width: 170, height: 170 }}
-                            source={{ uri: `${CONSTANTS_UPLOAD.API_URL_GET_PLAYLIST}/${playlist.playlistId}.webp` }} // Localhost só funciona no web;
-                        // source={{ uri: `https://spotifyapi.azurewebsites.net/Upload/playlists/${playlist.playlistId}.webp` }}
+                            source={{ uri: `${CONSTANTS_UPLOAD.API_URL_GET_PLAYLIST}/${playlist.playlistId}.webp` }} 
                         />
                     </View>
                 </TouchableOpacity>

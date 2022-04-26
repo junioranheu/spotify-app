@@ -2,3 +2,6 @@
 colocar animação no coração
 criar login: usuario só pode ouvir se estiver logado
 
+verificar pq a tela FILA, por exemplo, continua rodando msm dps de sair dela
+
+ajustar meu player e footer para tab navigation: https://reactnavigation.org/docs/tab-based-navigation/

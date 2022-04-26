@@ -4,23 +4,29 @@ import MusicaRow from '../components/fila/musicaRow';
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import StylesFila from '../css/fila';
 import StylesGlobal from '../css/global';
+import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
 
 export default function Playlist({ route, navigation }) {
     const { playlistId } = route.params;
+    const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
 
     const [musicasPlaylist, setMusicasPlaylist] = useState(null);
+    async function getPlaylist(playlistId) {
+        const url = `${CONSTANTS_MUSICAS.API_URL_POR_PLAYLIST}/${playlistId}`;
+
+        const res = await fetch(url);
+        const musicas = await res.json();
+        setMusicasPlaylist(musicas);
+
+        // Salvar no Context e no localStorage (fila) a playlist atual;
+        ListaMusicasStorage.set(musicas);
+        setListaMusicasContext(musicas);
+    }
+
     useEffect(() => {
-        async function getPlaylist(playlistId) {
-            const url = `${CONSTANTS_MUSICAS.API_URL_POR_PLAYLIST}/${playlistId}`;
-            const res = await fetch(url);
-            const musicas = await res.json();
-
-            setMusicasPlaylist(musicas);
-        }
-
         getPlaylist(playlistId);
     }, []);
 
@@ -50,6 +56,9 @@ export default function Playlist({ route, navigation }) {
 
         // Bloquear "avanço";
         setIsPodeAvancar(false);
+
+        // Salvar playlist novamente;
+        getPlaylist(playlistId);
     }
 
     useEffect(() => {
@@ -65,7 +74,7 @@ export default function Playlist({ route, navigation }) {
         <ScrollView style={StylesGlobal.containerPrincipal}>
             {/* Próximas músicas na fila */}
             <View style={StylesFila.margemTop}>
-                <Text style={StylesFila.titulo}>Próximas músicas</Text>
+                <Text style={StylesFila.titulo}>Playlist {playlistId}</Text>
 
                 <View style={StylesFila.margemTopPequena}>
                     {

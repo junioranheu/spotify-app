@@ -230,7 +230,7 @@ export default function PlayerFullScreen({ navigation }) {
     // Ao finalizar utilização do Slide;
     async function handleSlidingComplete(e) {
         let porcentagemPontoClicado = e / 100;
-
+  
         // Limitar a porcentagem máxima para 99%, para evitar bugs;
         porcentagemPontoClicado = porcentagemPontoClicado <= 0.99 ? porcentagemPontoClicado : 0.99;
 
@@ -239,7 +239,7 @@ export default function PlayerFullScreen({ navigation }) {
         // console.log(infoMusicaContext?.status?.durationMillis);
         // console.log(milisegundosReferente);
 
-        if (milisegundosReferente) {
+        if (milisegundosReferente !== null) {
             // Setar o valor em milisegundos encontrados na música atual;
             await infoMusicaContext?.sound?.setPositionAsync(milisegundosReferente);
         }
@@ -336,8 +336,10 @@ export default function PlayerFullScreen({ navigation }) {
                                 value={porcetagemMusicaOuvida}
                                 minimumTrackTintColor='rgba(255, 255, 255, 0.8)'
                                 maximumTrackTintColor='#404131'
+                                thumbTintColor='rgba(255, 255, 255, 0.9)'
                                 onSlidingStart={() => handleSlidingStart()}
                                 onSlidingComplete={(e) => handleSlidingComplete(e)}
+                                thumbTouchSize={{width: 50, height: 40}}
                             />
 
                             <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>

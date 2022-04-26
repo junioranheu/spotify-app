@@ -88,7 +88,7 @@ export default function Playlist({ route, navigation }) {
                             </Fragment>
                         ) : (
                             <View>
-                                <Text style={StylesFila.subtitulo}>Sem músicas na sua fila de reprodução</Text>
+                                {/* <Text style={StylesFila.subtitulo}>Sem músicas na sua fila de reprodução</Text> */}
                             </View>
                         )
                     }

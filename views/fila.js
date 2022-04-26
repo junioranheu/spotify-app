@@ -109,7 +109,7 @@ export default function Fila({ navigation }) {
                             </Fragment>
                         ) : (
                             <View>
-                                <Text style={Styles.subtitulo}>Sem músicas na sua fila de reprodução</Text>
+                                <Text style={Styles.subtitulo}>Sem próximas músicas na sua fila</Text>
                             </View>
                         )
                     }

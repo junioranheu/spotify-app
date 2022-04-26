@@ -160,9 +160,11 @@ export default function PlayerFullScreen({ navigation }) {
     // Função de histórico da lista + função de voltar música;
     const [historicoListaMusicasContext, setHistoricoListaMusicasContext] = useState();
     useEffect(() => {
-        // console.log('Histórico inicial copiado');
-        const jsonFinal = [musicaContext].concat([...listaMusicasContext]);
-        setHistoricoListaMusicasContext(jsonFinal);
+        if (listaMusicasContext?.length > 0) {
+            const jsonFinal = [musicaContext].concat([...listaMusicasContext]);
+            setHistoricoListaMusicasContext(jsonFinal);
+            // console.log('Histórico inicial copiado');
+        }
     }, [listaMusicasContext]);
 
     function handleVoltar() {

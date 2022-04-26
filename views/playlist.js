@@ -14,23 +14,27 @@ export default function Playlist({ route, navigation }) {
     const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
 
     const [musicasPlaylist, setMusicasPlaylist] = useState(null);
-    async function getPlaylist(playlistId) {
-        const url = `${CONSTANTS_MUSICAS.API_URL_POR_PLAYLIST}/${playlistId}`;
-
-        const res = await fetch(url);
-        const musicas = await res.json();
-        setMusicasPlaylist(musicas);
-
-        // Salvar no Context e no localStorage (fila) a playlist atual;
-        ListaMusicasStorage.set(musicas);
-        setListaMusicasContext(musicas);
-    }
-
     useEffect(() => {
-        getPlaylist(playlistId);
+        async function getPlaylist() {
+            const url = `${CONSTANTS_MUSICAS.API_URL_POR_PLAYLIST}/${playlistId}`;
+            const res = await fetch(url);
+            const musicas = await res.json();
+
+            // Tive que chamar duas vezes o mesmo end-point para corrigir um bug bizarro;
+            // Se usasse a mesma variável aqui em "musicasPlaylist", quando o "listaMusicasContext" fosse alterado, a variável também era alterada;
+            const urlTemp = `${CONSTANTS_MUSICAS.API_URL_POR_PLAYLIST}/${playlistId}`;
+            const resTemp = await fetch(urlTemp);
+            const musicasTemp = await resTemp.json();
+            setMusicasPlaylist(musicasTemp);
+
+            // Salvar no Context e no localStorage (fila) a playlist atual;
+            ListaMusicasStorage.set(musicas);
+            setListaMusicasContext(musicas);
+        }
+
+        getPlaylist();
     }, []);
 
-    const [isPodeAvancar, setIsPodeAvancar] = useState(true);
     async function setarMusica(id) {
         if (!isPodeAvancar) {
             console.log('Não é possível avançar a música agora, aguarde um momento');
@@ -56,11 +60,9 @@ export default function Playlist({ route, navigation }) {
 
         // Bloquear "avanço";
         setIsPodeAvancar(false);
-
-        // Salvar playlist novamente;
-        getPlaylist(playlistId);
     }
 
+    const [isPodeAvancar, setIsPodeAvancar] = useState(true);
     useEffect(() => {
         // Aguardar x segundos para poder avançar novamente, para evitar bugs;
         const timeOut = window.setTimeout(() => {
@@ -97,7 +99,7 @@ export default function Playlist({ route, navigation }) {
                             </Fragment>
                         ) : (
                             <View>
-                                {/* <Text style={StylesFila.subtitulo}>Sem músicas na sua fila de reprodução</Text> */}
+                                {/* <Text style={StylesFila.subtitulo}>Sem músicas nessa playlist</Text> */}
                             </View>
                         )
                     }

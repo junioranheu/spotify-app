@@ -34,7 +34,7 @@ export default function Player() {
     const [coresDominantes, setCoresDominantes] = useState(null);
     useEffect(() => {
         // console.log(musicaContext);
-
+        
         async function importDinamico() {
             // Importar música dinamicamente;
             const urlMusica = `${CONSTANTS_UPLOAD.API_URL_GET_MUSIC}/${musicaContext.musicaId}.mp3`;

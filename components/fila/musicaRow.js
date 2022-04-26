@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import Styles from '../../css/fila';
 import ImgCinza from '../../static/image/outros/cinza.webp';
@@ -15,6 +15,7 @@ export default function MusicaRow({ id, foto, titulo, banda, album, tempo, setar
     const [musicaContext] = useContext(MusicaContext); // Context da música;
     const [imagemBanda, setImagemBanda] = useState(null);
 
+    const [isExibirEqualiser, setIsExibirEqualiser] = useState(false);
     useEffect(() => {
         // console.log(musicaContext);
         // console.log(musicaContext?.musicaId);
@@ -25,6 +26,12 @@ export default function MusicaRow({ id, foto, titulo, banda, album, tempo, setar
             const img = `${CONSTANTS_UPLOAD.API_URL_GET_CAPA}/${foto}`;
             setImagemBanda(img);
         }
+
+        // Mostrar o equaliser;
+        setIsExibirEqualiser(false);
+        setTimeout(function () {
+            setIsExibirEqualiser(true);
+        }, 1000);
     }, [musicaContext]);
 
     return (
@@ -41,12 +48,8 @@ export default function MusicaRow({ id, foto, titulo, banda, album, tempo, setar
                 <View style={Styles.divInfoMusica}>
                     <View style={Styles.mesmaLinha}>
                         {
-                            infoMusicaContext?.status?.isPlaying && (
-                                <Fragment>
-                                    {id === musicaContext?.musicaId && (
-                                        <Image source={EqualiserGif} style={Styles.equaliser}></Image>
-                                    )}
-                                </Fragment>
+                            isExibirEqualiser && infoMusicaContext?.status?.isPlaying && id === musicaContext?.musicaId && (
+                                <Image source={EqualiserGif} style={Styles.equaliser}></Image>
                             )
                         }
 

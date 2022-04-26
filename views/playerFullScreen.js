@@ -1,7 +1,7 @@
+import Slider from '@react-native-community/slider'; // https://www.npmjs.com/package/@react-native-community/slider/v/4.1.12
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Platform, Text, TouchableOpacity, View } from 'react-native';
-import * as Progress from 'react-native-progress'; // https://www.npmjs.com/package/react-native-progress
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures'; // https://www.npmjs.com/package/react-native-swipe-gestures
 import TextTicker from 'react-native-text-ticker'; // https://www.npmjs.com/package/react-native-text-ticker
 import MargemBotFooter from '../components/outros/margemBotFooter';
@@ -68,15 +68,18 @@ export default function PlayerFullScreen({ navigation }) {
     // Infos da música em questão (atualiza a cada 100ms);
     const [porcetagemMusicaOuvida, setPorcetagemMusicaOuvida] = useState(0);
     useEffect(() => {
-        // console.log(infoMusicaContext); // Todos os status;
-        // console.log(infoMusicaContext?.status?.durationMillis); // Total ms;
-        // console.log(infoMusicaContext?.status?.positionMillis); // Atual ms;
+        // Apenas atualiza a porcentagem caso o usuário não esteja utilizando o Slide;
+        if (!isSliding) {
+            // console.log(infoMusicaContext); // Todos os status;
+            // console.log(infoMusicaContext?.status?.durationMillis); // Total ms;
+            // console.log(infoMusicaContext?.status?.positionMillis); // Atual ms;
 
-        // Calcular a porcentagem da música escutada para setar no progressbar;
-        let porcentagemMusicaOuvidaCalculo = (infoMusicaContext?.status?.positionMillis / infoMusicaContext?.status?.durationMillis); // * 100
-        porcentagemMusicaOuvidaCalculo = !porcentagemMusicaOuvidaCalculo ? 0 : Number(porcentagemMusicaOuvidaCalculo.toFixed(2));
-        setPorcetagemMusicaOuvida(porcentagemMusicaOuvidaCalculo);
-        // console.log(porcentagemMusicaOuvidaCalculo);
+            // Calcular a porcentagem da música escutada para setar no progressbar;
+            let porcentagemMusicaOuvidaCalculo = (infoMusicaContext?.status?.positionMillis / infoMusicaContext?.status?.durationMillis) * 100;
+            porcentagemMusicaOuvidaCalculo = !porcentagemMusicaOuvidaCalculo ? 0 : Number(porcentagemMusicaOuvidaCalculo.toFixed(2));
+            setPorcetagemMusicaOuvida(porcentagemMusicaOuvidaCalculo);
+            // console.log(porcentagemMusicaOuvidaCalculo);
+        }
     }, [infoMusicaContext?.status]);
 
     // Play/pausar música ao clicar no ícone;
@@ -148,16 +151,16 @@ export default function PlayerFullScreen({ navigation }) {
         }
     }
 
+    // Aguardar x segundos para poder avançar novamente, para evitar bugs;
     useEffect(() => {
-        // Aguardar x segundos para poder avançar novamente, para evitar bugs;
         if (!isPodeAvancar) {
             const timeOut = window.setTimeout(() => {
                 setIsPodeAvancar(true);
-            }, 1000);
+            }, 1500);
 
             return () => window.clearTimeout(timeOut);
         }
-    }, [isPodeAvancar]);
+    }, [isPodeAvancar, isSlideDisabled]);
 
     // Função de histórico da lista + função de voltar música;
     const [historicoListaMusicasContext, setHistoricoListaMusicasContext] = useState();
@@ -209,41 +212,55 @@ export default function PlayerFullScreen({ navigation }) {
         setIsModoLoopContext(!isModoLoopContext);
     }
 
-    // Ao clicar no ProgressBar;
-    async function handleClickProgressBar(e) {
-        // console.log(e);
-        // console.log(widthContainerPlayer);
-
-        // Pegar o pageX "ponto clicado" dependendo do dispositivo;
-        const pageX = (Platform.OS === 'web' ? e.pageX : e.nativeEvent.pageX);
-        // console.log(pageX);
-
-        // Descobrir o ponto clicado;
-        const respaldo = 32; // Foi percebido que por algum motivo desconhecido existe 32px de diferença... ele deve ser descontado;
-        let pontoClicado = pageX - respaldo;
-        pontoClicado = pontoClicado < 0 ? 0 : pontoClicado;
-        pontoClicado = pontoClicado > widthContainerPlayer ? widthContainerPlayer : pontoClicado;
-        // console.log(pontoClicado);
-
-        // Descobrir a porcentagem que esse ponto clicado representa;
-        const porcentagemPontoClicado = pontoClicado / widthContainerPlayer;
-        // console.log(porcentagemPontoClicado);
-
-        // Descobrir quantos milisegundos da música atual essa porcentagem do ponto clicado representa;
-        const milisegundosReferente = porcentagemPontoClicado * infoMusicaContext?.status?.durationMillis;
-        // console.log(infoMusicaContext?.status?.durationMillis);
-        // console.log(milisegundosReferente);
-
-        // Setar o valor em milisegundos encontrados na música atual;
-        await infoMusicaContext.sound.setPositionAsync(milisegundosReferente);
-    }
-
     // GestureRecognizer;
     function handleSwipeDown(e) {
         // console.log(e);  
         // console.log('Swipe para baixo com a força necessária config/velocityThreshold');
         navigation.goBack();
     }
+
+    // Ao iniciar utilização do Slide;
+    const [isSliding, setIsSliding] = useState(false);
+    function handleSlidingStart() {
+        // Setar setIsSliding para true para criar uma validação no método acima que roda a cada 100ms;
+        // Isso faz com que a posição atual do Slide, na variável porcetagemMusicaOuvida, não bugue;
+        setIsSliding(true);
+    }
+
+    // Ao finalizar utilização do Slide;
+    async function handleSlidingComplete(e) {
+        let porcentagemPontoClicado = e / 100;
+
+        // Limitar a porcentagem máxima para 99%, para evitar bugs;
+        porcentagemPontoClicado = porcentagemPontoClicado <= 0.99 ? porcentagemPontoClicado : 0.99;
+
+        // Descobrir quantos milisegundos da música atual essa porcentagem do ponto clicado representa;
+        const milisegundosReferente = porcentagemPontoClicado * infoMusicaContext?.status?.durationMillis;
+        // console.log(infoMusicaContext?.status?.durationMillis);
+        // console.log(milisegundosReferente);
+
+        if (milisegundosReferente) {
+            // Setar o valor em milisegundos encontrados na música atual;
+            await infoMusicaContext?.sound?.setPositionAsync(milisegundosReferente);
+        }
+
+        // Finalizar utilização do Slide;
+        // Voltar o setIsSliding para false, padrão, para que a variável porcetagemMusicaOuvida volte ao normal;
+        setIsSliding(false);
+    }
+
+    // Ao mudar de música, desabilite o Slide por x segundos;
+    const [isSlideDisabled, setIsSlideDisabled] = useState(false);
+    useEffect(() => {
+        // console.log('Mudou de música');
+        setIsSlideDisabled(true);
+
+        const timeOut = window.setTimeout(() => {
+            setIsSlideDisabled(false);
+        }, 1000);
+
+        return () => window.clearTimeout(timeOut);
+    }, [musicaContext]);
 
     return (
         <GestureRecognizer onSwipeDown={(e) => handleSwipeDown(e)} config={[{ velocityThreshold: 0.2, directionalOffsetThreshold: 100 }]}>
@@ -304,19 +321,24 @@ export default function PlayerFullScreen({ navigation }) {
                         </View>
 
                         {/* =-=-=-=-=-=-=-=-=-=-= Progressbar =-=-=-=-=-=-=-=-=-=-= */}
-                        <View style={Styles.margemTop}
+                        <View style={Styles.margemTopPequena}
                             onLayout={(event) => {
                                 var { x, y, width, height } = event.nativeEvent.layout;
                                 // console.log(width);
                                 setWidthContainerPlayer(width);
                             }}>
 
-                            <TouchableOpacity onPress={(e) => handleClickProgressBar(e)} hitSlop={{ top: 20, bottom: 20 }}>
-                                <Progress.Bar progress={porcetagemMusicaOuvida} animationType={'timing'} animated={true}
-                                    height={5} width={widthContainerPlayer} color={'rgba(255, 255, 255, 0.8)'} borderWidth={0} borderRadius={10}
-                                    unfilledColor={'#404131'}
-                                />
-                            </TouchableOpacity>
+                            <Slider
+                                disabled={isSlideDisabled}
+                                style={{ width: widthContainerPlayer }}
+                                minimumValue={0}
+                                maximumValue={100}
+                                value={porcetagemMusicaOuvida}
+                                minimumTrackTintColor='rgba(255, 255, 255, 0.8)'
+                                maximumTrackTintColor='#404131'
+                                onSlidingStart={() => handleSlidingStart()}
+                                onSlidingComplete={(e) => handleSlidingComplete(e)}
+                            />
 
                             <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
                                 <Text style={Styles.spanTempoAtualProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.positionMillis)}</Text>

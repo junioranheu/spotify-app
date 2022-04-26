@@ -43,11 +43,11 @@ export default function Fila({ navigation }) {
 
     useEffect(() => {
         // Aguardar x segundos para poder avançar novamente, para evitar bugs;
-        if (!isPodeAvancar) {
-            setTimeout(function () {
-                setIsPodeAvancar(true);
-            }, 1000);
-        }
+        const timeOut = window.setTimeout(() => {
+            setIsPodeAvancar(true);
+        }, 100);
+
+        return () => window.clearTimeout(timeOut);
     }, [isPodeAvancar]);
 
     return (

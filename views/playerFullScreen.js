@@ -151,9 +151,11 @@ export default function PlayerFullScreen({ navigation }) {
     useEffect(() => {
         // Aguardar x segundos para poder avançar novamente, para evitar bugs;
         if (!isPodeAvancar) {
-            setTimeout(function () {
+            const timeOut = window.setTimeout(() => {
                 setIsPodeAvancar(true);
-            }, 2000);
+            }, 1000);
+
+            return () => window.clearTimeout(timeOut);
         }
     }, [isPodeAvancar]);
 

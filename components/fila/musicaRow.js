@@ -29,9 +29,11 @@ export default function MusicaRow({ id, foto, titulo, banda, album, tempo, setar
 
         // Mostrar o equaliser;
         setIsExibirEqualiser(false);
-        setTimeout(function () {
+        const timeOut = window.setTimeout(() => {
             setIsExibirEqualiser(true);
         }, 1000);
+
+        return () => window.clearTimeout(timeOut);
     }, [musicaContext]);
 
     return (

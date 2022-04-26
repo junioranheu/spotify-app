@@ -14,6 +14,13 @@ export default StyleSheet.create({
         opacity: 0.7
     },
 
+    subtituloMenor: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#fff',
+        opacity: 0.7
+    },  
+
     margemTop: {
         // backgroundColor: 'red',
         marginTop: 24
@@ -84,6 +91,7 @@ export default StyleSheet.create({
 
     centralizar: {
         display: 'flex',
+        justifyContent: 'center',
         alignItems: 'center',
     },
 

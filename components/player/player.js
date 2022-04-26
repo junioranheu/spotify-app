@@ -34,7 +34,7 @@ export default function Player() {
     const [coresDominantes, setCoresDominantes] = useState(null);
     useEffect(() => {
         // console.log(musicaContext);
-        
+
         async function importDinamico() {
             // Importar música dinamicamente;
             const urlMusica = `${CONSTANTS_UPLOAD.API_URL_GET_MUSIC}/${musicaContext.musicaId}.mp3`;
@@ -77,11 +77,10 @@ export default function Player() {
                 console.log(`Música "${musicaContext.nome}" (${musicaContext.musicaId}) importada`);
 
                 // Quando a música for importada, é necessário removê-la da lista/fila;
-                if (listaMusicasContext.length > 0 && musicaContext?.musicaId > 0) {
+                if (listaMusicasContext.length > 0) {
                     const indexMusicaTocando = listaMusicasContext?.findIndex(m => m.musicaId === musicaContext?.musicaId);
-                    // console.log(indexMusicaTocando);
-
-                    if (indexMusicaTocando) {
+   
+                    if (indexMusicaTocando !== null) {
                         listaMusicasContext?.splice(indexMusicaTocando, 1);
                         ListaMusicasStorage.set(listaMusicasContext);
                         setListaMusicasContext(listaMusicasContext);

@@ -36,7 +36,7 @@ export default function Fila({ navigation }) {
         // Salvar no Context e no localStorage;
         MusicaStorage.set(musica);
         setMusicaContext(musica);
-
+ 
         // Bloquear "avanço";
         setIsPodeAvancar(false);
     }

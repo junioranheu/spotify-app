@@ -50,7 +50,7 @@ export default function Playlist({ route, navigation }) {
         // }
 
         const url = `${CONSTANTS_MUSICAS.API_URL_GET_POR_ID}/${id}`;
-        const res = await fetch(url)
+        const res = await fetch(url);
         const musica = await res.json();
         // console.log(musica);
 

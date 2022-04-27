@@ -351,7 +351,7 @@ export default function PlayerFullScreen({ navigation }) {
 
                             <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
                                 <Text style={Styles.spanTempoAtualProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.positionMillis)}</Text>
-                                <Text style={Styles.sapnTempoMaximoProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.durationMillis)}</Text>
+                                <Text style={Styles.spanTempoMaximoProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.durationMillis)}</Text>
                             </View>
                         </View>
 

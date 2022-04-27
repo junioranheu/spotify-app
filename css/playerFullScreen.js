@@ -133,7 +133,7 @@ export default StyleSheet.create({
         opacity: 0.6
     },
 
-    sapnTempoMaximoProgressBar: {
+    spanTempoMaximoProgressBar: {
         // color: 'pink',
         marginLeft: 'auto',
         fontSize: 11,

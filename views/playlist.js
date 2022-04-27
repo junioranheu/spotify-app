@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { ImageBackground, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import ShimmerPlaceHolder from 'react-native-shimmer-placeholder'; // https://github.com/tomzaku/react-native-shimmer-placeholder
 import MusicaRow from '../components/fila/musicaRow';
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import Coracao from '../components/svg/coracao';
@@ -14,6 +15,7 @@ import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
 import CONSTANTS_UPLOAD from '../utils/data/constUpload';
 import formatarSegundosComLegenda from '../utils/outros/formatarSegundosComLegenda';
+import NumeroAleatorio from '../utils/outros/numeroAleatorio';
 
 export default function Playlist({ route, navigation }) {
     const { playlist } = route.params;
@@ -26,6 +28,7 @@ export default function Playlist({ route, navigation }) {
     const [coresDominantes, setCoresDominantes] = useState(null);
     const [duracaoPlaylist, setDuracaoPlaylist] = useState('');
     const [ouvintesPlaylist, setOuvintesPlaylist] = useState(0);
+    const [isExibirConteudo, setIsExibirConteudo] = useState(false);
     useEffect(() => {
         async function getPlaylist() {
             // Músicas da playlist;
@@ -68,6 +71,9 @@ export default function Playlist({ route, navigation }) {
                 const o = somarOuvintesTotal(playlist?.playlistsMusicas);
                 setOuvintesPlaylist(o);
             }
+
+            // Exibir conteúdo depois que tudo estiver carregado;
+            setIsExibirConteudo(true);
         }
 
         getPlaylist();
@@ -144,6 +150,24 @@ export default function Playlist({ route, navigation }) {
     function handleScroll(e) {
         const positionY = e.nativeEvent.contentOffset.y;
         // console.log(positionY);
+    }
+
+    // Tela carregando;
+    if (!isExibirConteudo) {
+        return (
+            <View style={Styles.containerPrincipal}>
+                <View style={[Styles.centralizar, Styles.margemTop]}>
+                    <ShimmerPlaceHolder LinearGradient={LinearGradient} height={250} width={280} />
+                </View>
+
+                {[...Array(NumeroAleatorio(2, 5))].map((x, i) =>
+                    <View style={[Styles.margemTop, Styles.margemEsquerda, Styles.mesmaLinha]} key={i}>
+                        <ShimmerPlaceHolder LinearGradient={LinearGradient} height={50} width={50} />
+                        <ShimmerPlaceHolder LinearGradient={LinearGradient} height={20} width={NumeroAleatorio(30, 250)} style={Styles.placeholderTexto} />
+                    </View>
+                )}
+            </View>
+        );
     }
 
     return (

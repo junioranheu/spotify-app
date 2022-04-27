@@ -66,5 +66,11 @@ export default StyleSheet.create({
 
     margemEsquerda: {
         marginLeft: 25
+    },
+
+    placeholderTexto:{
+        marginLeft: 25,
+        marginTop: 'auto',
+        marginBottom: 'auto'
     }
 });

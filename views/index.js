@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import AlbunsPequenos from '../components/outros/albunsPequenos';
 import Botao from '../components/outros/botao';
@@ -11,24 +11,14 @@ import StylesGlobal from '../css/global';
 import Styles from '../css/index';
 import StylesPlaylist from '../css/playlists';
 import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/listaMusicasContext';
+import { PlaylistsContext } from '../utils/context/playlistsContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
-import CONSTANTS_PLAYLISTS from '../utils/data/constPlaylists';
 import EmojiAleatorio from '../utils/outros/emojiAleatorio';
 import HorarioBrasilia from '../utils/outros/horarioBrasilia';
 
 export default function Index({ navigation }) {
+    const [playlistsContext] = useContext(PlaylistsContext); // Context das playlists disponiveis;
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
-
-    const [playlists, setPlaylists] = useState(null);
-    useEffect(() => {
-        async function getPlaylists() {
-            const res = await fetch(CONSTANTS_PLAYLISTS.API_URL_GET_TODOS);
-            const playlists = await res.json();
-            setPlaylists(playlists);
-        }
-
-        getPlaylists();
-    }, []);
 
     function gerarOla() {
         var hora = HorarioBrasilia().hour();
@@ -82,10 +72,10 @@ export default function Index({ navigation }) {
             <View style={Styles.margemTop}>
                 <Text style={Styles.titulo}>Playlists disponíveis {EmojiAleatorio()}</Text>
 
-                {playlists && (
+                {playlistsContext && (
                     <View style={StylesPlaylist.divPlaylists}>
                         <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                            {playlists.filter(x => x.isAtivo === 1 && !x.nome.includes('Funk')).map((p) => (
+                            {playlistsContext.filter(x => x.isAtivo === 1 && !x.nome.includes('Funk')).map((p) => (
                                 <Playlists playlist={p} key={p.playlistId} navigation={navigation} />
                             ))}
                         </ScrollView>
@@ -97,10 +87,10 @@ export default function Index({ navigation }) {
             <View style={Styles.margemTop}>
                 <Text style={Styles.titulo}>Playlists 100% brasileiras</Text>
 
-                {playlists && (
+                {playlistsContext && (
                     <View style={StylesPlaylist.divPlaylists}>
                         <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                            {playlists.filter(x => x.isAtivo === 1 && x.nome.includes('Funk')).map((p) => (
+                            {playlistsContext.filter(x => x.isAtivo === 1 && x.nome.includes('Funk')).map((p) => (
                                 <Playlists playlist={p} key={p.playlistId} navigation={navigation} />
                             ))}
                         </ScrollView>

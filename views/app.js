@@ -9,6 +9,7 @@ import StylesGlobal from '../css/global';
 import { InfoMusicaProvider } from '../utils/context/infoMusicaContext';
 import { ListaMusicasProvider } from '../utils/context/listaMusicasContext';
 import { MusicaProvider } from '../utils/context/musicaContext';
+import { PlaylistsProvider } from '../utils/context/playlistsContext';
 import Fila from './fila';
 import Index from './index';
 import PlayerFullScreen from './playerFullScreen';
@@ -24,41 +25,43 @@ export default function App() {
 
     return (
         <View style={{ backgroundColor: '#121212', flex: 1 }}>
-            <ListaMusicasProvider>
-                <MusicaProvider>
-                    <InfoMusicaProvider>
-                        <NavigationContainer
-                            ref={refNavigation}
-                            onStateChange={() => {
-                                const currentRouteName = refNavigation.current.getCurrentRoute().name;
-                                // console.log(currentRouteName);
-                                setRotaAtual(currentRouteName);
-                            }}
-                        >
-                            {/* Navbar (é o que "desbuga" o statusbar do mobile) */}
-                            <SafeAreaView style={StylesGlobal.safeAreaView}>
-                                <Navbar />
-                            </SafeAreaView>
+            <PlaylistsProvider>
+                <ListaMusicasProvider>
+                    <MusicaProvider>
+                        <InfoMusicaProvider>
+                            <NavigationContainer
+                                ref={refNavigation}
+                                onStateChange={() => {
+                                    const currentRouteName = refNavigation.current.getCurrentRoute().name;
+                                    // console.log(currentRouteName);
+                                    setRotaAtual(currentRouteName);
+                                }}
+                            >
+                                {/* Navbar (é o que "desbuga" o statusbar do mobile) */}
+                                <SafeAreaView style={StylesGlobal.safeAreaView}>
+                                    <Navbar />
+                                </SafeAreaView>
 
-                            {/* Telas */}
-                            <Stack.Navigator initialRouteName={rotaInicial}>
-                                <Stack.Screen component={Splash} name='Splash' options={{ headerShown: false }} />
-                                <Stack.Screen component={Index} name='Index' options={{ headerShown: false, animation: 'fade' }} />
-                                <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
-                                <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false, animation: 'slide_from_bottom' }} />
-                                <Stack.Screen component={Playlist} name='Playlist' options={{ headerShown: false }} />
-                            </Stack.Navigator>
+                                {/* Telas */}
+                                <Stack.Navigator initialRouteName={rotaInicial}>
+                                    <Stack.Screen component={Splash} name='Splash' options={{ headerShown: false }} />
+                                    <Stack.Screen component={Index} name='Index' options={{ headerShown: false, animation: 'fade' }} />
+                                    <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
+                                    <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false, animation: 'slide_from_bottom' }} />
+                                    <Stack.Screen component={Playlist} name='Playlist' options={{ headerShown: false }} />
+                                </Stack.Navigator>
 
-                            {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}
-                            {/* É necessário esconder com css para que a música não pare! */}
-                            <View style={(rotaAtual === 'PlayerFullScreen' || rotaAtual === 'Splash') ? StylesGlobal.esconder : null}>
-                                <Player />
-                                <Footer rotaAtual={rotaAtual} />
-                            </View>
-                        </NavigationContainer>
-                    </InfoMusicaProvider>
-                </MusicaProvider>
-            </ListaMusicasProvider>
+                                {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}
+                                {/* É necessário esconder com css para que a música não pare! */}
+                                <View style={(rotaAtual === 'PlayerFullScreen' || rotaAtual === 'Splash') ? StylesGlobal.esconder : null}>
+                                    <Player />
+                                    <Footer rotaAtual={rotaAtual} />
+                                </View>
+                            </NavigationContainer>
+                        </InfoMusicaProvider>
+                    </MusicaProvider>
+                </ListaMusicasProvider>
+            </PlaylistsProvider>
         </View>
     );
 }

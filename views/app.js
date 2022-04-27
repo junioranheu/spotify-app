@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native'; // https://react
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { Fragment, useRef, useState } from 'react';
 import { Platform, SafeAreaView, StatusBar, View } from 'react-native';
-import Toast from 'react-native-toast-message'; // https://github.com/calintamas/react-native-toast-message
+import Toast, { BaseToast } from 'react-native-toast-message'; // https://github.com/calintamas/react-native-toast-message
 import Footer from '../components/outros/footer';
 import Navbar from '../components/outros/navbar';
 import Player from '../components/player/player';
@@ -25,6 +25,17 @@ export default function App() {
     const [rotaInicial, setRotaInicial] = useState(Platform.OS === 'web' ? 'Index' : 'Splash');
     const [rotaAtual, setRotaAtual] = useState(rotaInicial);
     StatusBar.setBarStyle('light-content', true); // Alterar a cor do StatusBar: https://stackoverflow.com/questions/39297291/how-to-set-ios-status-bar-background-color-in-react-native;
+
+    const toastConfig = {
+        success: (props) => (
+            <BaseToast
+                {...props}
+                style={{ borderLeftColor: '#1CCC5B' }} 
+                text1Style={{ fontSize: 15, fontWeight: '400' }}
+                text2Style={{ fontSize: 14, fontWeight: '400' }}
+            />
+        ),
+    };
 
     return (
         <Fragment>
@@ -77,7 +88,7 @@ export default function App() {
             </View>
 
             {/* Toast message */}
-            <Toast />
+            <Toast config={toastConfig} />
         </Fragment>
     );
 }

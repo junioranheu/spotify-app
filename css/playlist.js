@@ -68,9 +68,19 @@ export default StyleSheet.create({
         marginLeft: 25
     },
 
+    margemDireitaPequena: {
+        marginRight: 7
+    },
+    
     placeholderTexto:{
         marginLeft: 25,
         marginTop: 'auto',
         marginBottom: 'auto'
+    },
+
+    centralizarVerticalmente:{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center' 
     }
 });

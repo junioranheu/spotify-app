@@ -7,6 +7,7 @@ import Coracao from '../components/svg/coracao';
 import CoracaoPreenchido from '../components/svg/coracaoPreenchido';
 import Reticencias from '../components/svg/reticencias';
 import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
+import SpotifyLogo2 from '../components/svg/spotifyLogo2';
 import Styles from '../css/playlist';
 import ImgCinza from '../static/image/outros/cinza.webp';
 import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/listaMusicasContext';
@@ -198,7 +199,19 @@ export default function Playlist({ route, navigation }) {
                     {/* Informações da playlist */}
                     <View style={Styles.margemTopPequena}>
                         <Text style={Styles.texto}>{playlist?.sobre}</Text>
-                        <Text style={[Styles.textoBranco, Styles.margemTopSuperPequena]}>{playlist?.usuarios?.nomeCompleto}</Text>
+
+                        <View style={[Styles.centralizarVerticalmente, Styles.margemTopSuperPequena]}>
+                            {
+                                playlist?.usuarios?.usuarioId === 1 && (
+                                    <View style={Styles.margemDireitaPequena}>
+                                        <SpotifyLogo2 height={16} width={16} cor='#1ccc5b' />
+                                    </View>
+                                )
+                            }
+
+                            <Text style={[Styles.textoBranco, Styles.margemTopSuperPequena]}>{playlist?.usuarios?.nomeCompleto}</Text>
+                        </View>
+
                         <Text style={[Styles.texto, Styles.margemTopSuperPequena]}>
                             {ouvintesPlaylist} {(ouvintesPlaylist === 1) ? 'ouvinte' : 'ouvintes'}
                             &nbsp;•&nbsp;

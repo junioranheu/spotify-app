@@ -56,13 +56,13 @@ export default function Fila({ navigation }) {
         <Fragment>
             {
                 !listaMusicasContext?.length && !musicaContext?.musicaId ? (
-                    <ScrollView contentContainerStyle={[StylesGlobal.containerPrincipal, Styles.centralizar]}>
+                    <View style={[StylesGlobal.containerPrincipal, Styles.centralizar]}>
                         <View style={Styles.centralizar}>
                             <Image source={WaitGif} style={Styles.gifWait}></Image>
                             <Text style={Styles.subtitulo}>Sem próximas músicas na sua fila</Text>
                             <Text style={[Styles.subtituloMenor, Styles.margemTopPequena]}>Volte ao início e encontre uma nova música {EmojiAleatorio()}</Text>
                         </View>
-                    </ScrollView>
+                    </View>
                 ) : (
                     <ScrollView style={StylesGlobal.containerPrincipal}>
                         {/* Música atual */}

@@ -1,4 +1,4 @@
-import Toast from 'react-native-toast-message';
+import Toast from 'react-native-toast-message'; // https://github.com/calintamas/react-native-toast-message
 
 export default function aviso(tipo, titulo, desc, tempo) {
     function toast(tipo, titulo, desc, tempo) {

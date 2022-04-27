@@ -4,7 +4,8 @@ export default StyleSheet.create({
     containerPrincipal: {
         // backgroundColor: 'pink',
         height: (Platform.OS === 'web' ? '100vh' : '100%'),
-        width: '100%'
+        width: '100%',
+        backgroundColor: '#121212'
     },
 
     texto: {
@@ -58,4 +59,12 @@ export default StyleSheet.create({
     margemTopPequena: {
         marginTop: 15
     },
+
+    margemTopSuperPequena: {
+        marginTop: 3
+    },
+
+    margemEsquerda: {
+        marginLeft: 25
+    }
 });

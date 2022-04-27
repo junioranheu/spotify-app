@@ -266,7 +266,7 @@ export default function PlayerFullScreen({ navigation }) {
         <GestureRecognizer onSwipeDown={(e) => handleSwipeDown(e)} config={[{ velocityThreshold: 0.2, directionalOffsetThreshold: 100 }]}>
             <View style={Styles.containerPrincipal}>
                 <LinearGradient
-                    colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
+                    colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
                     style={{ flex: 1, padding: 15 }}
                 >
                     {/* #01 - Ícones de cima */}

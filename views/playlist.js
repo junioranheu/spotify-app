@@ -3,6 +3,9 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { ImageBackground, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import MusicaRow from '../components/fila/musicaRow';
 import MargemBotFooter from '../components/outros/margemBotFooter';
+import Coracao from '../components/svg/coracao';
+import CoracaoPreenchido from '../components/svg/coracaoPreenchido';
+import Reticencias from '../components/svg/reticencias';
 import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
 import Styles from '../css/playlist';
 import ImgCinza from '../static/image/outros/cinza.webp';
@@ -10,6 +13,7 @@ import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/lista
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
 import CONSTANTS_UPLOAD from '../utils/data/constUpload';
+import formatarSegundosComLegenda from '../utils/outros/formatarSegundosComLegenda';
 
 export default function Playlist({ route, navigation }) {
     const { playlist } = route.params;
@@ -20,6 +24,8 @@ export default function Playlist({ route, navigation }) {
     const [musicasPlaylist, setMusicasPlaylist] = useState(null);
     const [imagemCapa, setImagemCapa] = useState(null);
     const [coresDominantes, setCoresDominantes] = useState(null);
+    const [duracaoPlaylist, setDuracaoPlaylist] = useState('');
+    const [ouvintesPlaylist, setOuvintesPlaylist] = useState(0);
     useEffect(() => {
         async function getPlaylist() {
             // Músicas da playlist;
@@ -52,6 +58,15 @@ export default function Playlist({ route, navigation }) {
 
                 // console.log({corRgba, corMedia, corClara})
                 setCoresDominantes({ corRgba, corMedia, corClara });
+            }
+
+            // Setar o tempo e ouvintes total da playlist;
+            if (playlist?.playlistsMusicas) {
+                const d = somarDuracaoTotal(playlist?.playlistsMusicas);
+                setDuracaoPlaylist(d);
+
+                const o = somarOuvintesTotal(playlist?.playlistsMusicas);
+                setOuvintesPlaylist(o);
             }
         }
 
@@ -95,6 +110,36 @@ export default function Playlist({ route, navigation }) {
         return () => window.clearTimeout(timeOut);
     }, [isPodeAvancar]);
 
+    // Somar a duração das músicas na playlist em questão;
+    function somarDuracaoTotal(lista) {
+        let duracao = 0;
+        lista.forEach(function (playlist, index) {
+            // console.log(playlist);
+            const d = playlist.musicas.duracaoSegundos;
+            duracao += d;
+        });
+
+        return duracao;
+    }
+
+    // Somar a quantidade de ouvintes das músicas na playlist em questão;
+    function somarOuvintesTotal(lista) {
+        let ouvintes = 0;
+        lista.forEach(function (playlist, index) {
+            // console.log(playlist);
+            const o = playlist.musicas.ouvintes;
+            ouvintes += o;
+        });
+
+        return ouvintes;
+    }
+
+    // Curtir;
+    const [isCurtido, setIsCurtido] = useState(false);
+    function handleCurtir() {
+        setIsCurtido(!isCurtido);
+    }
+
     // onScroll;
     function handleScroll(e) {
         const positionY = e.nativeEvent.contentOffset.y;
@@ -103,26 +148,24 @@ export default function Playlist({ route, navigation }) {
 
     return (
         <View style={Styles.containerPrincipal}>
-            <LinearGradient
-                colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
-                style={{ flex: 1, padding: 15 }}
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                onScroll={(e) => handleScroll(e)}
+                scrollEventThrottle={1}
             >
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    showsHorizontalScrollIndicator={false}
-                    onScroll={(e) => handleScroll(e)}
-                    scrollEventThrottle={1}
+                <LinearGradient
+                    colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
+                    style={{ flex: 1, padding: 15 }}
                 >
                     {/* Parte superior: ícone de voltar + imagem da playlist */}
                     <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
-                        <View>
-                            <TouchableOpacity
-                                onPress={() => navigation.goBack()}
-                                hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
-                            >
-                                <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' isRotate={true} />
-                            </TouchableOpacity>
-                        </View>
+                        <TouchableOpacity
+                            onPress={() => navigation.goBack()}
+                            hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+                        >
+                            <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' isRotate={true} />
+                        </TouchableOpacity>
 
                         {/* Imagem de capa */}
                         <View style={Styles.centralizar}>
@@ -144,11 +187,33 @@ export default function Playlist({ route, navigation }) {
                     {/* Informações da playlist */}
                     <View style={Styles.margemTopPequena}>
                         <Text style={Styles.texto}>{playlist?.sobre}</Text>
-                        <Text style={Styles.textoBranco}>{playlist?.usuarios?.nomeCompleto}</Text>
+                        <Text style={[Styles.textoBranco, Styles.margemTopSuperPequena]}>{playlist?.usuarios?.nomeCompleto}</Text>
+                        <Text style={[Styles.texto, Styles.margemTopSuperPequena]}>
+                            {ouvintesPlaylist} {(ouvintesPlaylist === 1) ? 'ouvinte' : 'ouvintes'}
+                            &nbsp;•&nbsp;
+                            {formatarSegundosComLegenda(duracaoPlaylist)}
+                        </Text>
+                    </View>
+
+                    {/* Ícones */}
+                    <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
+                        <TouchableOpacity onPress={() => handleCurtir()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                            {
+                                isCurtido ? (
+                                    <CoracaoPreenchido height={20} width={20} cor={'#20D660'} />
+                                ) : (
+                                    <Coracao height={20} width={20} cor={'rgba(255, 255, 255, 0.9)'} />
+                                )
+                            }
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={Styles.margemEsquerda} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                            <Reticencias height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
+                        </TouchableOpacity>
                     </View>
 
                     {/* Lista de músicas da playlist */}
-                    <View style={Styles.margemTopPequena}>
+                    <View style={Styles.margemTop}>
                         {
                             musicasPlaylist?.length > 0 ? (
                                 <Fragment>
@@ -177,9 +242,9 @@ export default function Playlist({ route, navigation }) {
 
                     {/* Margem do footer */}
                     <MargemBotFooter />
-                </ScrollView>
-            </LinearGradient>
-        </View>
+                </LinearGradient>
+            </ScrollView>
+        </View >
     );
 }
 

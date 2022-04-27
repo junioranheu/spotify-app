@@ -46,14 +46,17 @@ export default function App() {
                                 <Stack.Navigator initialRouteName={rotaInicial}>
                                     <Stack.Screen component={Splash} name='Splash' options={{ headerShown: false }} />
                                     <Stack.Screen component={Index} name='Index' options={{ headerShown: false, animation: 'fade' }} />
-                                    <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
+                                    <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false, animation: 'simple_push' }} />
                                     <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false, animation: 'slide_from_bottom' }} />
                                     <Stack.Screen component={Playlist} name='Playlist' options={{ headerShown: false, animation: 'simple_push' }} />
                                 </Stack.Navigator>
 
                                 {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}
                                 {/* É necessário esconder com css para que a música não pare! */}
-                                <View style={(rotaAtual === 'PlayerFullScreen' || rotaAtual === 'Splash') ? StylesGlobal.esconder : null}>
+                                <View
+                                    style={(rotaAtual === 'PlayerFullScreen') ? StylesGlobal.esconder : null}
+                                    pointerEvents={(rotaAtual === 'Splash' ? 'none' : 'auto')}
+                                >
                                     <Player />
                                     <Footer rotaAtual={rotaAtual} />
                                 </View>

@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'; // https://reactnavigation.org/docs/getting-started/ + https://www.youtube.com/watch?v=FWwKjxSgLl8&ab_channel=PradipDebnath
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useRef, useState } from 'react';
-import { SafeAreaView, StatusBar, View } from 'react-native';
+import { Platform, SafeAreaView, StatusBar, View } from 'react-native';
 import Footer from '../components/outros/footer';
 import Navbar from '../components/outros/navbar';
 import Player from '../components/player/player';
@@ -13,11 +13,13 @@ import Fila from './fila';
 import Index from './index';
 import PlayerFullScreen from './playerFullScreen';
 import Playlist from './playlist';
+import Splash from './splash';
 
 export default function App() {
     const Stack = createNativeStackNavigator();
     const refNavigation = useRef();
-    const [rotaAtual, setRotaAtual] = useState('Index');
+    const [rotaInicial, setRotaInicial] = useState(Platform.OS === 'web' ? 'Index' : 'Splash');
+    const [rotaAtual, setRotaAtual] = useState(rotaInicial);
     StatusBar.setBarStyle('light-content', true); // Alterar a cor do StatusBar: https://stackoverflow.com/questions/39297291/how-to-set-ios-status-bar-background-color-in-react-native;
 
     return (
@@ -39,7 +41,8 @@ export default function App() {
                             </SafeAreaView>
 
                             {/* Telas */}
-                            <Stack.Navigator initialRouteName='Index'>
+                            <Stack.Navigator initialRouteName={rotaInicial}>
+                                <Stack.Screen component={Splash} name='Splash' options={{ headerShown: false }} />
                                 <Stack.Screen component={Index} name='Index' options={{ headerShown: false }} />
                                 <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
                                 <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false, animation: 'slide_from_bottom' }} />
@@ -48,7 +51,7 @@ export default function App() {
 
                             {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}
                             {/* É necessário esconder com css para que a música não pare! */}
-                            <View style={rotaAtual === 'PlayerFullScreen' ? StylesGlobal.esconder : null}>
+                            <View style={(rotaAtual === 'PlayerFullScreen' || rotaAtual === 'Splash') ? StylesGlobal.esconder : null}>
                                 <Player />
                                 <Footer rotaAtual={rotaAtual} />
                             </View>

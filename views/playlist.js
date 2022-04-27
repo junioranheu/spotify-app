@@ -1,7 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { ImageBackground, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import ShimmerPlaceHolder from 'react-native-shimmer-placeholder'; // https://github.com/tomzaku/react-native-shimmer-placeholder
 import MusicaRow from '../components/fila/musicaRow';
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import Coracao from '../components/svg/coracao';
@@ -15,7 +14,6 @@ import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
 import CONSTANTS_UPLOAD from '../utils/data/constUpload';
 import formatarSegundosComLegenda from '../utils/outros/formatarSegundosComLegenda';
-import NumeroAleatorio from '../utils/outros/numeroAleatorio';
 
 export default function Playlist({ route, navigation }) {
     const { playlist } = route.params;
@@ -40,11 +38,10 @@ export default function Playlist({ route, navigation }) {
             ListaMusicasStorage.set(musicas);
             setListaMusicasContext(musicas);
 
-            // Tive que chamar duas vezes o mesmo end-point para corrigir um bug bizarro;
-            // Se usasse a mesma variável aqui em "musicasPlaylist", quando o "listaMusicasContext" fosse alterado, a variável também era alterada;
-            const urlTemp = `${CONSTANTS_MUSICAS.API_URL_POR_PLAYLIST}/${playlist?.playlistId}`;
-            const resTemp = await fetch(urlTemp);
-            const musicasTemp = await resTemp.json();
+            // Copiar a variável "musicas" usando [...musicas];
+            // Se usasse, por algum motivo misterioso, a mesma variável aqui em "musicasPlaylist"...
+            // quando o "listaMusicasContext" fosse alterado, a variável também era alterada;
+            const musicasTemp = [...musicas];
             setMusicasPlaylist(musicasTemp);
 
             // Imagem de capa;
@@ -155,18 +152,7 @@ export default function Playlist({ route, navigation }) {
     // Tela carregando;
     if (!isExibirConteudo) {
         return (
-            <View style={Styles.containerPrincipal}>
-                <View style={[Styles.centralizar, Styles.margemTop]}>
-                    <ShimmerPlaceHolder LinearGradient={LinearGradient} height={250} width={280} />
-                </View>
-
-                {[...Array(NumeroAleatorio(2, 5))].map((x, i) =>
-                    <View style={[Styles.margemTop, Styles.margemEsquerda, Styles.mesmaLinha]} key={i}>
-                        <ShimmerPlaceHolder LinearGradient={LinearGradient} height={50} width={50} />
-                        <ShimmerPlaceHolder LinearGradient={LinearGradient} height={20} width={NumeroAleatorio(30, 250)} style={Styles.placeholderTexto} />
-                    </View>
-                )}
-            </View>
+            <View style={Styles.containerPrincipal}></View>
         );
     }
 

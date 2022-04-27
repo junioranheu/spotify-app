@@ -48,7 +48,7 @@ export default function App() {
                                     <Stack.Screen component={Index} name='Index' options={{ headerShown: false, animation: 'fade' }} />
                                     <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
                                     <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false, animation: 'slide_from_bottom' }} />
-                                    <Stack.Screen component={Playlist} name='Playlist' options={{ headerShown: false }} />
+                                    <Stack.Screen component={Playlist} name='Playlist' options={{ headerShown: false, animation: 'simple_push' }} />
                                 </Stack.Navigator>
 
                                 {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}

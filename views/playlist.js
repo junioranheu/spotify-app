@@ -24,9 +24,14 @@ export default function Playlist({ route, navigation }) {
     const [playlist, setPlaylist] = useState(null);
     useEffect(() => {
         async function getPlaylist() {
+            // Músicas da playlist;
             const url = `${CONSTANTS_MUSICAS.API_URL_POR_PLAYLIST}/${playlistId}`;
             const res = await fetch(url);
             const musicas = await res.json();
+
+            // Salvar no Context e no localStorage (fila) a playlist atual;
+            ListaMusicasStorage.set(musicas);
+            setListaMusicasContext(musicas);
 
             // Tive que chamar duas vezes o mesmo end-point para corrigir um bug bizarro;
             // Se usasse a mesma variável aqui em "musicasPlaylist", quando o "listaMusicasContext" fosse alterado, a variável também era alterada;
@@ -34,10 +39,6 @@ export default function Playlist({ route, navigation }) {
             const resTemp = await fetch(urlTemp);
             const musicasTemp = await resTemp.json();
             setMusicasPlaylist(musicasTemp);
-
-            // Salvar no Context e no localStorage (fila) a playlist atual;
-            ListaMusicasStorage.set(musicas);
-            setListaMusicasContext(musicas);
 
             // Imagem de capa;
             const img = `${CONSTANTS_UPLOAD.API_URL_GET_PLAYLIST}/${playlistId}.webp`;
@@ -63,7 +64,7 @@ export default function Playlist({ route, navigation }) {
         }
 
         getPlaylist();
-    }, []);
+    }, [playlistId]);
 
     async function setarMusica(id) {
         if (!isPodeAvancar) {
@@ -112,11 +113,11 @@ export default function Playlist({ route, navigation }) {
                     {/* Parte superior: ícone de voltar */}
                     <View style={Styles.margemLeftPequena}>
                         <TouchableOpacity
-                            style={Styles.margemEsquerdaPequena}
+                            // style={Styles.setinhaVoltar}
                             onPress={() => navigation.goBack()}
                             hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
                         >
-                            <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
+                            <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' isRotate={true} />
                         </TouchableOpacity>
                     </View>
 

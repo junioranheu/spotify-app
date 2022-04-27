@@ -272,7 +272,7 @@ export default function PlayerFullScreen({ navigation }) {
                     {/* #01 - Ícones de cima */}
                     <View style={Styles.mesmaLinha}>
                         <TouchableOpacity style={[Styles.flexEsquerda, Styles.margemEsquerdaPequena]} onPress={() => navigation.goBack()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                            <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
+                            <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' isRotate={false} />
                         </TouchableOpacity>
 
                         <TouchableOpacity style={Styles.flexCentro}>

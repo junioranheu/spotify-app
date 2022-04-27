@@ -1,15 +1,16 @@
+import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import MusicaRow from '../components/fila/musicaRow';
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
 import StylesFila from '../css/fila';
-import StylesGlobal from '../css/global';
 import Styles from '../css/playlist';
 import ImgCinza from '../static/image/outros/cinza.webp';
 import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
+import CONSTANTS_PLAYLIST from '../utils/data/constPlaylists';
 import CONSTANTS_UPLOAD from '../utils/data/constUpload';
 
 export default function Playlist({ route, navigation }) {
@@ -19,6 +20,8 @@ export default function Playlist({ route, navigation }) {
 
     const [musicasPlaylist, setMusicasPlaylist] = useState(null);
     const [imagemCapa, setImagemCapa] = useState(null);
+    const [coresDominantes, setCoresDominantes] = useState(null);
+    const [playlist, setPlaylist] = useState(null);
     useEffect(() => {
         async function getPlaylist() {
             const url = `${CONSTANTS_MUSICAS.API_URL_POR_PLAYLIST}/${playlistId}`;
@@ -39,6 +42,24 @@ export default function Playlist({ route, navigation }) {
             // Imagem de capa;
             const img = `${CONSTANTS_UPLOAD.API_URL_GET_PLAYLIST}/${playlistId}.webp`;
             setImagemCapa(img);
+
+            // Informações da playlist;
+            const urlPlaylist = `${CONSTANTS_PLAYLIST.API_URL_GET_POR_ID}/${playlistId}`;
+            const resPlaylist = await fetch(urlPlaylist);
+            const playlist = await resPlaylist.json();
+            setPlaylist(playlist);
+
+            // Pegar a cor dominante;
+            if (playlist?.corDominante) {
+                const corRgba = playlist?.corDominante;
+
+                var tudoAntesUltimaVirgula = corRgba.substr(0, corRgba.lastIndexOf(','));
+                const corMedia = `${tudoAntesUltimaVirgula}, 0.4)`;
+                const corClara = `${tudoAntesUltimaVirgula}, 0.1)`;
+
+                // console.log({corRgba, corMedia, corClara})
+                setCoresDominantes({ corRgba, corMedia, corClara });
+            }
         }
 
         getPlaylist();
@@ -82,60 +103,67 @@ export default function Playlist({ route, navigation }) {
     }, [isPodeAvancar]);
 
     return (
-        <ScrollView style={StylesGlobal.containerPrincipal} stickyHeaderIndices={[0]}>
-            {/* Parte superior: ícone de voltar */}
-            <View style={Styles.margemLeftPequena}>
-                <TouchableOpacity
-                    style={[Styles.flexEsquerda, Styles.margemEsquerdaPequena]}
-                    onPress={() => navigation.goBack()}
-                    hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
-                >
-                    <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
-                </TouchableOpacity>
-            </View>
+        <View style={Styles.containerPrincipal}>
+            <LinearGradient
+                colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
+                style={{ flex: 1, padding: 15 }}
+            >
+                <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+                    {/* Parte superior: ícone de voltar */}
+                    <View style={Styles.margemLeftPequena}>
+                        <TouchableOpacity
+                            style={Styles.margemEsquerdaPequena}
+                            onPress={() => navigation.goBack()}
+                            hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+                        >
+                            <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
+                        </TouchableOpacity>
+                    </View>
 
-            {/* Imagem de capa */}
-            <View style={Styles.centralizar}>
-                {
-                    imagemCapa ? (
-                        <Image source={{ uri: imagemCapa }} style={Styles.imageBackground}></Image>
-                    ) : (
-                        <Image source={ImgCinza} style={Styles.imageBackground}></Image>
-                    )
-                }
-            </View>
+                    {/* Imagem de capa */}
+                    <View style={Styles.centralizar}>
+                        {
+                            imagemCapa ? (
+                                <Image source={{ uri: imagemCapa }} style={Styles.imageBackground}></Image>
+                            ) : (
+                                <Image source={ImgCinza} style={Styles.imageBackground}></Image>
+                            )
+                        }
+                    </View>
 
-            {/*  Lista de músicas da playlist */}
-            <View style={StylesFila.margemTop}>
-                {
-                    musicasPlaylist?.length > 0 ? (
-                        <Fragment>
-                            {
-                                musicasPlaylist.map((m, i) => (
-                                    <MusicaRow
-                                        key={m.musicaId}
-                                        id={m.musicaId}
-                                        foto={m.musicasBandas[0]?.bandas.foto}
-                                        titulo={m.nome}
-                                        banda={m.musicasBandas[0]?.bandas.nome}
-                                        album={m.albunsMusicas[0]?.albuns.nome}
-                                        tempo={m.duracaoSegundos}
-                                        setarMusica={setarMusica}
-                                    />
-                                ))
-                            }
-                        </Fragment>
-                    ) : (
-                        <View>
-                            {/* <Text style={StylesFila.subtitulo}>Sem músicas nessa playlist</Text> */}
-                        </View>
-                    )
-                }
-            </View>
+                    {/*  Lista de músicas da playlist */}
+                    <View style={StylesFila.margemTop}>
+                        {
+                            musicasPlaylist?.length > 0 ? (
+                                <Fragment>
+                                    {
+                                        musicasPlaylist.map((m, i) => (
+                                            <MusicaRow
+                                                key={m.musicaId}
+                                                id={m.musicaId}
+                                                foto={m.musicasBandas[0]?.bandas.foto}
+                                                titulo={m.nome}
+                                                banda={m.musicasBandas[0]?.bandas.nome}
+                                                album={m.albunsMusicas[0]?.albuns.nome}
+                                                tempo={m.duracaoSegundos}
+                                                setarMusica={setarMusica}
+                                            />
+                                        ))
+                                    }
+                                </Fragment>
+                            ) : (
+                                <View>
+                                    {/* <Text style={StylesFila.subtitulo}>Sem músicas nessa playlist</Text> */}
+                                </View>
+                            )
+                        }
+                    </View>
 
-            {/* Margem do footer */}
-            <MargemBotFooter />
-        </ScrollView>
+                    {/* Margem do footer */}
+                    <MargemBotFooter />
+                </ScrollView>
+            </LinearGradient>
+        </View>
     );
 }
 

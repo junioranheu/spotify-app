@@ -1,12 +1,16 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import MusicaRow from '../components/fila/musicaRow';
 import MargemBotFooter from '../components/outros/margemBotFooter';
+import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
 import StylesFila from '../css/fila';
 import StylesGlobal from '../css/global';
+import Styles from '../css/playlist';
+import ImgCinza from '../static/image/outros/cinza.webp';
 import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
+import CONSTANTS_UPLOAD from '../utils/data/constUpload';
 
 export default function Playlist({ route, navigation }) {
     const { playlistId } = route.params;
@@ -14,6 +18,7 @@ export default function Playlist({ route, navigation }) {
     const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
 
     const [musicasPlaylist, setMusicasPlaylist] = useState(null);
+    const [imagemCapa, setImagemCapa] = useState(null);
     useEffect(() => {
         async function getPlaylist() {
             const url = `${CONSTANTS_MUSICAS.API_URL_POR_PLAYLIST}/${playlistId}`;
@@ -30,6 +35,11 @@ export default function Playlist({ route, navigation }) {
             // Salvar no Context e no localStorage (fila) a playlist atual;
             ListaMusicasStorage.set(musicas);
             setListaMusicasContext(musicas);
+
+            // Imagem de capa;
+            const img = `${CONSTANTS_UPLOAD.API_URL_GET_PLAYLIST}/${playlistId}.webp`;
+            console.log(img);
+            setImagemCapa(img);
         }
 
         getPlaylist();
@@ -73,37 +83,55 @@ export default function Playlist({ route, navigation }) {
     }, [isPodeAvancar]);
 
     return (
-        <ScrollView style={StylesGlobal.containerPrincipal}>
-            {/* Próximas músicas na fila */}
-            <View style={StylesFila.margemTop}>
-                <Text style={StylesFila.titulo}>Playlist {playlistId}</Text>
+        <ScrollView style={StylesGlobal.containerPrincipal} stickyHeaderIndices={[0]}>
+            {/* Parte superior: ícone de voltar */}
+            <View style={Styles.margemLeftPequena}>
+                <TouchableOpacity
+                    style={[Styles.flexEsquerda, Styles.margemEsquerdaPequena]}
+                    onPress={() => navigation.goBack()}
+                    hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+                >
+                    <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
+                </TouchableOpacity>
+            </View>
 
-                <View style={StylesFila.margemTopPequena}>
-                    {
-                        musicasPlaylist?.length > 0 ? (
-                            <Fragment>
-                                {
-                                    musicasPlaylist.map((m, i) => (
-                                        <MusicaRow
-                                            key={m.musicaId}
-                                            id={m.musicaId}
-                                            foto={m.musicasBandas[0]?.bandas.foto}
-                                            titulo={m.nome}
-                                            banda={m.musicasBandas[0]?.bandas.nome}
-                                            album={m.albunsMusicas[0]?.albuns.nome}
-                                            tempo={m.duracaoSegundos}
-                                            setarMusica={setarMusica}
-                                        />
-                                    ))
-                                }
-                            </Fragment>
-                        ) : (
-                            <View>
-                                {/* <Text style={StylesFila.subtitulo}>Sem músicas nessa playlist</Text> */}
-                            </View>
-                        )
-                    }
-                </View>
+            {/* Imagem de capa */}
+            <View style={Styles.centralizar}>
+                {
+                    imagemCapa ? (
+                        <Image source={{ uri: imagemCapa }} style={Styles.imageBackground}></Image>
+                    ) : (
+                        <Image source={ImgCinza} style={Styles.imageBackground}></Image>
+                    )
+                }
+            </View>
+
+            {/*  Lista de músicas da playlist */}
+            <View style={StylesFila.margemTop}>
+                {
+                    musicasPlaylist?.length > 0 ? (
+                        <Fragment>
+                            {
+                                musicasPlaylist.map((m, i) => (
+                                    <MusicaRow
+                                        key={m.musicaId}
+                                        id={m.musicaId}
+                                        foto={m.musicasBandas[0]?.bandas.foto}
+                                        titulo={m.nome}
+                                        banda={m.musicasBandas[0]?.bandas.nome}
+                                        album={m.albunsMusicas[0]?.albuns.nome}
+                                        tempo={m.duracaoSegundos}
+                                        setarMusica={setarMusica}
+                                    />
+                                ))
+                            }
+                        </Fragment>
+                    ) : (
+                        <View>
+                            {/* <Text style={StylesFila.subtitulo}>Sem músicas nessa playlist</Text> */}
+                        </View>
+                    )
+                }
             </View>
 
             {/* Margem do footer */}

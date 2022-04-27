@@ -11,6 +11,7 @@ import { InfoMusicaProvider } from '../utils/context/infoMusicaContext';
 import { ListaMusicasProvider } from '../utils/context/listaMusicasContext';
 import { MusicaProvider } from '../utils/context/musicaContext';
 import { PlaylistsProvider } from '../utils/context/playlistsContext';
+import { UsuarioProvider } from '../utils/context/usuarioContext';
 import Fila from './fila';
 import Index from './index';
 import Login from './login';
@@ -29,48 +30,50 @@ export default function App() {
         <Fragment>
             {/* Conteúdo principal */}
             <View style={{ backgroundColor: '#121212', flex: 1 }}>
-                <PlaylistsProvider>
-                    <ListaMusicasProvider>
-                        <MusicaProvider>
-                            <InfoMusicaProvider>
-                                <NavigationContainer
-                                    ref={refNavigation}
-                                    onStateChange={() => {
-                                        const currentRouteName = refNavigation.current.getCurrentRoute().name;
-                                        // console.log(currentRouteName);
-                                        setRotaAtual(currentRouteName);
-                                    }}
-                                >
-                                    {/* Navbar (é o que "desbuga" o statusbar do mobile) */}
-                                    <SafeAreaView style={StylesGlobal.safeAreaView}>
-                                        <Navbar />
-                                    </SafeAreaView>
-
-                                    {/* Telas */}
-                                    <Stack.Navigator initialRouteName={rotaInicial}>
-                                        <Stack.Screen component={Splash} name='Splash' options={{ headerShown: false }} />
-                                        <Stack.Screen component={Index} name='Index' options={{ headerShown: false, animation: 'fade' }} />
-                                        <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false, animation: 'simple_push' }} />
-                                        <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false, animation: 'slide_from_bottom' }} />
-                                        <Stack.Screen component={Playlist} name='Playlist' options={{ headerShown: false, animation: 'simple_push' }} />
-
-                                        <Stack.Screen component={Login} name='Login' options={{ headerShown: false, animation: 'simple_push' }} />
-                                    </Stack.Navigator>
-
-                                    {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}
-                                    {/* É necessário esconder com css para que a música não pare! */}
-                                    <View
-                                        style={(rotaAtual === 'PlayerFullScreen') ? StylesGlobal.esconder : null}
-                                        pointerEvents={(rotaAtual === 'Splash' ? 'none' : 'auto')}
+                <UsuarioProvider>
+                    <PlaylistsProvider>
+                        <ListaMusicasProvider>
+                            <MusicaProvider>
+                                <InfoMusicaProvider>
+                                    <NavigationContainer
+                                        ref={refNavigation}
+                                        onStateChange={() => {
+                                            const currentRouteName = refNavigation.current.getCurrentRoute().name;
+                                            // console.log(currentRouteName);
+                                            setRotaAtual(currentRouteName);
+                                        }}
                                     >
-                                        <Player />
-                                        <Footer rotaAtual={rotaAtual} />
-                                    </View>
-                                </NavigationContainer>
-                            </InfoMusicaProvider>
-                        </MusicaProvider>
-                    </ListaMusicasProvider>
-                </PlaylistsProvider>
+                                        {/* Navbar (é o que "desbuga" o statusbar do mobile) */}
+                                        <SafeAreaView style={StylesGlobal.safeAreaView}>
+                                            <Navbar />
+                                        </SafeAreaView>
+
+                                        {/* Telas */}
+                                        <Stack.Navigator initialRouteName={rotaInicial}>
+                                            <Stack.Screen component={Splash} name='Splash' options={{ headerShown: false }} />
+                                            <Stack.Screen component={Index} name='Index' options={{ headerShown: false, animation: 'fade' }} />
+                                            <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false, animation: 'simple_push' }} />
+                                            <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false, animation: 'slide_from_bottom' }} />
+                                            <Stack.Screen component={Playlist} name='Playlist' options={{ headerShown: false, animation: 'simple_push' }} />
+
+                                            <Stack.Screen component={Login} name='Login' options={{ headerShown: false, animation: 'simple_push' }} />
+                                        </Stack.Navigator>
+
+                                        {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}
+                                        {/* É necessário esconder com css para que a música não pare! */}
+                                        <View
+                                            style={(rotaAtual === 'PlayerFullScreen') ? StylesGlobal.esconder : null}
+                                            pointerEvents={(rotaAtual === 'Splash' ? 'none' : 'auto')}
+                                        >
+                                            <Player />
+                                            <Footer rotaAtual={rotaAtual} />
+                                        </View>
+                                    </NavigationContainer>
+                                </InfoMusicaProvider>
+                            </MusicaProvider>
+                        </ListaMusicasProvider>
+                    </PlaylistsProvider>
+                </UsuarioProvider>
             </View>
 
             {/* Toast message */}

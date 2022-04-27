@@ -14,7 +14,6 @@ import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/lista
 import { PlaylistsContext } from '../utils/context/playlistsContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
 import CONSTANTS_PLAYLISTS from '../utils/data/constPlaylists';
-import Aviso from '../utils/outros/aviso';
 import EmojiAleatorio from '../utils/outros/emojiAleatorio';
 import HorarioBrasilia from '../utils/outros/horarioBrasilia';
 
@@ -33,8 +32,6 @@ export default function Index({ navigation }) {
         if (Platform.OS === 'web') {
             getPlaylists();
         }
-
-        Aviso('success', 'oi', 'né', 5000);
     }, []);
 
     function gerarOla() {

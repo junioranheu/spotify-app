@@ -1,0 +1,57 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createContext, useState } from 'react';
+
+// Local storage no React Native: https://react-native-async-storage.github.io/async-storage/docs/usage/
+// Criar o contexto para usar no provider abaixo;
+export const UsuarioContext = createContext();
+
+// Provider: para 'segurar' uma informação e passar para todos os componentes 'child';
+export const UsuarioProvider = props => {
+    const [usuario, setUsuario] = useState(UsuarioStorage.get());
+
+    return (
+        <UsuarioContext.Provider value={[usuario, setUsuario]}>
+            {props.children}
+        </UsuarioContext.Provider>
+    );
+}
+
+// Funções para salvar em localStorage;
+export const UsuarioStorage = {
+    async set(data) {
+        // console.log(data);
+        let parsedData = JSON.stringify(data);
+
+        try {
+            await AsyncStorage.setItem('@usuarioContext', parsedData);
+        } catch (e) {
+            console.log('Ocorreu um erro ao salvar o local storage');
+        }
+    },
+
+    get() {
+        const getData = async () => {
+            try {
+                const jsonValue = await AsyncStorage.getItem('@usuarioContext');
+                return jsonValue != null ? JSON.parse(jsonValue) : null;
+            } catch (e) {
+                console.log('Ocorreu um erro ao ler o local storage');
+            }
+        }
+
+        if (!getData) {
+            return null;
+        }
+
+        // console.log(getData);
+        return getData;
+    },
+
+    async delete() {
+        try {
+            await AsyncStorage.removeItem('@usuarioContext');
+        } catch (e) {
+            console.log('Ocorreu um erro ao deletar o local storage');
+        }
+    }
+}

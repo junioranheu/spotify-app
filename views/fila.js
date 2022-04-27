@@ -7,10 +7,13 @@ import StylesGlobal from '../css/global';
 import WaitGif from '../static/image/outros/wait.gif';
 import { ListaMusicasContext } from '../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
+import { UsuarioContext } from '../utils/context/usuarioContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
+import Aviso from '../utils/outros/aviso';
 import EmojiAleatorio from '../utils/outros/emojiAleatorio';
 
 export default function Fila({ navigation }) {
+    const [usuarioContext] = useContext(UsuarioContext); // Contexto do usuário;
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
 
@@ -21,13 +24,11 @@ export default function Fila({ navigation }) {
             return false;
         }
 
-        // console.log(id);
-
-        // Se o usuário estiver deslogado;
-        // if (!isAuth) {
-        //     Aviso.custom('Inicie uma sessão para escutar essa música', 5000);
-        //     return false;
-        // }
+        // Se o usuário estiver deslogado não permita escutar a música;
+        if (!usuarioContext?.length > 0) {
+            Aviso('success', 'Opa ✋', 'Inicie uma sessão para escutar essa música', 5000);
+            return false;
+        }
 
         const url = `${CONSTANTS_MUSICAS.API_URL_GET_POR_ID}/${id}`;
         const res = await fetch(url)

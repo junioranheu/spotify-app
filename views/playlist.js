@@ -11,13 +11,16 @@ import Styles from '../css/playlist';
 import ImgCinza from '../static/image/outros/cinza.webp';
 import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
+import { UsuarioContext } from '../utils/context/usuarioContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
 import CONSTANTS_UPLOAD from '../utils/data/constUpload';
+import Aviso from '../utils/outros/aviso';
 import formatarSegundosComLegenda from '../utils/outros/formatarSegundosComLegenda';
 
 export default function Playlist({ route, navigation }) {
     const { playlist } = route.params;
 
+    const [usuarioContext] = useContext(UsuarioContext); // Contexto do usuário;
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
 
@@ -82,13 +85,11 @@ export default function Playlist({ route, navigation }) {
             return false;
         }
 
-        // console.log(id);
-
-        // Se o usuário estiver deslogado;
-        // if (!isAuth) {
-        //     Aviso.custom('Inicie uma sessão para escutar essa música', 5000);
-        //     return false;
-        // }
+        // Se o usuário estiver deslogado não permita escutar a música;
+        if (!usuarioContext?.length > 0) {
+            Aviso('success', 'Opa ✋', 'Inicie uma sessão para escutar essa música', 5000);
+            return false;
+        }
 
         const url = `${CONSTANTS_MUSICAS.API_URL_GET_POR_ID}/${id}`;
         const res = await fetch(url);

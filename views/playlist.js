@@ -1,10 +1,9 @@
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import { ImageBackground, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import MusicaRow from '../components/fila/musicaRow';
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
-import StylesFila from '../css/fila';
 import Styles from '../css/playlist';
 import ImgCinza from '../static/image/outros/cinza.webp';
 import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/listaMusicasContext';
@@ -96,15 +95,26 @@ export default function Playlist({ route, navigation }) {
         return () => window.clearTimeout(timeOut);
     }, [isPodeAvancar]);
 
+    // onScroll;
+    function handleScroll(e) {
+        const positionY = e.nativeEvent.contentOffset.y;
+        // console.log(positionY);
+    }
+
     return (
         <View style={Styles.containerPrincipal}>
             <LinearGradient
                 colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
                 style={{ flex: 1, padding: 15 }}
             >
-                <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                    {/* Parte superior: ícone de voltar */}
-                    <View style={Styles.mesmaLinha}>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={false}
+                    onScroll={(e) => handleScroll(e)}
+                    scrollEventThrottle={1}
+                >
+                    {/* Parte superior: ícone de voltar + imagem da playlist */}
+                    <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
                         <View>
                             <TouchableOpacity
                                 onPress={() => navigation.goBack()}
@@ -118,9 +128,9 @@ export default function Playlist({ route, navigation }) {
                         <View style={Styles.centralizar}>
                             {
                                 imagemCapa ? (
-                                    <Image source={{ uri: imagemCapa }} style={Styles.imageBackground}></Image>
+                                    <ImageBackground source={{ uri: imagemCapa }} style={Styles.imageBackground}></ImageBackground>
                                 ) : (
-                                    <Image source={ImgCinza} style={Styles.imageBackground}></Image>
+                                    <ImageBackground source={ImgCinza} style={Styles.imageBackground}></ImageBackground>
                                 )
                             }
                         </View>
@@ -131,8 +141,14 @@ export default function Playlist({ route, navigation }) {
                         </View>
                     </View>
 
-                    {/*  Lista de músicas da playlist */}
-                    <View style={StylesFila.margemTop}>
+                    {/* Informações da playlist */}
+                    <View style={Styles.margemTopPequena}>
+                        <Text style={Styles.texto}>{playlist?.sobre}</Text>
+                        <Text style={Styles.textoBranco}>{playlist?.usuarios?.nomeCompleto}</Text>
+                    </View>
+
+                    {/* Lista de músicas da playlist */}
+                    <View style={Styles.margemTopPequena}>
                         {
                             musicasPlaylist?.length > 0 ? (
                                 <Fragment>

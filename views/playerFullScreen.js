@@ -1,7 +1,7 @@
 import Slider from '@react-native-community/slider'; // https://www.npmjs.com/package/@react-native-community/slider/v/4.1.12
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Platform, Text, TouchableOpacity, View } from 'react-native';
+import { ImageBackground, Platform, Text, TouchableOpacity, View } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures'; // https://www.npmjs.com/package/react-native-swipe-gestures
 import TextTicker from 'react-native-text-ticker'; // https://www.npmjs.com/package/react-native-text-ticker
 import MargemBotFooter from '../components/outros/margemBotFooter';
@@ -288,9 +288,9 @@ export default function PlayerFullScreen({ navigation }) {
                     <View style={[Styles.centralizar, Styles.margemTopGrande]}>
                         {
                             imagemBanda ? (
-                                <Image source={{ uri: imagemBanda }} style={Styles.imageBackground}></Image>
+                                <ImageBackground source={{ uri: imagemBanda }} style={Styles.imageBackground}></ImageBackground>
                             ) : (
-                                <Image source={ImgCinza} style={Styles.imageBackground}></Image>
+                                <ImageBackground source={ImgCinza} style={Styles.imageBackground}></ImageBackground>
                             )
                         }
                     </View>
@@ -324,7 +324,7 @@ export default function PlayerFullScreen({ navigation }) {
                         <View style={Styles.margemTopPequena}
                             onLayout={(event) => {
                                 var { x, y, width, height } = event.nativeEvent.layout;
-    
+
                                 // Ajustar width do Slider nos dispositivos Android, que têm um padding estranho;
                                 if (Platform.OS === 'android') {
                                     width = width + 30;

@@ -47,7 +47,14 @@ export default StyleSheet.create({
     imageBackground: {
         width: 350,
         height: 350,
-        borderRadius: 0
+        borderRadius: 0,
+
+        // Shadow ios e android;
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 6, },
+        shadowOpacity: 0.50,
+        shadowRadius: 12.35,
+        elevation: 19,
     },
 
     mesmaLinha: {

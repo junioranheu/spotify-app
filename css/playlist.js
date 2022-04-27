@@ -7,22 +7,29 @@ export default StyleSheet.create({
         width: '100%'
     },
 
-    textoMuitoPequeno: {
+    texto: {
         fontSize: 12,
-        fontWeight: '700',
-        color: '#fff',
+        fontWeight: '500',
+        color: 'rgba(255, 255, 255, 0.7)',
     },
 
-    texto: {
-        fontSize: 23,
+    textoBranco: {
+        fontSize: 12,
         fontWeight: '700',
-        color: '#fff',
+        color: 'rgba(255, 255, 255, 1)',
     },
 
     imageBackground: {
         width: 280,
         height: 280,
-        borderRadius: 0
+        borderRadius: 0,
+
+        // Shadow ios e android;
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 6, },
+        shadowOpacity: 0.50,
+        shadowRadius: 12.35,
+        elevation: 19,
     },
 
     centralizar: {
@@ -49,6 +56,6 @@ export default StyleSheet.create({
     },
 
     margemTopPequena: {
-        marginTop: 10
+        marginTop: 15
     },
 });

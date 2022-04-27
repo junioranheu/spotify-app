@@ -43,7 +43,7 @@ export default function App() {
                             {/* Telas */}
                             <Stack.Navigator initialRouteName={rotaInicial}>
                                 <Stack.Screen component={Splash} name='Splash' options={{ headerShown: false }} />
-                                <Stack.Screen component={Index} name='Index' options={{ headerShown: false }} />
+                                <Stack.Screen component={Index} name='Index' options={{ headerShown: false, animation: 'fade' }} />
                                 <Stack.Screen component={Fila} name='Fila' options={{ headerShown: false }} />
                                 <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false, animation: 'slide_from_bottom' }} />
                                 <Stack.Screen component={Playlist} name='Playlist' options={{ headerShown: false }} />

@@ -1,4 +1,6 @@
 --
-melhorar playlist.js
+terminar playlist.js
+fazer aquele efeito da hora do scroll down (e exibir pesquisa) no playlist.js
+
 colocar animação no coração
 criar login: usuario só pode ouvir se estiver logado

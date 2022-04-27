@@ -9,7 +9,7 @@ export default StyleSheet.create({
     },
 
     lottieView: {
-        width: 250,
-        height: 250
+        width: 230,
+        height: 230
     }
 });

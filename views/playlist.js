@@ -38,7 +38,6 @@ export default function Playlist({ route, navigation }) {
 
             // Imagem de capa;
             const img = `${CONSTANTS_UPLOAD.API_URL_GET_PLAYLIST}/${playlistId}.webp`;
-            console.log(img);
             setImagemCapa(img);
         }
 

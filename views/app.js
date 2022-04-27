@@ -26,6 +26,7 @@ export default function App() {
     const [rotaAtual, setRotaAtual] = useState(rotaInicial);
     StatusBar.setBarStyle('light-content', true); // Alterar a cor do StatusBar: https://stackoverflow.com/questions/39297291/how-to-set-ios-status-bar-background-color-in-react-native;
 
+    // Toast/Aviso.js;
     const toastConfig = {
         success: (props) => (
             <BaseToast

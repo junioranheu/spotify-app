@@ -26,13 +26,18 @@ export default StyleSheet.create({
     },
 
     centralizar: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginLeft: 'auto',
+        marginRight: 'auto'
     },
 
-    margemLeftPequena: {
-        marginLeft: 2
+    esconderOcupandoEspaco: {
+        opacity: 0
+    },
+
+    mesmaLinha: {
+        // backgroundColor: 'pink',
+        display: 'flex',
+        flexDirection: 'row'
     },
 
     margemTopGrande: {

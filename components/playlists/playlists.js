@@ -7,11 +7,11 @@ export default function Playlists({ playlist, navigation }) {
     return (
         <Fragment>
             <View style={Styles.playlist} id={playlist.playlistId}>
-                <TouchableOpacity onPress={() => navigation.navigate('Playlist', { playlistId: playlist.playlistId })}>
+                <TouchableOpacity onPress={() => navigation.navigate('Playlist', { playlist: playlist })}>
                     <View style={Styles.divThumbnail}>
                         <Image
                             style={{ width: 170, height: 170 }}
-                            source={{ uri: `${CONSTANTS_UPLOAD.API_URL_GET_PLAYLIST}/${playlist.playlistId}.webp` }} 
+                            source={{ uri: `${CONSTANTS_UPLOAD.API_URL_GET_PLAYLIST}/${playlist.playlistId}.webp` }}
                         />
                     </View>
                 </TouchableOpacity>

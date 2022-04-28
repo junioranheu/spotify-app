@@ -1,7 +1,4 @@
 --
 colocar animação no coração
-
---
-fazer o login funcionar
-colocar uma imagem de fundo no login (metade pelo menos, algo assim)
-colocar instrução de login igual
+criar opção de deslogar 
+criar configuração

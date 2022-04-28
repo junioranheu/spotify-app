@@ -16,7 +16,7 @@ export default StyleSheet.create({
     },
 
     conteudo: {
-        height: '80%'
+        height: '90%'
     },
 
     ajustarLinearGradient: {
@@ -53,7 +53,7 @@ export default StyleSheet.create({
 
     margemTopSuperPequena: {
         marginTop: 5
-    },
+    }, 
 
     titulo: {
         fontSize: 22,
@@ -76,4 +76,17 @@ export default StyleSheet.create({
         borderRadius: 5,
         padding: 10
     },
+    
+    texto: {
+        fontSize: 11,
+        lineHeight: 12,
+        fontWeight: '500',
+        color: '#fff',
+        opacity: 0.5,
+        marginTop: 3
+    },
+
+    textoVerde: {
+        color: '#1ccc5b'
+    }
 });

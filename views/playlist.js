@@ -218,7 +218,7 @@ export default function Playlist({ route, navigation }) {
                             <CoracaoFinal width={50} status={false} />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={Styles.margemEsquerda} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                        <TouchableOpacity style={Styles.margemEsquerdaPequena} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                             <Reticencias height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
                         </TouchableOpacity>
                     </View>

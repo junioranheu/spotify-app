@@ -65,8 +65,8 @@ export default StyleSheet.create({
         marginTop: 3
     },
 
-    margemEsquerda: {
-        marginLeft: 25
+    margemEsquerdaPequena: {
+        marginLeft: 10
     },
 
     margemDireitaPequena: {

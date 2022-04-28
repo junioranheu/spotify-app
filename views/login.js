@@ -28,6 +28,13 @@ export default function Login({ navigation }) {
     async function handleSubmit(e) {
         refBtn.current.disabled = true;
 
+        // *********************************** DEV APENAS;
+        if (!formData || !formData.usuario || !formData.senha) {
+            formData.usuario = 'junioranheu';
+            formData.senha = '123';
+        }
+        // *********************************** DEV APENAS;
+
         if (!formData || !formData.usuario || !formData.senha) {
             Aviso('success', 'Opa ✋', 'O nome de usuário e/ou e-mail estão vazios', 5000);
             refSenha.current.value = '';

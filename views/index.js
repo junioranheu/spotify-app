@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Platform, ScrollView, Text, View } from 'react-native';
+import { Platform, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import AlbunsPequenos from '../components/outros/albunsPequenos';
 import Botao from '../components/outros/botao';
 import MargemBotFooter from '../components/outros/margemBotFooter';
@@ -17,8 +17,10 @@ import CONSTANTS_PLAYLISTS from '../utils/data/constPlaylists';
 import Aviso from '../utils/outros/aviso';
 import EmojiAleatorio from '../utils/outros/emojiAleatorio';
 import HorarioBrasilia from '../utils/outros/horarioBrasilia';
+import { UsuarioContext } from '../utils/context/usuarioContext';
 
 export default function Index({ navigation }) {
+    const [usuarioContext] = useContext(UsuarioContext); // Contexto do usuário;
     const [playlistsContext, setPlaylistsContext] = useContext(PlaylistsContext); // Context das playlists disponiveis;
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
 
@@ -69,15 +71,30 @@ export default function Index({ navigation }) {
         <ScrollView style={StylesGlobal.containerPrincipal}>
             {/* Olá + Ícones */}
             <View style={Styles.divOla}>
-                <Text style={Styles.titulo}>{gerarOla()}</Text>
+                <Text style={Styles.titulo}>
+                    {gerarOla()}
 
-                <View style={Styles.direita}>
-                    <Notificacao height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
-                    <View style={Styles.espacoIcones}></View>
-                    <Historico height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
-                    <View style={Styles.espacoIcones}></View>
-                    <Engrenagem height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
-                </View>
+                    {
+                        (usuarioContext?.usuarioId > 0) && (usuarioContext?.nomeCompleto?.split(' ')[0].length < 11) && (
+                            <Text>, {usuarioContext?.nomeCompleto?.split(' ')[0]}</Text>
+                        )
+                    }
+
+                </Text>
+                {
+                    usuarioContext?.usuarioId > 0 && (
+                        <View style={Styles.direita}>
+                            <Notificacao height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
+                            <View style={Styles.espacoIcones}></View>
+                            <Historico height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
+                            <View style={Styles.espacoIcones}></View>
+
+                            <TouchableOpacity onPress={() => navigation.navigate('Configuracao')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                                <Engrenagem height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
+                            </TouchableOpacity>
+                        </View>
+                    )
+                }
             </View>
 
             {/* Div com albuns pequenos*/}

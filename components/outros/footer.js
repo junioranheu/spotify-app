@@ -12,9 +12,9 @@ export default function Footer({ rotaAtual }) {
     const navigation = useNavigation();
     const [usuarioContext] = useContext(UsuarioContext); // Contexto do usuário;
 
-    return (
+    return ( 
         <View style={Styles.footer}>
-            <TouchableOpacity onPress={() => navigation.navigate('Index')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Index')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                 <View style={Styles.divIcone}>
                     <Casa height={24} width={24} cor={rotaAtual === 'Index' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.5)'} />
                     <Text style={Styles.texto}>Início</Text>
@@ -28,14 +28,14 @@ export default function Footer({ rotaAtual }) {
 
             {
                 usuarioContext?.usuarioId > 0 ? (
-                    <TouchableOpacity onPress={() => navigation.navigate('Fila')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Fila')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                         <View style={Styles.divIcone}>
                             <Fila height={24} width={24} cor={rotaAtual === 'Fila' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.5)'} />
                             <Text style={Styles.texto}>Sua fila</Text>
                         </View>
                     </TouchableOpacity>
                 ) : (
-                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Login')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                         <View style={Styles.divIcone}>
                             <SpotifyLogo2 height={24} width={24} cor={rotaAtual === 'Login' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.5)'} />
                             <Text style={Styles.texto}>Entrar</Text>

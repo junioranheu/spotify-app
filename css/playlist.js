@@ -45,7 +45,8 @@ export default StyleSheet.create({
     mesmaLinha: {
         // backgroundColor: 'pink',
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
 
     margemTopGrande: {

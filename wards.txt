@@ -1,4 +1,1 @@
 --
-colocar animação no coração
-criar opção de deslogar 
-criar configuração

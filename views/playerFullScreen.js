@@ -4,14 +4,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ImageBackground, Platform, Text, TouchableOpacity, View } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures'; // https://www.npmjs.com/package/react-native-swipe-gestures
 import TextTicker from 'react-native-text-ticker'; // https://www.npmjs.com/package/react-native-text-ticker
+import CoracaoFinal from '../components/outros/coracaoFinal';
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import Aleatorio from '../components/svg/aleatorio';
 import BotaoAvancar from '../components/svg/botaoAvancar';
 import BotaoPlay from '../components/svg/botaoPlay';
 import BotaoStop from '../components/svg/botaoStop';
 import BotaoVoltar from '../components/svg/botaoVoltar';
-import Coracao from '../components/svg/coracao';
-import CoracaoPreenchido from '../components/svg/coracaoPreenchido';
 import Dispositivo from '../components/svg/dispositivo';
 import Fila from '../components/svg/fila';
 import Loop from '../components/svg/loop';
@@ -58,12 +57,6 @@ export default function PlayerFullScreen({ navigation }) {
             setCoresDominantes({ corRgba, corMedia, corClara });
         }
     }, [musicaContext]);
-
-    // Curtir;
-    const [isCurtido, setIsCurtido] = useState(false);
-    function handleCurtir() {
-        setIsCurtido(!isCurtido);
-    }
 
     // Infos da música em questão (atualiza a cada 100ms);
     const [porcetagemMusicaOuvida, setPorcetagemMusicaOuvida] = useState(0);
@@ -309,13 +302,7 @@ export default function PlayerFullScreen({ navigation }) {
 
                             <View style={Styles.flexDireita}>
                                 <TouchableOpacity onPress={() => handleCurtir()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                                    {
-                                        isCurtido ? (
-                                            <CoracaoPreenchido height={22} width={22} cor={'#20D660'} />
-                                        ) : (
-                                            <Coracao height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
-                                        )
-                                    }
+                                    <CoracaoFinal width={60} status={false} />
                                 </TouchableOpacity>
                             </View>
                         </View>

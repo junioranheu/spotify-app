@@ -1,10 +1,9 @@
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { ImageBackground, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ImageBackground, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import MusicaRow from '../components/fila/musicaRow';
+import CoracaoFinal from '../components/outros/coracaoFinal';
 import MargemBotFooter from '../components/outros/margemBotFooter';
-import Coracao from '../components/svg/coracao';
-import CoracaoPreenchido from '../components/svg/coracaoPreenchido';
 import Reticencias from '../components/svg/reticencias';
 import SetinhaBaixo2 from '../components/svg/setinhaBaixo2';
 import SpotifyLogo2 from '../components/svg/spotifyLogo2';
@@ -139,12 +138,6 @@ export default function Playlist({ route, navigation }) {
         return ouvintes;
     }
 
-    // Curtir;
-    const [isCurtido, setIsCurtido] = useState(false);
-    function handleCurtir() {
-        setIsCurtido(!isCurtido);
-    }
-
     // onScroll;
     function handleScroll(e) {
         const positionY = e.nativeEvent.contentOffset.y;
@@ -220,15 +213,9 @@ export default function Playlist({ route, navigation }) {
                     </View>
 
                     {/* Ícones */}
-                    <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
+                    <View style={[Styles.mesmaLinha, (Platform.OS === 'web' ? Styles.margemTopPequena : null)]}>
                         <TouchableOpacity onPress={() => handleCurtir()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                            {
-                                isCurtido ? (
-                                    <CoracaoPreenchido height={20} width={20} cor={'#20D660'} />
-                                ) : (
-                                    <Coracao height={20} width={20} cor={'rgba(255, 255, 255, 0.9)'} />
-                                )
-                            }
+                            <CoracaoFinal width={50} status={false} />
                         </TouchableOpacity>
 
                         <TouchableOpacity style={Styles.margemEsquerda} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
@@ -237,7 +224,7 @@ export default function Playlist({ route, navigation }) {
                     </View>
 
                     {/* Lista de músicas da playlist */}
-                    <View style={Styles.margemTop}>
+                    <View style={[(Platform.OS === 'web' ? Styles.margemTop : Styles.margemTopPequena)]}>
                         {
                             musicasPlaylist?.length > 0 ? (
                                 <Fragment>

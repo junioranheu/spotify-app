@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Platform, ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import AlbunsPequenos from '../components/outros/albunsPequenos';
 import Botao from '../components/outros/botao';
 import MargemBotFooter from '../components/outros/margemBotFooter';
@@ -12,12 +12,12 @@ import Styles from '../css/index';
 import StylesPlaylist from '../css/playlists';
 import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/listaMusicasContext';
 import { PlaylistsContext } from '../utils/context/playlistsContext';
+import { UsuarioContext } from '../utils/context/usuarioContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
 import CONSTANTS_PLAYLISTS from '../utils/data/constPlaylists';
 import Aviso from '../utils/outros/aviso';
 import EmojiAleatorio from '../utils/outros/emojiAleatorio';
 import HorarioBrasilia from '../utils/outros/horarioBrasilia';
-import { UsuarioContext } from '../utils/context/usuarioContext';
 
 export default function Index({ navigation }) {
     const [usuarioContext] = useContext(UsuarioContext); // Contexto do usuário;
@@ -81,6 +81,7 @@ export default function Index({ navigation }) {
                     }
 
                 </Text>
+
                 {
                     usuarioContext?.usuarioId > 0 && (
                         <View style={Styles.direita}>

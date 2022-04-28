@@ -34,6 +34,7 @@ export default function App() {
                 style={{ borderLeftColor: '#1CCC5B' }} 
                 text1Style={{ fontSize: 15, fontWeight: '400' }}
                 text2Style={{ fontSize: 14, fontWeight: '400' }}
+                text2NumberOfLines={3}
             />
         ),
     };

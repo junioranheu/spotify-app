@@ -14,6 +14,7 @@ import { ListaMusicasContext, ListaMusicasStorage } from '../utils/context/lista
 import { PlaylistsContext } from '../utils/context/playlistsContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
 import CONSTANTS_PLAYLISTS from '../utils/data/constPlaylists';
+import Aviso from '../utils/outros/aviso';
 import EmojiAleatorio from '../utils/outros/emojiAleatorio';
 import HorarioBrasilia from '../utils/outros/horarioBrasilia';
 
@@ -61,7 +62,7 @@ export default function Index({ navigation }) {
         setListaMusicasContext(musicas);
 
         // Aviso.custom('Todas as músicas disponíveis atualmente foram importadas para sua fila', 10000);
-        alert('Todas as músicas disponíveis atualmente foram importadas para sua fila');
+        Aviso('success', 'Feito 😎', 'Todas as músicas importadas para sua fila', 5000);
     }
 
     return (
@@ -129,6 +130,7 @@ export default function Index({ navigation }) {
                         url=''
                         isExterno={false}
                         funcaoExtra={renovarFila}
+                        refBtn={null}
                     />
                 </View>
             </View>

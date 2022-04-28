@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Linking, Text, TouchableHighlight } from 'react-native';
 
-export default function Botao({ texto, corTexto, corBotao, corBotaoOnPress, height, width, url, isExterno, funcaoExtra }) {
+export default function Botao({ texto, corTexto, corBotao, corBotaoOnPress, height, width, url, isExterno, funcaoExtra, refBtn }) {
     const navigation = useNavigation();
 
     function handlePress() {
@@ -30,6 +30,7 @@ export default function Botao({ texto, corTexto, corBotao, corBotaoOnPress, heig
             onPress={() => handlePress()}
             activeOpacity={0.6} underlayColor={corBotaoOnPress}
             style={{ height: height, width: width, borderRadius: 50, backgroundColor: corBotao, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            ref={refBtn}
         >
             <Text style={{ color: corTexto, fontWeight: '700' }}>
                 {texto}

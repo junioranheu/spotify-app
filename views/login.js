@@ -1,14 +1,96 @@
-import React, { useState } from 'react';
+import { StackActions } from '@react-navigation/native';
+import React, { useContext, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
 import Botao from '../components/outros/botao';
 import SpotifyLogo2 from '../components/svg/spotifyLogo2';
 import StylesGlobal from '../css/global';
 import Styles from '../css/login';
+import { UsuarioContext, UsuarioStorage } from '../utils/context/usuarioContext';
+import CONSTANTS_USUARIOS from '../utils/data/constUsuarios';
+import Aviso from '../utils/outros/aviso';
 
 export default function Login({ navigation }) {
+    const [usuarioContext, setUsuarioContext] = useContext(UsuarioContext); // Contexto do usuário;
 
-    const [usuario, setUsuario] = useState(null);
-    const [senha, setSenha] = useState(null);
+    const refUsuario = useRef();
+    const refSenha = useRef();
+    const refBtn = useRef();
+
+    const formDataInicial = { usuario: '', senha: '' };
+    const [formData, setFormData] = useState(formDataInicial);
+    function handleChange(valor, name) {
+        // console.log(name);
+        // console.log(e.nativeEvent.text);
+        setFormData({ ...formData, [name]: valor});
+    };
+
+    async function handleSubmit(e) {
+        refBtn.current.disabled = true;
+
+        if (!formData || !formData.usuario || !formData.senha) {
+            Aviso('success', 'Opa ✋', 'O nome de usuário e/ou e-mail estão vazios', 5000);
+            refSenha.current.value = '';
+            refUsuario.current.select();
+            refBtn.current.disabled = false;
+            return false;
+        }
+
+        const url = `${CONSTANTS_USUARIOS.API_URL_GET_VERIFICAR_EMAIL_E_SENHA}?nomeUsuarioSistema=${formData.usuario}&senha=${formData.senha}`;
+        // console.log(url);
+
+        const resposta = await fetch(url);
+        if (resposta.status !== 200) {
+            refSenha.current.value = '';
+            formData.senha = '';
+            refUsuario.current.select();
+            refBtn.current.disabled = false;
+            Aviso('success', 'Opa ✋', 'Provavelmente o usuário e/ou a senha estão errados', 5000);
+            return false;
+        }
+
+        // Resposta em JSON;
+        const usuario = await resposta.json();
+
+        // Gerar token e autenticar/entrar;
+        getToken(formData.usuario, formData.senha, usuario);
+    };
+
+    async function getToken(nomeUsuario, senha, usuario) {
+        const url = `${CONSTANTS_USUARIOS.API_URL_GET_VERIFICAR_EMAIL_E_SENHA}?nomeUsuarioSistema=${nomeUsuario}&senha=${senha}`;
+
+        // Gerar token;
+        const resposta = await fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+
+        if (resposta.status !== 200) {
+            Aviso('success', 'Opa ✋', 'Algo deu errado ao se autenticar', 5000);
+            return false;
+        }
+
+        // Resposta em JSON;
+        const token = await resposta.json();
+        // console.log(respostaJson);
+
+        // Inserir o token no json final para gravar localmente a sessão do login;
+        usuario.token = token;
+        UsuarioStorage.set(usuario);
+
+        // Atribuir autenticação ao contexto de usuário;
+        setUsuarioContext(usuario);
+
+        // Voltar à tela principal;
+        navigation.dispatch(StackActions.replace('Index'));
+    }
+
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            refBtn.current.click();
+        }
+    }
 
     return (
         <KeyboardAvoidingView style={[StylesGlobal.containerPrincipal, Styles.centralizar]} behavior='padding' enabled>
@@ -22,10 +104,12 @@ export default function Login({ navigation }) {
                 <Text style={Styles.label}>Usuário</Text>
                 <TextInput
                     style={[Styles.input, Styles.margemTopSuperPequena]}
-                    onChangeText={() => setUsuario()}
-                    value={usuario}
+                    onChange={(e) => handleChange(e.nativeEvent.text?.toLowerCase(), 'usuario')}
                     placeholder='E-mail ou nome de usuário'
                     placeholderTextColor='rgba(0, 0, 0, 0.2)'
+                    value={formData.usuario}
+                    onKeyPress={(e) => handleKeyPress(e)}
+                    ref={refUsuario}
                 />
             </View>
 
@@ -33,15 +117,18 @@ export default function Login({ navigation }) {
                 <Text style={Styles.label}>Senha</Text>
                 <TextInput
                     style={[Styles.input, Styles.margemTopSuperPequena]}
-                    onChangeText={() => setSenha()}
-                    value={senha}
+                    onChange={(e) => handleChange(e.nativeEvent.text, 'senha')}
                     placeholder='Sua senha super-secreta'
                     placeholderTextColor='rgba(0, 0, 0, 0.2)'
+                    secureTextEntry={true}
+                    onKeyPress={(e) => handleKeyPress(e)}
+                    ref={refSenha}
                 />
             </View>
 
             <View style={Styles.margemTop}>
-                <Botao texto='Entrar'
+                <Botao
+                    texto='Entrar'
                     corTexto='rgba(255, 255, 255, 0.8)'
                     corBotao='rgba(29, 185, 84, 0.8)'
                     corBotaoOnPress='rgba(29, 185, 84, 0.4)'
@@ -49,7 +136,8 @@ export default function Login({ navigation }) {
                     width={300}
                     url='Index'
                     isExterno={false}
-                    funcaoExtra={null}
+                    funcaoExtra={handleSubmit}
+                    refBtn={refBtn}
                 />
             </View>
         </KeyboardAvoidingView>

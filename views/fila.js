@@ -25,7 +25,7 @@ export default function Fila({ navigation }) {
         }
 
         // Se o usuário estiver deslogado não permita escutar a música;
-        if (!usuarioContext?.length > 0) {
+        if (!usuarioContext?.usuarioId > 0) {
             Aviso('success', 'Opa ✋', 'Inicie uma sessão para escutar essa música', 5000);
             return false;
         }

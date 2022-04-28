@@ -27,7 +27,7 @@ export default function Footer({ rotaAtual }) {
             </View>
 
             {
-                usuarioContext?.length > 0 ? (
+                usuarioContext?.usuarioId > 0 ? (
                     <TouchableOpacity onPress={() => navigation.navigate('Fila')}>
                         <View style={Styles.divIcone}>
                             <Fila height={24} width={24} cor={rotaAtual === 'Fila' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.5)'} />

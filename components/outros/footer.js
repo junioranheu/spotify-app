@@ -25,7 +25,7 @@ export default function Footer({ rotaAtual }) {
                 <Lupa height={24} width={24} cor={rotaAtual === 'Buscar' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.5)'} />
                 <Text style={Styles.texto}>Buscar</Text>
             </View>
-
+ 
             {
                 usuarioContext?.usuarioId > 0 ? (
                     <TouchableOpacity onPress={() => navigation.navigate('Fila')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>

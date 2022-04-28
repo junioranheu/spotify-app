@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import AlbunsPequenos from '../components/outros/albunsPequenos';
 import Botao from '../components/outros/botao';
@@ -134,22 +134,29 @@ export default function Index({ navigation }) {
             <View style={Styles.margemTop}>
                 <Text style={Styles.titulo}>Outras playlists</Text>
                 <Text style={Styles.texto}>Novas playlists serão criadas e, mais para frente, será permitido criar suas proprias!</Text>
-                <Text style={Styles.texto}>Para “renovar” sua playlist por completo, clique no botão abaixo.</Text>
 
-                <View style={Styles.margemTopPequena}>
-                    <Botao
-                        texto='Importar todas as músicas'
-                        corTexto='rgba(255, 255, 255, 0.8)'
-                        corBotao='rgba(29, 185, 84, 0.8)'
-                        corBotaoOnPress='rgba(29, 185, 84, 0.4)'
-                        height={50}
-                        width={'100%'}
-                        url=''
-                        isExterno={false}
-                        funcaoExtra={renovarFila}
-                        refBtn={null}
-                    />
-                </View>
+                {
+                    usuarioContext?.usuarioId > 0 && (
+                        <Fragment>
+                            <Text style={Styles.texto}>Para “renovar” sua playlist por completo, clique no botão abaixo.</Text>
+
+                            <View style={Styles.margemTopPequena}>
+                                <Botao
+                                    texto='Importar todas as músicas'
+                                    corTexto='rgba(255, 255, 255, 0.8)'
+                                    corBotao='rgba(29, 185, 84, 0.8)'
+                                    corBotaoOnPress='rgba(29, 185, 84, 0.4)'
+                                    height={50}
+                                    width={'100%'}
+                                    url=''
+                                    isExterno={false}
+                                    funcaoExtra={renovarFila}
+                                    refBtn={null}
+                                />
+                            </View>
+                        </Fragment>
+                    )
+                }
             </View>
 
             {/* Margem do footer */}

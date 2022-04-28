@@ -6,15 +6,22 @@ import MargemBotFooter from '../components/outros/margemBotFooter';
 import OpcaoConfiguracao from '../components/outros/opcaoConfiguracao';
 import Styles from '../css/configuracao';
 import StylesGlobal from '../css/global';
+import { InfoMusicaContext } from '../utils/context/infoMusicaContext';
 import { UsuarioContext, UsuarioStorage } from '../utils/context/usuarioContext';
 
 export default function Configuracao({ navigation }) {
     const [usuarioContext, setUsuarioContext] = useContext(UsuarioContext); // Contexto do usuário;
+    const [infoMusicaContext] = useContext(InfoMusicaContext); // Context da música que está tocando, contendo suas informações;
 
-    function deslogar() {
+    async function deslogar() {
         // Apagar do local storage e do context;
         UsuarioStorage.delete();
         setUsuarioContext(null);
+
+        // "Parar" música;
+        if (infoMusicaContext?.status?.isPlaying) {
+            await infoMusicaContext?.sound?.pauseAsync();
+        }
 
         // Voltar à tela principal;
         navigation.dispatch(StackActions.replace('Index'));

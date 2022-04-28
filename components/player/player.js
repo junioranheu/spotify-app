@@ -10,6 +10,7 @@ import ImgCinza from '../../static/image/outros/cinza.webp';
 import { InfoMusicaContext } from '../../utils/context/infoMusicaContext';
 import { ListaMusicasContext, ListaMusicasStorage } from '../../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../../utils/context/musicaContext';
+import { UsuarioContext } from '../../utils/context/usuarioContext';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
 import NumeroAleatorio from '../../utils/outros/numeroAleatorio';
 import BotaoPlay from '../svg/botaoPlay';
@@ -19,6 +20,7 @@ import Dispositivo from '../svg/dispositivo';
 export default function Player() {
     const navigation = useNavigation();
 
+    const [usuarioContext] = useContext(UsuarioContext); // Contexto do usuário;
     const [musicaContext, setMusicaContext] = useContext(MusicaContext); // Context da música;
     const [listaMusicasContext, setListaMusicasContext] = useContext(ListaMusicasContext); // Context da lista de músicas;
     const [
@@ -79,7 +81,7 @@ export default function Player() {
                 // Quando a música for importada, é necessário removê-la da lista/fila;
                 if (listaMusicasContext.length > 0) {
                     const indexMusicaTocando = listaMusicasContext?.findIndex(m => m.musicaId === musicaContext?.musicaId);
-   
+
                     if (indexMusicaTocando !== null) {
                         listaMusicasContext?.splice(indexMusicaTocando, 1);
                         ListaMusicasStorage.set(listaMusicasContext);
@@ -109,8 +111,8 @@ export default function Player() {
             }
         }
 
-        // Import dinâmico: capa da música reproduzindo;
-        if (musicaContext?.musicaId > 0) {
+        // Import dinâmico;
+        if (musicaContext?.musicaId > 0 && usuarioContext?.usuarioId > 0) {
             // Atribuir a imagem da música atual;
             if (musicaContext?.musicasBandas[0]?.bandas.foto) {
                 getImagemCapaMusica();
@@ -195,7 +197,7 @@ export default function Player() {
     }
 
     return (
-        musicaContext?.musicaId > 0 ? (
+        musicaContext?.musicaId > 0 && usuarioContext?.usuarioId > 0 ? (
             <View style={Styles.container}>
                 <LinearGradient
                     colors={(coresDominantes ? [coresDominantes.corRgba, coresDominantes.corMedia, coresDominantes.corClara] : ['#287a45', '#23944b', '#1db954', '#18d65b'])}

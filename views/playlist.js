@@ -152,110 +152,110 @@ export default function Playlist({ route, navigation }) {
     }
 
     return (
-        <View style={Styles.containerPrincipal}>
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                showsHorizontalScrollIndicator={false}
-                onScroll={(e) => handleScroll(e)}
-                scrollEventThrottle={1}
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            onScroll={(e) => handleScroll(e)}
+            scrollEventThrottle={1}
+            style={Styles.containerPrincipal}
+        >
+            <LinearGradient
+                colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
+                style={{ flex: 1, padding: 15 }}
             >
-                <LinearGradient
-                    colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
-                    style={{ flex: 1, padding: 15 }}
-                >
-                    {/* Parte superior: ícone de voltar + imagem da playlist */}
-                    <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
-                        <TouchableOpacity
-                            onPress={() => navigation.goBack()}
-                            hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
-                        >
-                            <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' isRotate={true} />
-                        </TouchableOpacity>
+                {/* Parte superior: ícone de voltar + imagem da playlist */}
+                <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack()}
+                        hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+                        style={Styles.setinhaTop}
+                    >
+                        <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' isRotate={true} />
+                    </TouchableOpacity>
 
-                        {/* Imagem de capa */}
-                        <View style={Styles.centralizar}>
-                            {
-                                imagemCapa ? (
-                                    <ImageBackground source={{ uri: imagemCapa }} style={Styles.imageBackground}></ImageBackground>
-                                ) : (
-                                    <ImageBackground source={ImgCinza} style={Styles.imageBackground}></ImageBackground>
-                                )
-                            }
-                        </View>
-
-                        {/* Terceira div, para ocupar espaço e centralizar corretamente */}
-                        <View style={Styles.esconderOcupandoEspaco}>
-                            <SetinhaBaixo2 height={20} width={20} cor='#121212' isRotate={true} />
-                        </View>
-                    </View>
-
-                    {/* Informações da playlist */}
-                    <View style={Styles.margemTopPequena}>
-                        <Text style={Styles.texto}>{playlist?.sobre}</Text>
-
-                        <View style={[Styles.centralizarVerticalmente, Styles.margemTopSuperPequena]}>
-                            {
-                                playlist?.usuarios?.usuarioId === 1 && (
-                                    <View style={Styles.margemDireitaPequena}>
-                                        <SpotifyLogo2 height={16} width={16} cor='#1ccc5b' />
-                                    </View>
-                                )
-                            }
-
-                            <Text style={[Styles.textoBranco, Styles.margemTopSuperPequena]}>{playlist?.usuarios?.nomeCompleto}</Text>
-                        </View>
-
-                        <Text style={[Styles.texto, Styles.margemTopSuperPequena]}>
-                            {ouvintesPlaylist} {(ouvintesPlaylist === 1) ? 'ouvinte' : 'ouvintes'}
-                            &nbsp;•&nbsp;
-                            {formatarSegundosComLegenda(duracaoPlaylist)}
-                        </Text>
-                    </View>
-
-                    {/* Ícones */}
-                    <View style={[Styles.mesmaLinha, (Platform.OS === 'web' ? Styles.margemTopPequena : null)]}>
-                        <TouchableOpacity onPress={() => handleCurtir()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                            <CoracaoFinal width={50} status={false} />
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={Styles.margemEsquerdaPequena} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                            <Reticencias height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
-                        </TouchableOpacity>
-                    </View>
-
-                    {/* Lista de músicas da playlist */}
-                    <View style={[(Platform.OS === 'web' ? Styles.margemTop : Styles.margemTopPequena)]}>
+                    {/* Imagem de capa */}
+                    <View style={Styles.centralizar}>
                         {
-                            musicasPlaylist?.length > 0 ? (
-                                <Fragment>
-                                    {
-                                        musicasPlaylist.map((m, i) => (
-                                            <MusicaRow
-                                                key={m.musicaId}
-                                                id={m.musicaId}
-                                                foto={m.musicasBandas[0]?.bandas.foto}
-                                                titulo={m.nome}
-                                                banda={m.musicasBandas[0]?.bandas.nome}
-                                                album={m.albunsMusicas[0]?.albuns.nome}
-                                                tempo={m.duracaoSegundos}
-                                                setarMusica={setarMusica}
-                                            />
-                                        ))
-                                    }
-                                </Fragment>
+                            imagemCapa ? (
+                                <ImageBackground source={{ uri: imagemCapa }} style={Styles.imageBackground}></ImageBackground>
                             ) : (
-                                <View>
-                                    {/* <Text style={StylesFila.subtitulo}>Sem músicas nessa playlist</Text> */}
-                                </View>
+                                <ImageBackground source={ImgCinza} style={Styles.imageBackground}></ImageBackground>
                             )
                         }
                     </View>
 
-                    {/* Margem do footer */}
-                    <MargemBotFooter />
-                </LinearGradient>
-            </ScrollView>
-        </View >
+                    {/* Terceira div, para ocupar espaço e centralizar corretamente */}
+                    <View style={Styles.esconderOcupandoEspaco}>
+                        <SetinhaBaixo2 height={20} width={20} cor='#121212' isRotate={true} />
+                    </View>
+                </View>
+
+                {/* Informações da playlist */}
+                <View style={Styles.margemTopPequena}>
+                    <Text style={Styles.texto}>{playlist?.sobre}</Text>
+
+                    <View style={[Styles.centralizarVerticalmente, Styles.margemTopSuperPequena]}>
+                        {
+                            playlist?.usuarios?.usuarioId === 1 && (
+                                <View style={Styles.margemDireitaPequena}>
+                                    <SpotifyLogo2 height={16} width={16} cor='#1ccc5b' />
+                                </View>
+                            )
+                        }
+
+                        <Text style={[Styles.textoBranco, Styles.margemTopSuperPequena]}>{playlist?.usuarios?.nomeCompleto}</Text>
+                    </View>
+
+                    <Text style={[Styles.texto, Styles.margemTopSuperPequena]}>
+                        {ouvintesPlaylist} {(ouvintesPlaylist === 1) ? 'ouvinte' : 'ouvintes'}
+                        &nbsp;•&nbsp;
+                        {formatarSegundosComLegenda(duracaoPlaylist)}
+                    </Text>
+                </View>
+
+                {/* Ícones */}
+                <View style={[Styles.mesmaLinha, (Platform.OS === 'web' ? Styles.margemTopPequena : null)]}>
+                    <TouchableOpacity onPress={() => handleCurtir()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                        <CoracaoFinal width={50} status={false} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={Styles.margemEsquerdaPequena} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                        <Reticencias height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
+                    </TouchableOpacity>
+                </View>
+
+                {/* Lista de músicas da playlist */}
+                <View style={[(Platform.OS === 'web' ? Styles.margemTop : Styles.margemTopPequena)]}>
+                    {
+                        musicasPlaylist?.length > 0 ? (
+                            <Fragment>
+                                {
+                                    musicasPlaylist.map((m, i) => (
+                                        <MusicaRow
+                                            key={m.musicaId}
+                                            id={m.musicaId}
+                                            foto={m.musicasBandas[0]?.bandas.foto}
+                                            titulo={m.nome}
+                                            banda={m.musicasBandas[0]?.bandas.nome}
+                                            album={m.albunsMusicas[0]?.albuns.nome}
+                                            tempo={m.duracaoSegundos}
+                                            setarMusica={setarMusica}
+                                        />
+                                    ))
+                                }
+                            </Fragment>
+                        ) : (
+                            <View>
+                                {/* <Text style={StylesFila.subtitulo}>Sem músicas nessa playlist</Text> */}
+                            </View>
+                        )
+                    }
+                </View>
+
+                {/* Margem do footer */}
+                <MargemBotFooter />
+            </LinearGradient>
+        </ScrollView>
     );
 }
 

@@ -72,16 +72,21 @@ export default StyleSheet.create({
     margemDireitaPequena: {
         marginRight: 7
     },
-    
-    placeholderTexto:{
+
+    placeholderTexto: {
         marginLeft: 25,
         marginTop: 'auto',
         marginBottom: 'auto'
     },
 
-    centralizarVerticalmente:{
+    centralizarVerticalmente: {
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center' 
+        alignItems: 'center'
+    },
+
+    setinhaTop: {
+        // backgroundColor: 'pink',
+        marginBottom: 'auto'
     }
 });

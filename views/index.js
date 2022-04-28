@@ -79,7 +79,6 @@ export default function Index({ navigation }) {
                             <Text>, {usuarioContext?.nomeCompleto?.split(' ')[0]}</Text>
                         )
                     }
-
                 </Text>
 
                 {

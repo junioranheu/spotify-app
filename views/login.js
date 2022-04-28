@@ -155,10 +155,15 @@ export default function Login({ navigation }) {
                             />
                         </View>
 
-                        <View style={[Styles.margemTop, Styles.centralizar]}>
-                            <Text style={Styles.texto}>Por enquanto não é possível criar uma nova conta</Text>
-                            <Text style={Styles.texto}>Entre com o usuário <Text style={Styles.textoVerde}>usuario</Text> e a senha <Text style={Styles.textoVerde}>123</Text></Text>
-                        </View>
+                        {/* 1 > 2 para esconder div */}
+                        {
+                            1 > 2 && (
+                                <View style={[Styles.margemTop, Styles.centralizar]}>
+                                    <Text style={Styles.texto}>Por enquanto não é possível criar uma nova conta</Text>
+                                    <Text style={Styles.texto}>Entre com o usuário <Text style={Styles.textoVerde}>usuario</Text> e a senha <Text style={Styles.textoVerde}>123</Text></Text>
+                                </View>
+                            )
+                        }
                     </LinearGradient>
                 </View>
             </ImageBackground>

@@ -1,10 +1,42 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+    containerPrincipal: {
+        // backgroundColor: 'pink',
+        backgroundColor: '#121212', // Cor principal;
+        height: '100%',
+        width: '100%',
+        padding: 0
+    },
+
     centralizar: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+
+    conteudo: {
+        height: '80%'
+    },
+
+    ajustarLinearGradient: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    flexBottom: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 'auto',
+    },
+
+    backgroundImage: {
+        width: '100%',
+        height: '100%'
     },
 
     margemTop: {

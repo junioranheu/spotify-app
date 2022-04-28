@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from 'react-native';
+import { Dimensions, Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     containerPrincipal: {
@@ -45,8 +45,8 @@ export default StyleSheet.create({
     },
 
     imageBackground: {
-        width: 350,
-        height: 350,
+        width: (Dimensions.get('window').width <= 360 ? 200 : 350),
+        height: (Dimensions.get('window').width <= 360 ? 200 : 350),
         borderRadius: 0,
 
         // Shadow ios e android;

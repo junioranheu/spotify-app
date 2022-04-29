@@ -84,9 +84,16 @@ export default function Index({ navigation }) {
                 {
                     usuarioContext?.usuarioId > 0 && (
                         <View style={Styles.direita}>
-                            <Notificacao height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
+                            <TouchableOpacity onPress={() => navigation.navigate('Novidades')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                                <Notificacao height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
+                            </TouchableOpacity>
+
                             <View style={Styles.espacoIcones}></View>
-                            <Historico height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
+
+                            <TouchableOpacity onPress={() => navigation.navigate('Historico')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                                <Historico height={24} width={24} cor='rgba(255, 255, 255, 0.85)' />
+                            </TouchableOpacity>
+
                             <View style={Styles.espacoIcones}></View>
 
                             <TouchableOpacity onPress={() => navigation.navigate('Configuracao')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
@@ -161,7 +168,7 @@ export default function Index({ navigation }) {
 
             {/* Margem do footer */}
             <MargemBotFooter />
-        </ScrollView>
+        </ScrollView >
     );
 }
 

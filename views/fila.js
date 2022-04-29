@@ -58,7 +58,7 @@ export default function Fila({ navigation }) {
                 !listaMusicasContext?.length && !musicaContext?.musicaId ? (
                     <View style={[StylesGlobal.containerPrincipal, Styles.centralizar]}>
                         <View style={Styles.centralizar}>
-                            <Image source={WaitGif} style={Styles.gifWait}></Image>
+                            <Image source={WaitGif} style={StylesGlobal.gifWait}></Image>
                             <Text style={Styles.subtitulo}>Sem próximas músicas na sua fila</Text>
                             <Text style={[Styles.subtituloMenor, Styles.margemTopPequena]}>Volte ao início e encontre uma nova música {EmojiAleatorio()}</Text>
                         </View>

@@ -1,3 +1,2 @@
 --
-criar buscar.js
 opções em reticencias...

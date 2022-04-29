@@ -95,8 +95,9 @@ export default function Login({ navigation }) {
 
     function setarInformacoesDev() {
         if (process.env.NODE_ENV === 'development') {
-            console.log('Setar infos para login rápido em dev');
-            formData.usuario = 'junioranheu';
+            // console.log('Setar infos para login rápido em dev');
+            Aviso('success', 'process.env.NODE_ENV === "dev"', 'true 👾', 2000);
+            formData.usuario = 'adm';
             formData.senha = '123';
         }
     }

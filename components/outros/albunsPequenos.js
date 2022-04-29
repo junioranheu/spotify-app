@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import Styles from '../../css/albunsPequenos';
 import Foto1 from '../../static/image/albunsPequenos/albumPequeno1.webp';
 import Foto2 from '../../static/image/albunsPequenos/albumPequeno2.webp';
@@ -7,6 +7,7 @@ import Foto3 from '../../static/image/albunsPequenos/albumPequeno3.webp';
 import Foto4 from '../../static/image/albunsPequenos/albumPequeno4.webp';
 import Foto5 from '../../static/image/albunsPequenos/albumPequeno5.webp';
 import Foto6 from '../../static/image/albunsPequenos/albumPequeno6.webp';
+import Aviso from '../../utils/outros/aviso';
 
 export default function AlbunsPequenos() {
 
@@ -23,10 +24,14 @@ export default function AlbunsPequenos() {
         <View style={Styles.divAlbunsPequenos}>
             {albunsPequenos.map((item, key) => {
                 return (
-                    <View style={Styles.albumPequeno} key={item.id}>
+                    <TouchableOpacity
+                        style={Styles.albumPequeno}
+                        key={item.id}
+                        onPress={() => Aviso('success', `Não é possível entrar no album "${item.titulo}" 😞`, 'Essa função ainda não foi desenvolvida', 5000)}
+                    >
                         <Image source={item.foto} style={Styles.imageBackground}></Image>
                         <Text style={Styles.titulo}>{item.titulo}</Text>
-                    </View>
+                    </TouchableOpacity>
                 )
             })}
         </View>

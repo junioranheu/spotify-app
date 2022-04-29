@@ -28,4 +28,9 @@ export default StyleSheet.create({
         maxWidth: 16,
         maxHeight: 16
     },
+
+    gifWait: {
+        height: 250,
+        width: 250
+    }
 });

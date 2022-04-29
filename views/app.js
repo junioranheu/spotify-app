@@ -12,11 +12,14 @@ import { ListaMusicasProvider } from '../utils/context/listaMusicasContext';
 import { MusicaProvider } from '../utils/context/musicaContext';
 import { PlaylistsProvider } from '../utils/context/playlistsContext';
 import { UsuarioProvider } from '../utils/context/usuarioContext';
+import ConfigScreenComHeaderShown from '../utils/outros/configScreenComHeaderShown';
 import Buscar from './buscar';
 import Configuracao from './configuracao';
 import Fila from './fila';
+import Historico from './historico';
 import Index from './index';
 import Login from './login';
+import Novidades from './novidades';
 import PlayerFullScreen from './playerFullScreen';
 import Playlist from './playlist';
 import Splash from './splash';
@@ -73,20 +76,9 @@ export default function App() {
                                             <Stack.Screen component={Playlist} name='Playlist' options={{ headerShown: false, animation: 'simple_push' }} />
                                             <Stack.Screen component={Login} name='Login' options={{ headerShown: false, animation: 'simple_push' }} />
                                             <Stack.Screen component={Buscar} name='Buscar' options={{ headerShown: false, animation: 'simple_push' }} />
-
-                                            <Stack.Screen
-                                                component={Configuracao}
-                                                name='Configuracao'
-                                                options={{
-                                                    headerShown: true,
-                                                    animation: 'simple_push',
-                                                    title: 'Configurar',
-                                                    headerStyle: { backgroundColor: '#191919' },
-                                                    headerTintColor: 'rgba(255, 255, 255, 1)',
-                                                    headerTitleStyle: { fontWeight: '700', fontSize: 15 },
-                                                    headerBackTitle: '',
-                                                }}
-                                            />
+                                            <Stack.Screen component={Configuracao} name='Configuracao' options={ConfigScreenComHeaderShown('Configuração', 'simple_push')} />
+                                            <Stack.Screen component={Historico} name='Historico' options={ConfigScreenComHeaderShown('Tocadas recentementes', 'simple_push')} />
+                                            <Stack.Screen component={Novidades} name='Novidades' options={ConfigScreenComHeaderShown('Novidades', 'simple_push')} />
                                         </Stack.Navigator>
 
                                         {/* Player e footer: esconder ambos quando a tela for PlayerFullScreen */}

@@ -93,10 +93,5 @@ export default StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-    },
-
-    gifWait: {
-        height: 250,
-        width: 250
     }
 });

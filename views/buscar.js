@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect, useRef, useState } from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import MusicaRow from '../components/fila/musicaRow';
 import MargemBotFooter from '../components/outros/margemBotFooter';
 import Styles from '../css/buscar';
@@ -7,6 +7,7 @@ import StylesGlobal from '../css/global';
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
 import { UsuarioContext } from '../utils/context/usuarioContext';
 import CONSTANTS_MUSICAS from '../utils/data/constMusicas';
+import Aviso from '../utils/outros/aviso';
 
 export default function Buscar({ navigation }) {
     const [usuarioContext] = useContext(UsuarioContext); // Contexto do usuário;
@@ -27,7 +28,7 @@ export default function Buscar({ navigation }) {
         }
 
         const delayDebounceFn = setTimeout(() => {
-          console.log(palavraChave);
+          // console.log(palavraChave);
           buscarMusicas();
         }, 500)
     
@@ -68,7 +69,7 @@ export default function Buscar({ navigation }) {
                     style={Styles.input}
                     onChange={(e) => setPalavraChave(e.nativeEvent.text)}
                     onFocus={() => setIsPesquisandoInput(true)}
-                    onBlur={() => setIsPesquisandoInput(false)}
+                    // onBlur={() => setIsPesquisandoInput(false)}
                     placeholder='Buscar'
                     placeholderTextColor='rgba(255, 255, 255, 0.8)'
                     ref={refInputBuscar}
@@ -80,15 +81,15 @@ export default function Buscar({ navigation }) {
             </View>
 
             {
-                !isPesquisandoInput ? (
+                !isPesquisandoInput || !palavraChave ? (
                     // Caso não tenha nenhum resultado
-                    <View style={[StylesGlobal.containerPrincipal, Styles.centralizar]}>
+                    <KeyboardAvoidingView style={[StylesGlobal.containerPrincipal, Styles.centralizar]} behavior='padding' enabled>
                         <Text style={Styles.textoUm}>Encontre o que você quer ouvir</Text>
                         <Text style={[Styles.textoDois, Styles.margemTopPequena]}>Busque por artistas, bandas ou músicas</Text>
 
                         {/* Margem do footer */}
                         <MargemBotFooter />
-                    </View>
+                    </KeyboardAvoidingView>
                 ) : (
                     // Caso tenham resultados
                     <ScrollView style={StylesGlobal.containerPrincipal}>

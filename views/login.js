@@ -1,7 +1,7 @@
 import { StackActions } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
 import React, { useContext, useRef, useState } from 'react';
-import { ImageBackground, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
+import { ImageBackground, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Botao from '../components/outros/botao';
 import SpotifyLogo2 from '../components/svg/spotifyLogo2';
 import Styles from '../css/login';
@@ -28,17 +28,10 @@ export default function Login({ navigation }) {
     async function handleSubmit(e) {
         refBtn.current.disabled = true;
 
-        // *********************************** DEV APENAS;
-        if (!formData || !formData.usuario || !formData.senha) {
-            formData.usuario = 'junioranheu';
-            formData.senha = '123';
-        }
-        // *********************************** DEV APENAS;
-
         if (!formData || !formData.usuario || !formData.senha) {
             Aviso('success', 'Opa ✋', 'O nome de usuário e/ou e-mail estão vazios', 5000);
             refSenha.current.value = '';
-            refUsuario.current.select();
+            refUsuario.current.focus();
             refBtn.current.disabled = false;
             return false;
         }
@@ -50,7 +43,7 @@ export default function Login({ navigation }) {
         if (resposta.status !== 200) {
             refSenha.current.value = '';
             formData.senha = '';
-            refUsuario.current.select();
+            refUsuario.current.focus();
             refBtn.current.disabled = false;
             Aviso('success', 'Opa ✋', 'Provavelmente o usuário e/ou a senha estão errados', 5000);
             return false;
@@ -100,6 +93,14 @@ export default function Login({ navigation }) {
         }
     }
 
+    function setarInformacoesDev() {
+        if (process.env.NODE_ENV === 'development') {
+            console.log('Setar infos para login rápido em dev');
+            formData.usuario = 'junioranheu';
+            formData.senha = '123';
+        }
+    }
+
     return (
         <KeyboardAvoidingView style={Styles.containerPrincipal} behavior='padding' enabled>
             <ImageBackground source={AlbunsWebp} style={Styles.backgroundImage}>
@@ -109,7 +110,10 @@ export default function Login({ navigation }) {
                         style={Styles.ajustarLinearGradient}
                     >
                         <View style={Styles.centralizar}>
-                            <SpotifyLogo2 height={60} width={60} cor='rgba(255, 255, 255, 0.9)' />
+                            <TouchableOpacity onPress={() => setarInformacoesDev()}>
+                                <SpotifyLogo2 height={60} width={60} cor='rgba(255, 255, 255, 0.9)' />
+                            </TouchableOpacity>
+
                             <Text style={[Styles.titulo, Styles.margemTopPequena]}>Milhões de músicas à sua escolha</Text>
                             <Text style={Styles.titulo}>Bem-vindo ao Spotify</Text>
                         </View>

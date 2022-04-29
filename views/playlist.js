@@ -33,7 +33,7 @@ export default function Playlist({ route, navigation }) {
     useEffect(() => {
         async function getPlaylist() {
             // Músicas da playlist;
-            const url = `${CONSTANTS_MUSICAS.API_URL_POR_PLAYLIST}/${playlist?.playlistId}`;
+            const url = `${CONSTANTS_MUSICAS.API_URL_GET_POR_PLAYLIST}/${playlist?.playlistId}`;
             const res = await fetch(url);
             const musicas = await res.json();
 

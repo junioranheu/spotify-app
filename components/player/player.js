@@ -11,6 +11,7 @@ import { InfoMusicaContext } from '../../utils/context/infoMusicaContext';
 import { ListaMusicasContext, ListaMusicasStorage } from '../../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../../utils/context/musicaContext';
 import { UsuarioContext } from '../../utils/context/usuarioContext';
+import CONSTANTS_MUSICAS from '../../utils/data/constMusicas';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
 import NumeroAleatorio from '../../utils/outros/numeroAleatorio';
 import BotaoPlay from '../svg/botaoPlay';
@@ -36,7 +37,6 @@ export default function Player() {
     const [coresDominantes, setCoresDominantes] = useState(null);
     useEffect(() => {
         // console.log(musicaContext);
-
         async function importDinamico() {
             // Importar música dinamicamente;
             const urlMusica = `${CONSTANTS_UPLOAD.API_URL_GET_MUSIC}/${musicaContext.musicaId}.mp3`;
@@ -88,6 +88,9 @@ export default function Player() {
                         setListaMusicasContext(listaMusicasContext);
                     }
                 }
+
+                // Depois de tudo, incremente mais um ouvinte a música em questão;
+                postIncrementarOuvinte();
             }
         }
 
@@ -109,6 +112,19 @@ export default function Player() {
                     setCoresDominantes({ corRgba, corMedia, corClara });
                 }
             }
+        }
+
+        // Inserir mais um ouvinte;
+        async function postIncrementarOuvinte() {
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            await fetch(`${CONSTANTS_MUSICAS.API_URL_POST_INCREMENTAR_OUVINTE}?musicaId=${musicaContext.musicaId}`, requestOptions);
         }
 
         // Import dinâmico;

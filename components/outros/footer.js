@@ -12,7 +12,7 @@ export default function Footer({ rotaAtual }) {
     const navigation = useNavigation();
     const [usuarioContext] = useContext(UsuarioContext); // Contexto do usuário;
 
-    return ( 
+    return (
         <View style={Styles.footer}>
             <TouchableOpacity onPress={() => navigation.navigate('Index')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                 <View style={Styles.divIcone}>
@@ -21,11 +21,13 @@ export default function Footer({ rotaAtual }) {
                 </View>
             </TouchableOpacity>
 
-            <View style={Styles.divIcone}>
-                <Lupa height={24} width={24} cor={rotaAtual === 'Buscar' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.5)'} />
-                <Text style={Styles.texto}>Buscar</Text>
-            </View>
- 
+            <TouchableOpacity onPress={() => navigation.navigate('Buscar')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                <View style={Styles.divIcone}>
+                    <Lupa height={24} width={24} cor={rotaAtual === 'Buscar' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.5)'} />
+                    <Text style={Styles.texto}>Buscar</Text>
+                </View>
+            </TouchableOpacity>
+
             {
                 usuarioContext?.usuarioId > 0 ? (
                     <TouchableOpacity onPress={() => navigation.navigate('Fila')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>

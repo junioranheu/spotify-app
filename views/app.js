@@ -12,6 +12,7 @@ import { ListaMusicasProvider } from '../utils/context/listaMusicasContext';
 import { MusicaProvider } from '../utils/context/musicaContext';
 import { PlaylistsProvider } from '../utils/context/playlistsContext';
 import { UsuarioProvider } from '../utils/context/usuarioContext';
+import Buscar from './buscar';
 import Configuracao from './configuracao';
 import Fila from './fila';
 import Index from './index';
@@ -71,6 +72,7 @@ export default function App() {
                                             <Stack.Screen component={PlayerFullScreen} name='PlayerFullScreen' options={{ headerShown: false, animation: 'slide_from_bottom' }} />
                                             <Stack.Screen component={Playlist} name='Playlist' options={{ headerShown: false, animation: 'simple_push' }} />
                                             <Stack.Screen component={Login} name='Login' options={{ headerShown: false, animation: 'simple_push' }} />
+                                            <Stack.Screen component={Buscar} name='Buscar' options={{ headerShown: false, animation: 'simple_push' }} />
 
                                             <Stack.Screen
                                                 component={Configuracao}
@@ -79,7 +81,7 @@ export default function App() {
                                                     headerShown: true,
                                                     animation: 'simple_push',
                                                     title: 'Configurar',
-                                                    headerStyle: { backgroundColor: '#242424' },
+                                                    headerStyle: { backgroundColor: '#191919' },
                                                     headerTintColor: 'rgba(255, 255, 255, 1)',
                                                     headerTitleStyle: { fontWeight: '700', fontSize: 15 },
                                                     headerBackTitle: '',

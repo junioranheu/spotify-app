@@ -13,6 +13,7 @@ import { MusicaContext, MusicaStorage } from '../../utils/context/musicaContext'
 import { UsuarioContext } from '../../utils/context/usuarioContext';
 import CONSTANTS_MUSICAS from '../../utils/data/constMusicas';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
+import Aviso from '../../utils/outros/aviso';
 import NumeroAleatorio from '../../utils/outros/numeroAleatorio';
 import BotaoPlay from '../svg/botaoPlay';
 import BotaoStop from '../svg/botaoStop';
@@ -246,7 +247,13 @@ export default function Player() {
                         </TouchableOpacity>
 
                         <View style={Styles.direita}>
-                            <Dispositivo height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
+                            <TouchableOpacity
+                                onPress={() => Aviso('success', 'Opa 😞', 'Essa função ainda não foi desenvolvida', 5000)}
+                                hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                            >
+                                <Dispositivo height={20} width={20} cor='rgba(255, 255, 255, 0.85)' />
+                            </TouchableOpacity>
+
                             <View style={Styles.margemDireita}></View>
 
                             {/* Botão play/stop */}

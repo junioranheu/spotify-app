@@ -6,6 +6,7 @@ import EqualiserGif from '../../static/image/outros/equaliser.gif';
 import { InfoMusicaContext } from '../../utils/context/infoMusicaContext';
 import { MusicaContext } from '../../utils/context/musicaContext';
 import CONSTANTS_UPLOAD from '../../utils/data/constUpload';
+import Aviso from '../../utils/outros/aviso';
 import Reticencias from '../svg/reticencias';
 
 export default function MusicaRow({ id, foto, titulo, banda, album, tempo, setarMusica }) {
@@ -64,7 +65,12 @@ export default function MusicaRow({ id, foto, titulo, banda, album, tempo, setar
                 </View>
 
                 <View style={Styles.direita}>
-                    <Reticencias height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
+                    <TouchableOpacity
+                        onPress={() => Aviso('success', 'Opa 😞', 'Essa função ainda não foi desenvolvida', 5000)}
+                        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                    >
+                        <Reticencias height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />
+                    </TouchableOpacity>
                 </View>
             </View>
         </TouchableOpacity>

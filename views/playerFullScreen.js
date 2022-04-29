@@ -22,6 +22,7 @@ import { InfoMusicaContext } from '../utils/context/infoMusicaContext';
 import { ListaMusicasContext } from '../utils/context/listaMusicasContext';
 import { MusicaContext, MusicaStorage } from '../utils/context/musicaContext';
 import CONSTANTS_UPLOAD from '../utils/data/constUpload';
+import Aviso from '../utils/outros/aviso';
 import formatarMilisegundos from '../utils/outros/formatarMilisegundos';
 import NumeroAleatorio from '../utils/outros/numeroAleatorio';
 
@@ -255,6 +256,10 @@ export default function PlayerFullScreen({ navigation }) {
         return () => window.clearTimeout(timeOut);
     }, [musicaContext]);
 
+    function AvisoFuncaoNaoDesenvolvida() {
+        Aviso('success', 'Opa 😞', 'Essa função ainda não foi desenvolvida', 5000);
+    }
+
     return (
         <GestureRecognizer onSwipeDown={(e) => handleSwipeDown(e)} config={[{ velocityThreshold: 0.2, directionalOffsetThreshold: 100 }]}>
             <View style={Styles.containerPrincipal}>
@@ -272,7 +277,7 @@ export default function PlayerFullScreen({ navigation }) {
                             {/* <Text style={Styles.textoMuitoPequeno}>{musicaContext.albunsMusicas[0]?.albuns.nome}</Text> */}
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={[Styles.flexDireita, Styles.margemDireitaPequena]} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                        <TouchableOpacity style={[Styles.flexDireita, Styles.margemDireitaPequena]} onPress={() => AvisoFuncaoNaoDesenvolvida()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                             <Reticencias height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
                         </TouchableOpacity>
                     </View>
@@ -375,9 +380,11 @@ export default function PlayerFullScreen({ navigation }) {
 
                         {/* =-=-=-=-=-=-=-=-=-=-= Botões pequenos =-=-=-=-=-=-=-=-=-=-= */}
                         <View style={[Styles.divBotoesPequenos, Styles.margemTop]}>
-                            <Dispositivo height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
+                            <TouchableOpacity onPress={() => AvisoFuncaoNaoDesenvolvida()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                                <Dispositivo height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
+                            </TouchableOpacity>
 
-                            <TouchableOpacity onPress={() => navigation.navigate('Fila')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('Fila')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                                 <Fila height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
                             </TouchableOpacity>
                         </View>

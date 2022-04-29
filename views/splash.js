@@ -6,6 +6,7 @@ import Styles from '../css/splash';
 import SplashJson from '../static/lottieFiles/splash.json';
 import { PlaylistsContext } from '../utils/context/playlistsContext';
 import CONSTANTS_PLAYLISTS from '../utils/data/constPlaylists';
+import Aviso from '../utils/outros/aviso';
 import NumeroAleatorio from '../utils/outros/numeroAleatorio';
 
 // Tutorial splash: https://www.youtube.com/watch?v=ncA3eHZHXRc&ab_channel=CommunityCode;
@@ -31,16 +32,24 @@ export default function Splash() {
     }, []);
 
     async function getPlaylistsERedireciona() {
-        const res = await fetch(CONSTANTS_PLAYLISTS.API_URL_GET_TODOS);
-        const playlists = await res.json();
-        setPlaylistsContext(playlists);
+        fetch(CONSTANTS_PLAYLISTS.API_URL_GET_TODOS).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } 
+        })
+            .then((playlists) => {
+                setPlaylistsContext(playlists);
 
-        // Esperar x segundos para "enfeitar";
-        const timeOut = window.setTimeout(() => {
-            navigation.dispatch(StackActions.replace('Index'));
-        }, NumeroAleatorio(1000, 2000));
+                // Esperar x segundos para "enfeitar";
+                const timeOut = window.setTimeout(() => {
+                    navigation.dispatch(StackActions.replace('Index'));
+                }, NumeroAleatorio(1000, 2000));
 
-        return () => window.clearTimeout(timeOut);
+                return () => window.clearTimeout(timeOut);
+            })
+            .catch((error) => {
+                Aviso('success', 'Opa ✋', 'Houve um problema ao se conectar no servidor', 10000);
+            });
     }
 
     return (

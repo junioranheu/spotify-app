@@ -215,9 +215,7 @@ export default function Playlist({ route, navigation }) {
 
                 {/* Ícones */}
                 <View style={[Styles.mesmaLinha, (Platform.OS === 'web' ? Styles.margemTopPequena : null)]}>
-                    <TouchableOpacity onPress={() => handleCurtir()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                        <CoracaoFinal width={50} status={false} />
-                    </TouchableOpacity>
+                    <CoracaoFinal width={50} status={false} />
 
                     <TouchableOpacity style={Styles.margemEsquerdaPequena} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                         <Reticencias height={18} width={18} cor='rgba(255, 255, 255, 0.6)' />

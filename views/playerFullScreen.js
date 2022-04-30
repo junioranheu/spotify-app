@@ -319,9 +319,7 @@ export default function PlayerFullScreen({ navigation }) {
                                 </View>
 
                                 <View style={Styles.flexDireita}>
-                                    <TouchableOpacity onPress={() => handleCurtir()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                                        <CoracaoFinal width={60} status={false} />
-                                    </TouchableOpacity>
+                                    <CoracaoFinal width={60} status={false} />
                                 </View>
                             </View>
 

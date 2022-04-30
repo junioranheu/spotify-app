@@ -16,6 +16,11 @@ export default StyleSheet.create({
         flex: 0.85,
     },
 
+    margemTopGrande: {
+        // backgroundColor: 'red',
+        marginTop: 50
+    },
+
     margemTop: {
         // backgroundColor: 'red',
         marginTop: 30
@@ -69,5 +74,13 @@ export default StyleSheet.create({
         shadowOpacity: 0.50,
         shadowRadius: 12.35,
         elevation: 19,
+    },
+
+    mesmaLinha: {
+        // backgroundColor: 'blue',
+        width: '70%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around'
     },
 });

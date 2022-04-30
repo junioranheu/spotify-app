@@ -13,4 +13,4 @@ Desenvolvido para aprender e praticar React Native, .NET, API Rest, JWT token, e
 
 Este projeto faz parte do meu potfólio pessoal, sem fins lucrativos, a fim de estudo apenas. Todos os direitos reservados à @spotify.
 
-Projeto iniciado em 11 de abril e finalizado em [xxx].<br/>
+Projeto iniciado em 11 de abril e finalizado em 30 de abril.<br/>

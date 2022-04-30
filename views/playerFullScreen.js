@@ -266,7 +266,13 @@ export default function PlayerFullScreen({ navigation }) {
 
     return (
         <Fragment>
-            <ModalPlayerFullScreen isVisivel={isModalVisivel} setIsModalVisivel={setIsModalVisivel} corDominante={(coresDominantes ? coresDominantes.corForte : 'rgba(0, 0, 0, 0.9)')} />
+            <ModalPlayerFullScreen
+                isVisivel={isModalVisivel}
+                setIsModalVisivel={setIsModalVisivel}
+                corDominante={(coresDominantes ? coresDominantes.corForte : 'rgba(0, 0, 0, 0.9)')}
+                imagemBanda={(imagemBanda ?? ImgCinza)}
+                musicaContext={musicaContext}
+            />
 
             <GestureRecognizer onSwipeDown={(e) => handleSwipeDown(e)} config={[{ velocityThreshold: 0.2, directionalOffsetThreshold: 100 }]}>
                 <View style={Styles.containerPrincipal}>

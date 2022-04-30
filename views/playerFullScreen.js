@@ -1,11 +1,12 @@
 import Slider from '@react-native-community/slider'; // https://www.npmjs.com/package/@react-native-community/slider/v/4.1.12
 import { LinearGradient } from 'expo-linear-gradient'; // https://www.kindacode.com/article/how-to-set-a-gradient-background-in-react-native/
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { ImageBackground, Platform, Text, TouchableOpacity, View } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures'; // https://www.npmjs.com/package/react-native-swipe-gestures
 import TextTicker from 'react-native-text-ticker'; // https://www.npmjs.com/package/react-native-text-ticker
 import CoracaoFinal from '../components/outros/coracaoFinal';
 import MargemBotFooter from '../components/outros/margemBotFooter';
+import ModalPlayerFullScreen from '../components/outros/modalPlayerFullScreen';
 import Aleatorio from '../components/svg/aleatorio';
 import BotaoAvancar from '../components/svg/botaoAvancar';
 import BotaoPlay from '../components/svg/botaoPlay';
@@ -51,11 +52,12 @@ export default function PlayerFullScreen({ navigation }) {
             const corRgba = musicaContext?.musicasBandas[0]?.bandas.corDominante;
 
             var tudoAntesUltimaVirgula = corRgba.substr(0, corRgba.lastIndexOf(','));
+            const corForte = `${tudoAntesUltimaVirgula}, 0.9)`;
             const corMedia = `${tudoAntesUltimaVirgula}, 0.4)`;
             const corClara = `${tudoAntesUltimaVirgula}, 0.1)`;
 
             // console.log({corRgba, corMedia, corClara})
-            setCoresDominantes({ corRgba, corMedia, corClara });
+            setCoresDominantes({ corRgba, corMedia, corClara, corForte });
         }
     }, [musicaContext]);
 
@@ -260,141 +262,147 @@ export default function PlayerFullScreen({ navigation }) {
         Aviso('success', 'Opa 😞', 'Essa função ainda não foi desenvolvida', 5000);
     }
 
+    const [isModalVisivel, setIsModalVisivel] = useState(false);
+
     return (
-        <GestureRecognizer onSwipeDown={(e) => handleSwipeDown(e)} config={[{ velocityThreshold: 0.2, directionalOffsetThreshold: 100 }]}>
-            <View style={Styles.containerPrincipal}>
-                <LinearGradient
-                    colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
-                    style={{ flex: 1, padding: 15 }}
-                >
-                    {/* #01 - Ícones de cima */}
-                    <View style={Styles.mesmaLinha}>
-                        <TouchableOpacity style={[Styles.flexEsquerda, Styles.margemEsquerdaPequena]} onPress={() => navigation.goBack()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                            <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' isRotate={false} />
-                        </TouchableOpacity>
+        <Fragment>
+            <ModalPlayerFullScreen isVisivel={isModalVisivel} setIsModalVisivel={setIsModalVisivel} corDominante={(coresDominantes ? coresDominantes.corForte : 'rgba(0, 0, 0, 0.9)')} />
 
-                        <TouchableOpacity style={Styles.flexCentro}>
-                            {/* <Text style={Styles.textoMuitoPequeno}>{musicaContext.albunsMusicas[0]?.albuns.nome}</Text> */}
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={[Styles.flexDireita, Styles.margemDireitaPequena]} onPress={() => AvisoFuncaoNaoDesenvolvida()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                            <Reticencias height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
-                        </TouchableOpacity>
-                    </View>
-
-                    {/* #02 - Imagem */}
-                    <View style={[Styles.centralizar, Styles.margemTopGrande]}>
-                        {
-                            imagemBanda ? (
-                                <ImageBackground source={{ uri: imagemBanda }} style={Styles.imageBackground}></ImageBackground>
-                            ) : (
-                                <ImageBackground source={ImgCinza} style={Styles.imageBackground}></ImageBackground>
-                            )
-                        }
-                    </View>
-
-                    {/* #02 - Outros elementos */}
-                    <View style={[Styles.divOutrosElementos, Styles.margemTopGrande]}>
-                        {/* =-=-=-=-=-=-=-=-=-=-= Informações =-=-=-=-=-=-=-=-=-=-= */}
+            <GestureRecognizer onSwipeDown={(e) => handleSwipeDown(e)} config={[{ velocityThreshold: 0.2, directionalOffsetThreshold: 100 }]}>
+                <View style={Styles.containerPrincipal}>
+                    <LinearGradient
+                        colors={(coresDominantes ? [coresDominantes.corRgba, '#121212', '#121212', '#121212', '#121212'] : ['#121212', '#121212'])}
+                        style={{ flex: 1, padding: 15 }}
+                    >
+                        {/* #01 - Ícones de cima */}
                         <View style={Styles.mesmaLinha}>
-                            <View style={Styles.divTituloMusica}>
-                                <TextTicker duration={8000} loop bounce={false} repeatSpacer={50} marqueeDelay={0} style={Styles.tituloMusica}>
-                                    {musicaContext?.nome}
-                                </TextTicker>
+                            <TouchableOpacity style={[Styles.flexEsquerda, Styles.margemEsquerdaPequena]} onPress={() => navigation.goBack()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                                <SetinhaBaixo2 height={20} width={20} cor='rgba(255, 255, 255, 0.6)' isRotate={false} />
+                            </TouchableOpacity>
 
-                                <Text style={Styles.nomeBanda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
+                            <TouchableOpacity style={Styles.flexCentro}>
+                                {/* <Text style={Styles.textoMuitoPequeno}>{musicaContext.albunsMusicas[0]?.albuns.nome}</Text> */}
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={[Styles.flexDireita, Styles.margemDireitaPequena]} onPress={() => setIsModalVisivel(true)} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                                <Reticencias height={20} width={20} cor='rgba(255, 255, 255, 0.6)' />
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* #02 - Imagem */}
+                        <View style={[Styles.centralizar, Styles.margemTopGrande]}>
+                            {
+                                imagemBanda ? (
+                                    <ImageBackground source={{ uri: imagemBanda }} style={Styles.imageBackground}></ImageBackground>
+                                ) : (
+                                    <ImageBackground source={ImgCinza} style={Styles.imageBackground}></ImageBackground>
+                                )
+                            }
+                        </View>
+
+                        {/* #02 - Outros elementos */}
+                        <View style={[Styles.divOutrosElementos, Styles.margemTopGrande]}>
+                            {/* =-=-=-=-=-=-=-=-=-=-= Informações =-=-=-=-=-=-=-=-=-=-= */}
+                            <View style={Styles.mesmaLinha}>
+                                <View style={Styles.divTituloMusica}>
+                                    <TextTicker duration={8000} loop bounce={false} repeatSpacer={50} marqueeDelay={0} style={Styles.tituloMusica}>
+                                        {musicaContext?.nome}
+                                    </TextTicker>
+
+                                    <Text style={Styles.nomeBanda}>{musicaContext.musicasBandas[0]?.bandas.nome}</Text>
+                                </View>
+
+                                <View style={Styles.flexDireita}>
+                                    <TouchableOpacity onPress={() => handleCurtir()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                                        <CoracaoFinal width={60} status={false} />
+                                    </TouchableOpacity>
+                                </View>
                             </View>
 
-                            <View style={Styles.flexDireita}>
-                                <TouchableOpacity onPress={() => handleCurtir()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                                    <CoracaoFinal width={60} status={false} />
+                            {/* =-=-=-=-=-=-=-=-=-=-= Progressbar =-=-=-=-=-=-=-=-=-=-= */}
+                            <View style={Styles.margemTopPequena}
+                                onLayout={(event) => {
+                                    var { x, y, width, height } = event.nativeEvent.layout;
+
+                                    // Ajustar width do Slider nos dispositivos Android, que têm um padding estranho;
+                                    if (Platform.OS === 'android') {
+                                        width = width + 30;
+                                    }
+
+                                    setWidthContainerPlayer(width);
+                                }}>
+
+                                <View style={Platform.OS === 'android' && ({ marginLeft: -15 })}>
+                                    <Slider
+                                        disabled={isSlideDisabled}
+                                        style={{ width: widthContainerPlayer }}
+                                        minimumValue={0}
+                                        maximumValue={100}
+                                        value={porcetagemMusicaOuvida}
+                                        minimumTrackTintColor='rgba(255, 255, 255, 0.8)'
+                                        maximumTrackTintColor='#404131'
+                                        thumbTintColor='rgba(255, 255, 255, 0.9)'
+                                        onSlidingStart={() => handleSlidingStart()}
+                                        onSlidingComplete={(e) => handleSlidingComplete(e)}
+                                        thumbTouchSize={{ width: 50, height: 40 }}
+                                    />
+                                </View>
+
+                                <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
+                                    <Text style={Styles.spanTempoAtualProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.positionMillis)}</Text>
+                                    <Text style={Styles.spanTempoMaximoProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.durationMillis)}</Text>
+                                </View>
+                            </View>
+
+                            {/* =-=-=-=-=-=-=-=-=-=-= Botões grandes =-=-=-=-=-=-=-=-=-=-= */}
+                            <View style={[Styles.divBotoesGrandes, Styles.margemTop]}>
+                                <TouchableOpacity onPress={() => handleModoAleatorio()}>
+                                    <Aleatorio height={22} width={22} cor={isModoAleatorioContext ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
+                                </TouchableOpacity>
+
+                                <TouchableOpacity onPress={() => handleVoltar()}>
+                                    <BotaoVoltar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
+                                </TouchableOpacity>
+
+                                <TouchableOpacity onPress={() => handleIsPlaying()}>
+                                    <View style={Styles.circuloBotaoPlay}>
+                                        {
+                                            infoMusicaContext?.status?.isPlaying ? (
+                                                <BotaoStop height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
+                                            ) : (
+                                                <BotaoPlay height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
+                                            )
+                                        }
+                                    </View>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity onPress={() => handleAvancar()}>
+                                    <BotaoAvancar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
+                                </TouchableOpacity>
+
+                                <TouchableOpacity onPress={() => handleModoLoop()}>
+                                    <Loop height={22} width={22} cor={isModoLoopContext ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
+                                </TouchableOpacity>
+                            </View>
+
+                            {/* =-=-=-=-=-=-=-=-=-=-= Botões pequenos =-=-=-=-=-=-=-=-=-=-= */}
+                            <View style={[Styles.divBotoesPequenos, Styles.margemTop]}>
+                                <TouchableOpacity onPress={() => AvisoFuncaoNaoDesenvolvida()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                                    <Dispositivo height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
+                                </TouchableOpacity>
+
+                                <TouchableOpacity onPress={() => navigation.navigate('Fila')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                                    <Fila height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
                                 </TouchableOpacity>
                             </View>
                         </View>
 
-                        {/* =-=-=-=-=-=-=-=-=-=-= Progressbar =-=-=-=-=-=-=-=-=-=-= */}
-                        <View style={Styles.margemTopPequena}
-                            onLayout={(event) => {
-                                var { x, y, width, height } = event.nativeEvent.layout;
-
-                                // Ajustar width do Slider nos dispositivos Android, que têm um padding estranho;
-                                if (Platform.OS === 'android') {
-                                    width = width + 30;
-                                }
-
-                                setWidthContainerPlayer(width);
-                            }}>
-
-                            <View style={Platform.OS === 'android' && ({ marginLeft: -15 })}>
-                                <Slider
-                                    disabled={isSlideDisabled}
-                                    style={{ width: widthContainerPlayer }}
-                                    minimumValue={0}
-                                    maximumValue={100}
-                                    value={porcetagemMusicaOuvida}
-                                    minimumTrackTintColor='rgba(255, 255, 255, 0.8)'
-                                    maximumTrackTintColor='#404131'
-                                    thumbTintColor='rgba(255, 255, 255, 0.9)'
-                                    onSlidingStart={() => handleSlidingStart()}
-                                    onSlidingComplete={(e) => handleSlidingComplete(e)}
-                                    thumbTouchSize={{ width: 50, height: 40 }}
-                                />
-                            </View>
-
-                            <View style={[Styles.mesmaLinha, Styles.margemTopPequena]}>
-                                <Text style={Styles.spanTempoAtualProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.positionMillis)}</Text>
-                                <Text style={Styles.spanTempoMaximoProgressBar}>{formatarMilisegundos(infoMusicaContext?.status?.durationMillis)}</Text>
-                            </View>
-                        </View>
-
-                        {/* =-=-=-=-=-=-=-=-=-=-= Botões grandes =-=-=-=-=-=-=-=-=-=-= */}
-                        <View style={[Styles.divBotoesGrandes, Styles.margemTop]}>
-                            <TouchableOpacity onPress={() => handleModoAleatorio()}>
-                                <Aleatorio height={22} width={22} cor={isModoAleatorioContext ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
-                            </TouchableOpacity>
-
-                            <TouchableOpacity onPress={() => handleVoltar()}>
-                                <BotaoVoltar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
-                            </TouchableOpacity>
-
-                            <TouchableOpacity onPress={() => handleIsPlaying()}>
-                                <View style={Styles.circuloBotaoPlay}>
-                                    {
-                                        infoMusicaContext?.status?.isPlaying ? (
-                                            <BotaoStop height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
-                                        ) : (
-                                            <BotaoPlay height={30} width={30} cor={'rgba(0, 0, 0, 0.85)'} />
-                                        )
-                                    }
-                                </View>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity onPress={() => handleAvancar()}>
-                                <BotaoAvancar height={30} width={30} cor={'rgba(255, 255, 255, 0.9)'} />
-                            </TouchableOpacity>
-
-                            <TouchableOpacity onPress={() => handleModoLoop()}>
-                                <Loop height={22} width={22} cor={isModoLoopContext ? '#20D660' : 'rgba(255, 255, 255, 0.9)'} />
-                            </TouchableOpacity>
-                        </View>
-
-                        {/* =-=-=-=-=-=-=-=-=-=-= Botões pequenos =-=-=-=-=-=-=-=-=-=-= */}
-                        <View style={[Styles.divBotoesPequenos, Styles.margemTop]}>
-                            <TouchableOpacity onPress={() => AvisoFuncaoNaoDesenvolvida()} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                                <Dispositivo height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
-                            </TouchableOpacity>
-
-                            <TouchableOpacity onPress={() => navigation.navigate('Fila')} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                                <Fila height={22} width={22} cor={'rgba(255, 255, 255, 0.9)'} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                    {/* Margem do footer */}
-                    <MargemBotFooter />
-                </LinearGradient>
-            </View>
-        </GestureRecognizer>
+                        {/* Margem do footer */}
+                        <MargemBotFooter />
+                    </LinearGradient>
+                </View>
+            </GestureRecognizer>
+        </Fragment>
     );
 }
 

@@ -57,7 +57,7 @@ export default function Login({ navigation }) {
     };
 
     async function getToken(nomeUsuario, senha, usuario) {
-        const url = `${CONSTANTS_USUARIOS.API_URL_GET_VERIFICAR_EMAIL_E_SENHA}?nomeUsuarioSistema=${nomeUsuario}&senha=${senha}`;
+        const url = `${CONSTANTS_USUARIOS.API_URL_GET_AUTENTICAR}?nomeUsuarioSistema=${nomeUsuario}&senha=${senha}`;
 
         // Gerar token;
         const resposta = await fetch(url, {
@@ -74,7 +74,7 @@ export default function Login({ navigation }) {
 
         // Resposta em JSON;
         const token = await resposta.json();
-        // console.log(respostaJson);
+        console.log(token);
 
         // Inserir o token no json final para gravar localmente a sessão do login;
         usuario.token = token;

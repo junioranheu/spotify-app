@@ -14,4 +14,4 @@ Projeto iniciado em 11 de abril e finalizado em 30 de abril.
 Foi meu primeiro contato com React Native. De cara quis encarar um desafio grande: clonar o Spotify. Deu bom!
 
 ## Habilidades
-React Native, javascript, SCSS
+React Native, javascript, SCSS.
